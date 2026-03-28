@@ -1,0 +1,96 @@
+{
+    "actions": [],
+    "creation": "2026-02-17 18:00:00.000000",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "title",
+        "status",
+        "platform",
+        "scheduled_time",
+        "content_section",
+        "content",
+        "media",
+        "campaign_section",
+        "campaign"
+    ],
+    "fields": [
+        {
+            "fieldname": "title",
+            "fieldtype": "Data",
+            "label": "Post Title",
+            "reqd": 1
+        },
+        {
+            "fieldname": "status",
+            "fieldtype": "Select",
+            "label": "Status",
+            "options": "Draft\nScheduled\nPosted\nFailed",
+            "default": "Draft",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "platform",
+            "fieldtype": "Select",
+            "label": "Platform",
+            "options": "LinkedIn\nTwitter\nFacebook\nInstagram",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "scheduled_time",
+            "fieldtype": "Datetime",
+            "label": "Scheduled Time",
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "content_section",
+            "fieldtype": "Section Break",
+            "label": "Content"
+        },
+        {
+            "fieldname": "content",
+            "fieldtype": "Text",
+            "label": "Post Content"
+        },
+        {
+            "fieldname": "media",
+            "fieldtype": "Attach Image",
+            "label": "Image/Video"
+        },
+        {
+            "fieldname": "campaign_section",
+            "fieldtype": "Section Break",
+            "label": "Campaign Link"
+        },
+        {
+            "fieldname": "campaign",
+            "fieldtype": "Link",
+            "label": "Campaign",
+            "options": "Marketing Campaign"
+        }
+    ],
+    "modified": "2026-02-17 18:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Campaigns",
+    "name": "Social Media Post",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "scheduled_time",
+    "sort_order": "DESC",
+    "track_changes": 1
+}

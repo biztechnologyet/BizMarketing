@@ -1,0 +1,43 @@
+{
+    "actions": [],
+    "creation": "2026-02-17 18:00:00.000000",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "field_order": [
+        "stage_name",
+        "sequence",
+        "description"
+    ],
+    "fields": [
+        {
+            "fieldname": "stage_name",
+            "fieldtype": "Data",
+            "label": "Stage Name",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "sequence",
+            "fieldtype": "Int",
+            "label": "Sequence",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "description",
+            "fieldtype": "Small Text",
+            "label": "Description"
+        }
+    ],
+    "istable": 1,
+    "modified": "2026-02-17 18:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Marketing Operations",
+    "name": "Funnel Stage",
+    "owner": "Administrator",
+    "permissions": [],
+    "sort_field": "sequence",
+    "sort_order": "ASC",
+    "track_changes": 1
+}

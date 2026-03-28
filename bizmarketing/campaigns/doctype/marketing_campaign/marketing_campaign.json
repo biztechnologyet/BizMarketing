@@ -1,0 +1,113 @@
+{
+    "actions": [],
+    "creation": "2026-02-17 18:00:00.000000",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "title",
+        "status",
+        "type",
+        "strategy",
+        "budget_section",
+        "budget",
+        "actual_spend",
+        "schedule_section",
+        "start_date",
+        "end_date"
+    ],
+    "fields": [
+        {
+            "fieldname": "title",
+            "fieldtype": "Data",
+            "label": "Campaign Title",
+            "reqd": 1
+        },
+        {
+            "fieldname": "status",
+            "fieldtype": "Select",
+            "label": "Status",
+            "options": "Planned\nActive\nCompleted\nCancelled",
+            "default": "Planned",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "type",
+            "fieldtype": "Select",
+            "label": "Campaign Type",
+            "options": "Social Media\nEmail\nEvent\nPPC\nContent\nOther",
+            "reqd": 1
+        },
+        {
+            "fieldname": "strategy",
+            "fieldtype": "Link",
+            "label": "Linked Strategy",
+            "options": "Marketing Strategy"
+        },
+        {
+            "fieldname": "budget_section",
+            "fieldtype": "Section Break",
+            "label": "Financials"
+        },
+        {
+            "fieldname": "budget",
+            "fieldtype": "Currency",
+            "label": "Allocated Budget"
+        },
+        {
+            "fieldname": "actual_spend",
+            "fieldtype": "Currency",
+            "label": "Actual Spend",
+            "read_only": 1
+        },
+        {
+            "fieldname": "schedule_section",
+            "fieldtype": "Section Break",
+            "label": "Schedule"
+        },
+        {
+            "fieldname": "start_date",
+            "fieldtype": "Date",
+            "label": "Start Date"
+        },
+        {
+            "fieldname": "end_date",
+            "fieldtype": "Date",
+            "label": "End Date"
+        }
+    ],
+    "modified": "2026-02-17 18:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Campaigns",
+    "name": "Marketing Campaign",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        },
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "Marketing User",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "track_changes": 1
+}
