@@ -1,0 +1,12 @@
+include MANIFEST.in
+include requirements.txt
+include *.md
+include *.py
+include *.txt
+recursive-include bizmarketing *.py
+recursive-include bizmarketing *.json
+recursive-include bizmarketing *.js
+recursive-include bizmarketing *.css
+recursive-include bizmarketing *.html
+recursive-include bizmarketing *.md
+recursive-include bizmarketing *.txt
