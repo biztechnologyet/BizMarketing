@@ -1,0 +1,19 @@
+[project]
+name = "bizmarketing"
+authors = [
+    { name = "Biz Technology Solutions", email = "hadi@biztechnology.et" }
+]
+description = "Comprehensive Marketing Operations for Frappe"
+requires-python = ">=3.10"
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["bizmarketing*"]
+exclude = ["*.tests*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "bizmarketing.__version__"}
+dependencies = {file = ["requirements.txt"]}
