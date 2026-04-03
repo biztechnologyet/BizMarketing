@@ -14,7 +14,10 @@
         "views",
         "clicks",
         "engagement_score",
-        "conversions"
+        "conversions",
+        "monitoring_section",
+        "frequency",
+        "last_checked"
     ],
     "fields": [
         {
@@ -80,6 +83,23 @@
             "fieldname": "conversions",
             "fieldtype": "Int",
             "label": "Conversions"
+        },
+        {
+            "fieldname": "monitoring_section",
+            "fieldtype": "Section Break",
+            "label": "Monitoring"
+        },
+        {
+            "default": "Daily",
+            "fieldname": "frequency",
+            "fieldtype": "Select",
+            "label": "Frequency",
+            "options": "Daily\nWeekly\nMonthly\nQuarterly"
+        },
+        {
+            "fieldname": "last_checked",
+            "fieldtype": "Date",
+            "label": "Last Checked"
         }
     ],
     "modified": "2026-02-17 18:00:00.000000",

@@ -21,7 +21,11 @@
         "actual_spend",
         "schedule_section",
         "start_date",
-        "end_date"
+        "end_date",
+        "execution_plan_section",
+        "pre_launch",
+        "launch",
+        "monitor"
     ],
     "fields": [
         {
@@ -124,6 +128,26 @@
             "fieldname": "end_date",
             "fieldtype": "Date",
             "label": "End Date"
+        },
+        {
+            "fieldname": "execution_plan_section",
+            "fieldtype": "Section Break",
+            "label": "Execution Plan"
+        },
+        {
+            "fieldname": "pre_launch",
+            "fieldtype": "Small Text",
+            "label": "Pre-launch Stage"
+        },
+        {
+            "fieldname": "launch",
+            "fieldtype": "Small Text",
+            "label": "Launch Stage"
+        },
+        {
+            "fieldname": "monitor",
+            "fieldtype": "Small Text",
+            "label": "Monitoring Stage"
         }
     ],
     "modified": "2026-02-17 18:00:00.000000",

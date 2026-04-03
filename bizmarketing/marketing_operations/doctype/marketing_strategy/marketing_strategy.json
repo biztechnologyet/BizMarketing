@@ -30,7 +30,15 @@
   "goals_section",
   "smart_goals",
   "budget_section",
-  "budget_allocation"
+  "budget_allocation",
+  "content_strategy_section",
+  "awareness_strategy",
+  "consideration_strategy",
+  "decision_strategy",
+  "execution_plan_section",
+  "phase_1_plan",
+  "phase_2_plan",
+  "phase_3_plan"
  ],
  "fields": [
   {
@@ -170,6 +178,46 @@
    "fieldtype": "Table",
    "label": "Allocation Table",
    "options": "Budget Allocation Item"
+  },
+  {
+   "fieldname": "content_strategy_section",
+   "fieldtype": "Section Break",
+   "label": "Content Strategy"
+  },
+  {
+   "fieldname": "awareness_strategy",
+   "fieldtype": "Small Text",
+   "label": "Awareness Stage"
+  },
+  {
+   "fieldname": "consideration_strategy",
+   "fieldtype": "Small Text",
+   "label": "Consideration Stage"
+  },
+  {
+   "fieldname": "decision_strategy",
+   "fieldtype": "Small Text",
+   "label": "Decision Stage"
+  },
+  {
+   "fieldname": "execution_plan_section",
+   "fieldtype": "Section Break",
+   "label": "Execution Plan"
+  },
+  {
+   "fieldname": "phase_1_plan",
+   "fieldtype": "Small Text",
+   "label": "Phase 1 Activity"
+  },
+  {
+   "fieldname": "phase_2_plan",
+   "fieldtype": "Small Text",
+   "label": "Phase 2 Activity"
+  },
+  {
+   "fieldname": "phase_3_plan",
+   "fieldtype": "Small Text",
+   "label": "Phase 3 Activity"
   }
  ],
  "index_web_pages_for_search": 1,

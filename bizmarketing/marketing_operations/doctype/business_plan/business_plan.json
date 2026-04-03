@@ -25,16 +25,23 @@
   "market_analysis_section",
   "target_countries",
   "market_insights",
+  "market_action",
   "organization_management_section",
   "structure",
   "approach",
+  "next_step",
   "products_services_section",
   "product_strategy",
   "cultural_adaptation",
+  "marketing_sales_section",
+  "market_activities",
+  "market_goal",
   "operational_plan_section",
   "deployment_approach",
+  "teams",
   "financials_section",
   "financial_goal",
+  "financial_status",
   "funding_section",
   "funding_requirement"
  ],
@@ -123,6 +130,11 @@
    "label": "Insights"
   },
   {
+   "fieldname": "market_action",
+   "fieldtype": "Small Text",
+   "label": "Market Action"
+  },
+  {
    "fieldname": "organization_management_section",
    "fieldtype": "Section Break",
    "label": "Organization & Management"
@@ -136,6 +148,11 @@
    "fieldname": "approach",
    "fieldtype": "Small Text",
    "label": "Approach"
+  },
+  {
+   "fieldname": "next_step",
+   "fieldtype": "Data",
+   "label": "Next Step"
   },
   {
    "fieldname": "products_services_section",
@@ -153,6 +170,21 @@
    "label": "Cultural Adaptation"
   },
   {
+   "fieldname": "marketing_sales_section",
+   "fieldtype": "Section Break",
+   "label": "Marketing & Sales Strategy"
+  },
+  {
+   "fieldname": "market_activities",
+   "fieldtype": "Small Text",
+   "label": "Key Activities"
+  },
+  {
+   "fieldname": "market_goal",
+   "fieldtype": "Data",
+   "label": "Market Goal"
+  },
+  {
    "fieldname": "operational_plan_section",
    "fieldtype": "Section Break",
    "label": "Operational Plan"
@@ -163,6 +195,11 @@
    "label": "Deployment Approach"
   },
   {
+   "fieldname": "teams",
+   "fieldtype": "Data",
+   "label": "Teams"
+  },
+  {
    "fieldname": "financials_section",
    "fieldtype": "Section Break",
    "label": "Financials"
@@ -171,6 +208,11 @@
    "fieldname": "financial_goal",
    "fieldtype": "Data",
    "label": "Financial Goal"
+  },
+  {
+   "fieldname": "financial_status",
+   "fieldtype": "Data",
+   "label": "Financial Status"
   },
   {
    "fieldname": "funding_section",

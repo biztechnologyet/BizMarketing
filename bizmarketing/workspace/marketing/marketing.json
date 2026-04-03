@@ -17,6 +17,12 @@
     "label": "Marketing",
     "links": [
         {
+            "label": "Business Plan",
+            "link_to": "Business Plan",
+            "link_type": "DocType",
+            "type": "Link"
+        },
+        {
             "label": "New Campaign",
             "link_to": "Marketing Campaign",
             "link_type": "DocType",
@@ -25,6 +31,12 @@
         {
             "label": "New Strategy",
             "link_to": "Marketing Strategy",
+            "link_type": "DocType",
+            "type": "Link"
+        },
+        {
+            "label": "Marketing KPIs",
+            "link_to": "Marketing KPI",
             "link_type": "DocType",
             "type": "Link"
         },
@@ -55,8 +67,20 @@
     "public": 1,
     "quick_lists": [
         {
+            "label": "Business Plans",
+            "document_type": "Business Plan"
+        },
+        {
             "label": "Marketing Strategies",
             "document_type": "Marketing Strategy"
+        },
+        {
+            "label": "Marketing Campaigns",
+            "document_type": "Marketing Campaign"
+        },
+        {
+            "label": "Marketing KPIs",
+            "document_type": "Marketing KPI"
         },
         {
             "label": "Marketing Funnels",

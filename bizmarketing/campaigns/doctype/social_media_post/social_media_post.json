@@ -15,9 +15,16 @@
         "seo_section",
         "keywords",
         "seo_intent",
+        "insight",
         "content_purpose",
         "campaign_section",
-        "campaign"
+        "campaign",
+        "paid_ads_section",
+        "paid_ads_budget",
+        "paid_ads_seo",
+        "optimization_section",
+        "optimization_actions",
+        "optimization_learnings"
     ],
     "fields": [
         {
@@ -89,6 +96,11 @@
             "options": "Informational\nNavigational\nCommercial\nTransactional"
         },
         {
+            "fieldname": "insight",
+            "fieldtype": "Small Text",
+            "label": "SEO Insight"
+        },
+        {
             "fieldname": "content_purpose",
             "fieldtype": "Small Text",
             "label": "Content Purpose / Goal"
@@ -103,6 +115,36 @@
             "fieldtype": "Link",
             "label": "Campaign",
             "options": "Marketing Campaign"
+        },
+        {
+            "fieldname": "paid_ads_section",
+            "fieldtype": "Section Break",
+            "label": "Paid Ads"
+        },
+        {
+            "fieldname": "paid_ads_budget",
+            "fieldtype": "Data",
+            "label": "Paid Ads Budget"
+        },
+        {
+            "fieldname": "paid_ads_seo",
+            "fieldtype": "Data",
+            "label": "Paid Ads SEO Strategy"
+        },
+        {
+            "fieldname": "optimization_section",
+            "fieldtype": "Section Break",
+            "label": "Optimization"
+        },
+        {
+            "fieldname": "optimization_actions",
+            "fieldtype": "Small Text",
+            "label": "Optimization Actions"
+        },
+        {
+            "fieldname": "optimization_learnings",
+            "fieldtype": "Small Text",
+            "label": "Learnings"
         }
     ],
     "modified": "2026-02-17 18:00:00.000000",
