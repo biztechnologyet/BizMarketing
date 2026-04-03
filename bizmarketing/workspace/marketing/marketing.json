@@ -9,7 +9,7 @@
             "label": "Lead Acquisition Trend"
         }
     ],
-    "content": "[{\"type\":\"header\",\"data\":{\"text\":\"Marketing Operations\",\"level\":3,\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Lead Acquisition Trend\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Active Campaigns\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Recent Leads\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Pending Approvals\",\"col\":4}}]",
+    "content": "[{\"type\":\"header\",\"data\":{\"text\":\"Strategic Planning\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Plan\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Strategy\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Persona\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Campaign Execution\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Campaign\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Social Media Post\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Funnel\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Analytics & Tracking\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing KPI\",\"col\":4}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Lead Acquisition Trend\",\"col\":12}}]",
     "creation": "2026-02-17 18:00:00.000000",
     "docstatus": 0,
     "doctype": "Workspace",
@@ -107,6 +107,42 @@
             "role": "Marketing Manager"
         }
     ],
-    "shortcuts": [],
+    "shortcuts": [
+        {
+            "label": "Business Plan",
+            "type": "DocType",
+            "link_to": "Business Plan"
+        },
+        {
+            "label": "Marketing Strategy",
+            "type": "DocType",
+            "link_to": "Marketing Strategy"
+        },
+        {
+            "label": "Marketing Persona",
+            "type": "DocType",
+            "link_to": "Marketing Persona"
+        },
+        {
+            "label": "Marketing Campaign",
+            "type": "DocType",
+            "link_to": "Marketing Campaign"
+        },
+        {
+            "label": "Social Media Post",
+            "type": "DocType",
+            "link_to": "Social Media Post"
+        },
+        {
+            "label": "Marketing Funnel",
+            "type": "DocType",
+            "link_to": "Marketing Funnel"
+        },
+        {
+            "label": "Marketing KPI",
+            "type": "DocType",
+            "link_to": "Marketing KPI"
+        }
+    ],
     "title": "Marketing"
 }
