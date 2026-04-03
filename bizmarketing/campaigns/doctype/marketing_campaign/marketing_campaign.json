@@ -12,13 +12,18 @@
         "primary_objective",
         "campaign_theme",
         "target_persona",
+        "audience_channels",
+        "audience_kpis",
         "campaign_mix_section",
         "product_particulars",
         "price_particulars",
+        "campaign_channels",
         "promotion_particulars",
         "budget_section",
         "budget",
         "actual_spend",
+        "budget_allocation",
+        "contingency_budget",
         "schedule_section",
         "start_date",
         "end_date",
@@ -79,6 +84,16 @@
             "options": "Marketing Persona"
         },
         {
+            "fieldname": "audience_channels",
+            "fieldtype": "Data",
+            "label": "Audience Channels"
+        },
+        {
+            "fieldname": "audience_kpis",
+            "fieldtype": "Small Text",
+            "label": "Audience KPIs"
+        },
+        {
             "fieldname": "campaign_mix_section",
             "fieldtype": "Section Break",
             "label": "Campaign Mix Details"
@@ -91,7 +106,12 @@
         {
             "fieldname": "price_particulars",
             "fieldtype": "Small Text",
-            "label": "Price Particulars"
+            "label": "Price Details"
+        },
+        {
+            "fieldname": "campaign_channels",
+            "fieldtype": "Data",
+            "label": "Campaign Channels"
         },
         {
             "fieldname": "promotion_particulars",
@@ -113,6 +133,16 @@
             "fieldtype": "Currency",
             "label": "Actual Spend",
             "read_only": 1
+        },
+        {
+            "fieldname": "budget_allocation",
+            "fieldtype": "Small Text",
+            "label": "Budget Allocation Details"
+        },
+        {
+            "fieldname": "contingency_budget",
+            "fieldtype": "Currency",
+            "label": "Contingency Budget"
         },
         {
             "fieldname": "schedule_section",

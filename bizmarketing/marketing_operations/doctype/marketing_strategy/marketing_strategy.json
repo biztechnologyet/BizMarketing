@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "location",
   "status",
   "usage_section",
   "start_date",
@@ -15,6 +16,8 @@
   "mission",
   "brand_positioning",
   "positioning_tone",
+  "target_personas",
+  "market_trends",
   "marketing_mix_section",
   "product_strategy",
   "price_strategy",
@@ -47,6 +50,12 @@
    "in_list_view": 1,
    "label": "Strategy Title",
    "reqd": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Location"
   },
   {
    "default": "Draft",
@@ -95,6 +104,16 @@
    "fieldname": "positioning_tone",
    "fieldtype": "Data",
    "label": "Positioning Tone"
+  },
+  {
+   "fieldname": "target_personas",
+   "fieldtype": "Text Editor",
+   "label": "Target Personas Details"
+  },
+  {
+   "fieldname": "market_trends",
+   "fieldtype": "Text Editor",
+   "label": "Market Trends & Insights"
   },
   {
    "fieldname": "marketing_mix_section",

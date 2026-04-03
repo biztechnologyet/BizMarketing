@@ -9,19 +9,29 @@
         "platform",
         "language",
         "scheduled_time",
+        "promotion_date",
         "content_section",
         "content",
         "media",
+        "content_purpose",
+        "alignment",
         "seo_section",
         "keywords",
         "seo_intent",
         "insight",
-        "content_purpose",
+        "audience_section",
+        "target_persona",
+        "pain_points",
+        "audience_preferences",
         "campaign_section",
         "campaign",
         "paid_ads_section",
         "paid_ads_budget",
         "paid_ads_seo",
+        "performance_section",
+        "impressions",
+        "clicks",
+        "conversions",
         "optimization_section",
         "optimization_actions",
         "optimization_learnings"
@@ -65,6 +75,11 @@
             "label": "Scheduled Time"
         },
         {
+            "fieldname": "promotion_date",
+            "fieldtype": "Date",
+            "label": "Promotion Date"
+        },
+        {
             "fieldname": "content_section",
             "fieldtype": "Section Break",
             "label": "Content"
@@ -78,6 +93,16 @@
             "fieldname": "media",
             "fieldtype": "Attach Image",
             "label": "Image/Video"
+        },
+        {
+            "fieldname": "content_purpose",
+            "fieldtype": "Small Text",
+            "label": "Content Purpose / Goal"
+        },
+        {
+            "fieldname": "alignment",
+            "fieldtype": "Data",
+            "label": "Alignment"
         },
         {
             "fieldname": "seo_section",
@@ -101,9 +126,25 @@
             "label": "SEO Insight"
         },
         {
-            "fieldname": "content_purpose",
+            "fieldname": "audience_section",
+            "fieldtype": "Section Break",
+            "label": "Audience"
+        },
+        {
+            "fieldname": "target_persona",
+            "fieldtype": "Link",
+            "label": "Target Persona",
+            "options": "Marketing Persona"
+        },
+        {
+            "fieldname": "pain_points",
             "fieldtype": "Small Text",
-            "label": "Content Purpose / Goal"
+            "label": "Pain Points"
+        },
+        {
+            "fieldname": "audience_preferences",
+            "fieldtype": "Small Text",
+            "label": "Preferences"
         },
         {
             "fieldname": "campaign_section",
@@ -130,6 +171,26 @@
             "fieldname": "paid_ads_seo",
             "fieldtype": "Data",
             "label": "Paid Ads SEO Strategy"
+        },
+        {
+            "fieldname": "performance_section",
+            "fieldtype": "Section Break",
+            "label": "Performance Tracking"
+        },
+        {
+            "fieldname": "impressions",
+            "fieldtype": "Int",
+            "label": "Expected Impressions"
+        },
+        {
+            "fieldname": "clicks",
+            "fieldtype": "Int",
+            "label": "Expected Clicks"
+        },
+        {
+            "fieldname": "conversions",
+            "fieldtype": "Int",
+            "label": "Expected Conversions"
         },
         {
             "fieldname": "optimization_section",
