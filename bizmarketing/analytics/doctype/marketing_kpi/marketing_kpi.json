@@ -5,37 +5,81 @@
     "engine": "InnoDB",
     "field_order": [
         "kpi_name",
+        "kpi_category",
         "target_value",
         "actual_value",
-        "unit"
+        "unit",
+        "detailed_metrics_section",
+        "impressions",
+        "views",
+        "clicks",
+        "engagement_score",
+        "conversions"
     ],
     "fields": [
         {
             "fieldname": "kpi_name",
             "fieldtype": "Data",
+            "in_list_view": 1,
             "label": "KPI Name",
-            "reqd": 1,
-            "in_list_view": 1
+            "reqd": 1
+        },
+        {
+            "fieldname": "kpi_category",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "label": "Category",
+            "options": "Awareness\nEngagement\nLead Generation\nConversion\nRetention"
         },
         {
             "fieldname": "target_value",
             "fieldtype": "Float",
-            "label": "Target Value",
-            "reqd": 1,
-            "in_list_view": 1
+            "in_list_view": 1,
+            "label": "Target Value (Total)",
+            "reqd": 1
         },
         {
             "fieldname": "actual_value",
             "fieldtype": "Float",
-            "label": "Actual Value",
-            "in_list_view": 1
+            "in_list_view": 1,
+            "label": "Actual Value (Total)"
         },
         {
+            "default": "Number",
             "fieldname": "unit",
             "fieldtype": "Select",
             "label": "Unit",
-            "options": "Number\nPercentage\nCurrency",
-            "default": "Number"
+            "options": "Number\nPercentage\nCurrency"
+        },
+        {
+            "fieldname": "detailed_metrics_section",
+            "fieldtype": "Section Break",
+            "label": "Detailed Performance Tracking"
+        },
+        {
+            "fieldname": "impressions",
+            "fieldtype": "Int",
+            "label": "Impressions"
+        },
+        {
+            "fieldname": "views",
+            "fieldtype": "Int",
+            "label": "Views"
+        },
+        {
+            "fieldname": "clicks",
+            "fieldtype": "Int",
+            "label": "Clicks"
+        },
+        {
+            "fieldname": "engagement_score",
+            "fieldtype": "Percent",
+            "label": "Engagement Rate / Score"
+        },
+        {
+            "fieldname": "conversions",
+            "fieldtype": "Int",
+            "label": "Conversions"
         }
     ],
     "modified": "2026-02-17 18:00:00.000000",

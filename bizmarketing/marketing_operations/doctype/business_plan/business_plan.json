@@ -1,0 +1,210 @@
+{
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 1,
+ "autoname": "BP-.####",
+ "creation": "2026-04-03 23:22:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "status",
+  "project_id",
+  "task_id",
+  "date",
+  "executive_summary_section",
+  "objective",
+  "strategy",
+  "target_region",
+  "company_description_section",
+  "expansion_goal",
+  "focus",
+  "market_analysis_section",
+  "target_countries",
+  "market_insights",
+  "organization_management_section",
+  "structure",
+  "approach",
+  "products_services_section",
+  "product_strategy",
+  "cultural_adaptation",
+  "operational_plan_section",
+  "deployment_approach",
+  "financials_section",
+  "financial_goal",
+  "funding_section",
+  "funding_requirement"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nActive\nCompleted\nCancelled"
+  },
+  {
+   "fieldname": "project_id",
+   "fieldtype": "Link",
+   "label": "Project ID",
+   "options": "Project"
+  },
+  {
+   "fieldname": "task_id",
+   "fieldtype": "Link",
+   "label": "Task ID",
+   "options": "Task"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "executive_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Executive Summary"
+  },
+  {
+   "fieldname": "objective",
+   "fieldtype": "Small Text",
+   "label": "Objective"
+  },
+  {
+   "fieldname": "strategy",
+   "fieldtype": "Small Text",
+   "label": "Strategy"
+  },
+  {
+   "fieldname": "target_region",
+   "fieldtype": "Data",
+   "label": "Target Region"
+  },
+  {
+   "fieldname": "company_description_section",
+   "fieldtype": "Section Break",
+   "label": "Company Description"
+  },
+  {
+   "fieldname": "expansion_goal",
+   "fieldtype": "Data",
+   "label": "Expansion Goal"
+  },
+  {
+   "fieldname": "focus",
+   "fieldtype": "Data",
+   "label": "Focus"
+  },
+  {
+   "fieldname": "market_analysis_section",
+   "fieldtype": "Section Break",
+   "label": "Market Analysis"
+  },
+  {
+   "fieldname": "target_countries",
+   "fieldtype": "Data",
+   "label": "Target Countries"
+  },
+  {
+   "fieldname": "market_insights",
+   "fieldtype": "Small Text",
+   "label": "Insights"
+  },
+  {
+   "fieldname": "organization_management_section",
+   "fieldtype": "Section Break",
+   "label": "Organization & Management"
+  },
+  {
+   "fieldname": "structure",
+   "fieldtype": "Data",
+   "label": "Structure"
+  },
+  {
+   "fieldname": "approach",
+   "fieldtype": "Small Text",
+   "label": "Approach"
+  },
+  {
+   "fieldname": "products_services_section",
+   "fieldtype": "Section Break",
+   "label": "Products / Services"
+  },
+  {
+   "fieldname": "product_strategy",
+   "fieldtype": "Small Text",
+   "label": "Product Strategy"
+  },
+  {
+   "fieldname": "cultural_adaptation",
+   "fieldtype": "Small Text",
+   "label": "Cultural Adaptation"
+  },
+  {
+   "fieldname": "operational_plan_section",
+   "fieldtype": "Section Break",
+   "label": "Operational Plan"
+  },
+  {
+   "fieldname": "deployment_approach",
+   "fieldtype": "Small Text",
+   "label": "Deployment Approach"
+  },
+  {
+   "fieldname": "financials_section",
+   "fieldtype": "Section Break",
+   "label": "Financials"
+  },
+  {
+   "fieldname": "financial_goal",
+   "fieldtype": "Data",
+   "label": "Financial Goal"
+  },
+  {
+   "fieldname": "funding_section",
+   "fieldtype": "Section Break",
+   "label": "Funding"
+  },
+  {
+   "fieldname": "funding_requirement",
+   "fieldtype": "Currency",
+   "label": "Requirement"
+  }
+ ],
+ "index_pages": [],
+ "links": [],
+ "modified": "2026-04-03 23:22:00",
+ "modified_by": "Administrator",
+ "module": "Marketing Operations",
+ "name": "Business Plan",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

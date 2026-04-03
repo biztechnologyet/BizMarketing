@@ -6,7 +6,9 @@
     "field_order": [
         "persona_name",
         "description",
+        "audience_details_section",
         "pain_points",
+        "preferences",
         "channels_section",
         "preferred_channels"
     ],
@@ -14,6 +16,7 @@
         {
             "fieldname": "persona_name",
             "fieldtype": "Data",
+            "in_list_view": 1,
             "label": "Persona Name",
             "reqd": 1
         },
@@ -23,9 +26,19 @@
             "label": "Description"
         },
         {
+            "fieldname": "audience_details_section",
+            "fieldtype": "Section Break",
+            "label": "Audience Deep-Dive"
+        },
+        {
             "fieldname": "pain_points",
             "fieldtype": "Text Editor",
             "label": "Pain Points & Motivations"
+        },
+        {
+            "fieldname": "preferences",
+            "fieldtype": "Text Editor",
+            "label": "Preferences & Cultural Nuance"
         },
         {
             "fieldname": "channels_section",

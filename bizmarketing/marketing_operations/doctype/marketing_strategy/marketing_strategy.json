@@ -13,22 +13,40 @@
   "strategic_section",
   "vision",
   "mission",
+  "brand_positioning",
+  "positioning_tone",
+  "marketing_mix_section",
+  "product_strategy",
+  "price_strategy",
+  "place_strategy",
+  "promotion_strategy",
   "swot_section",
-  "swot_analysis"
+  "strengths",
+  "weaknesses",
+  "opportunities",
+  "threats",
+  "competitor_section",
+  "competitor_matrix",
+  "goals_section",
+  "smart_goals",
+  "budget_section",
+  "budget_allocation"
  ],
  "fields": [
   {
    "fieldname": "title",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Strategy Title",
    "reqd": 1
   },
   {
+   "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
-   "options": "Draft\nActive\nCompleted\nArchived",
-   "default": "Draft"
+   "options": "Draft\nActive\nCompleted\nArchived"
   },
   {
    "fieldname": "usage_section",
@@ -61,14 +79,97 @@
    "label": "Mission Statement"
   },
   {
-   "fieldname": "swot_section",
-   "fieldtype": "Section Break",
-   "label": "Analysis"
+   "fieldname": "brand_positioning",
+   "fieldtype": "Data",
+   "label": "Brand Positioning"
   },
   {
-   "fieldname": "swot_analysis",
-   "fieldtype": "Text Editor",
+   "fieldname": "positioning_tone",
+   "fieldtype": "Data",
+   "label": "Positioning Tone"
+  },
+  {
+   "fieldname": "marketing_mix_section",
+   "fieldtype": "Section Break",
+   "label": "Marketing Mix (4Ps)"
+  },
+  {
+   "fieldname": "product_strategy",
+   "fieldtype": "Small Text",
+   "label": "Product Strategy"
+  },
+  {
+   "fieldname": "price_strategy",
+   "fieldtype": "Small Text",
+   "label": "Price Strategy"
+  },
+  {
+   "fieldname": "place_strategy",
+   "fieldtype": "Small Text",
+   "label": "Place Strategy"
+  },
+  {
+   "fieldname": "promotion_strategy",
+   "fieldtype": "Small Text",
+   "label": "Promotion Strategy"
+  },
+  {
+   "fieldname": "swot_section",
+   "fieldtype": "Section Break",
    "label": "SWOT Analysis"
+  },
+  {
+   "fieldname": "strengths",
+   "fieldtype": "Small Text",
+   "label": "Strengths"
+  },
+  {
+   "fieldname": "weaknesses",
+   "fieldtype": "Small Text",
+   "label": "Weaknesses"
+  },
+  {
+   "fieldname": "opportunities",
+   "fieldtype": "Small Text",
+   "label": "Opportunities"
+  },
+  {
+   "fieldname": "threats",
+   "fieldtype": "Small Text",
+   "label": "Threats"
+  },
+  {
+   "fieldname": "competitor_section",
+   "fieldtype": "Section Break",
+   "label": "Market Analysis"
+  },
+  {
+   "fieldname": "competitor_matrix",
+   "fieldtype": "Table",
+   "label": "Competitor Matrix",
+   "options": "Competitor Matrix Item"
+  },
+  {
+   "fieldname": "goals_section",
+   "fieldtype": "Section Break",
+   "label": "SMART Goals & KPIs"
+  },
+  {
+   "fieldname": "smart_goals",
+   "fieldtype": "Table",
+   "label": "SMART Goals",
+   "options": "Strategy Goal"
+  },
+  {
+   "fieldname": "budget_section",
+   "fieldtype": "Section Break",
+   "label": "Budget Allocation"
+  },
+  {
+   "fieldname": "budget_allocation",
+   "fieldtype": "Table",
+   "label": "Allocation Table",
+   "options": "Budget Allocation Item"
   }
  ],
  "index_web_pages_for_search": 1,

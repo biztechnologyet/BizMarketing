@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "creation": "2026-04-03 23:27:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "competitor_name",
+  "strengths",
+  "weaknesses",
+  "market_share"
+ ],
+ "fields": [
+  {
+   "fieldname": "competitor_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Competitor Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "strengths",
+   "fieldtype": "Small Text",
+   "label": "Strengths"
+  },
+  {
+   "fieldname": "weaknesses",
+   "fieldtype": "Small Text",
+   "label": "Weaknesses"
+  },
+  {
+   "fieldname": "market_share",
+   "fieldtype": "Data",
+   "label": "Estimated Market Share"
+  }
+ ],
+ "index_pages": [],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-03 23:27:00",
+ "modified_by": "Administrator",
+ "module": "Marketing Operations",
+ "name": "Competitor Matrix Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
