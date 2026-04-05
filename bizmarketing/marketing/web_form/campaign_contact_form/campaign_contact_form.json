@@ -1,0 +1,66 @@
+{
+ "allow_comments": 0,
+ "allow_delete": 0,
+ "allow_edit": 0,
+ "allow_incomplete": 0,
+ "allow_multiple": 1,
+ "allow_print": 0,
+ "anonymous": 1,
+ "apply_document_permissions": 0,
+ "creation": "2026-04-05 21:00:00.000000",
+ "doc_type": "Lead",
+ "doctype": "Web Form",
+ "introduction_text": "Have a question about our platforms or services? We'd love to hear from you.",
+ "is_standard": 1,
+ "login_required": 0,
+ "modified": "2026-04-05 21:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "campaign-contact-form",
+ "owner": "Administrator",
+ "published": 1,
+ "route": "contact-us",
+ "show_sidebar": 0,
+ "sidebar_title": "Contact Us",
+ "title": "Contact EthioBiz Support",
+ "web_form_fields": [
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "First Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email Address",
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile_no",
+   "fieldtype": "Data",
+   "label": "Phone Number",
+   "reqd": 0
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Your Message",
+   "reqd": 1
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Link",
+   "label": "How did you hear about us?",
+   "options": "Lead Source",
+   "reqd": 1
+  }
+ ]
+}
