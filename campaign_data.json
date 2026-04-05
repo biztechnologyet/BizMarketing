@@ -1,0 +1,448 @@
+{
+  "posts": [
+    {
+      "id": "w1p1",
+      "date": "2026-04-04",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "general",
+      "contentType": "Vision Statement",
+      "title": "One Civilization. Many Paths.",
+      "content": "\ud83c\udf0d EthioBiz is here to harmonize Ethiopia's rich heritage with modern innovation.\n\nDiscover a digital ecosystem built on five pillars:\n\ud83d\udd4c Tibeb (Soul) - Worship and spiritual connection\n\ud83e\udde0 Dagu (Mind) - Knowledge and verified wisdom\n\ud83d\udcbc Magala (Body) - Marketplace and prosperity\n\ud83d\udee1\ufe0f Walta (Self) - Security and protection\n\u2764\ufe0f Afocha (Heart) - Community and love\n\nBy The Will of God, we are building a better future for Ethiopia, Africa, and humanity.\n\n#EthioBiz #OneEthiopia #DigitalEcosystem #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w1p1_vision_launch_5d118004.png",
+      "imagePrompt": "EthioBiz Vision Launch - Ethiopian landscape with five symbolic pillars representing Tibeb, Dagu, Magala, Walta, Afocha",
+      "expectedOutcome": "Establish brand awareness, introduce vision, 50K+ impressions",
+      "cta": "\ud83d\udd17 Learn More: ${ETHIOBIZ_WEBSITE}\n\ud83d\udcde Call: ${ETHIOBIZ_PHONE}\n\ud83d\udcac Telegram: @EthioBiz_Official",
+      "week": 1
+    },
+    {
+      "id": "w1p2",
+      "date": "2026-04-05",
+      "platform": [
+        "telegram",
+        "instagram"
+      ],
+      "pillar": "tibeb",
+      "contentType": "Pillar Introduction",
+      "title": "Tibeb: Worship of the Soul",
+      "content": "\ud83d\udd4c TIBEB - Worship of the Soul\n\nEthiopia's spiritual heritage runs deep. From ancient times to today, our souls have been nourished by faith, tradition, and connection to something greater.\n\nTibeb is about:\n\u2728 Honoring our heritage\n\ud83d\ude4f Spiritual connection\n\ud83d\udcab Inner peace and purpose\n\ud83c\udf1f Community worship\n\nComing soon: Tibeb features on EthioBiz\n#Tibeb #Soul #Heritage #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w1p2_tibeb_teaser_07c7a211.png",
+      "imagePrompt": "Tibeb pillar - Sacred Ethiopian spiritual imagery with golden light, ancient churches, and spiritual symbols",
+      "expectedOutcome": "Introduce Tibeb pillar, 40K+ impressions, 2K+ engagements",
+      "cta": "\ud83d\udcd6 Learn about Tibeb: ${ETHIOBIZ_WEBSITE}/tibeb\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udd14 Subscribe: @Tibeb_Soul",
+      "week": 1
+    },
+    {
+      "id": "w1p3",
+      "date": "2026-04-06",
+      "platform": [
+        "facebook",
+        "instagram"
+      ],
+      "pillar": "tibeb",
+      "contentType": "Video Teaser",
+      "title": "Tibeb Video Teaser - Coming Soon",
+      "content": "\ud83c\udfac Tibeb Video Teaser\n\nExperience the soul of Ethiopia. A journey through our spiritual heritage, traditions, and the timeless wisdom that guides us.\n\nWatch the full Tibeb story launching this week on EthioBiz.\n\n#Tibeb #EthioBiz #Ethiopian #Heritage #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w1p3_tibeb_video_7b82bc89.png",
+      "imagePrompt": "Tibeb video teaser - Cinematic Ethiopian landscape with spiritual elements, traditional music, and cultural imagery",
+      "expectedOutcome": "Build anticipation for Tibeb launch, 45K+ impressions",
+      "cta": "\ud83c\udfa5 Watch Full Video: ${ETHIOBIZ_WEBSITE}/tibeb\n\ud83d\udcde Contact: ${ETHIOBIZ_PHONE}\n\ud83d\udcac Join: @EthioBiz_Official",
+      "week": 1
+    },
+    {
+      "id": "w1p4",
+      "date": "2026-04-07",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "dagu",
+      "contentType": "Pillar Introduction",
+      "title": "Dagu: Knowledge of the Mind",
+      "content": "\ud83e\udde0 DAGU - Knowledge of the Mind\n\n\"What have your eyes seen? What have your ears heard?\"\n\nFor centuries, Dagu has been the unbroken chain of verified wisdom. Today, it evolves into your trusted path for knowledge and growth.\n\nDagu is about:\n\ud83d\udc41\ufe0f Seen & Heard - Information validated by direct witness\n\ud83e\udd1d Shared Responsibility - Every individual is a guardian of knowledge\n\u2696\ufe0f Verified Wisdom - Truth filters to the top\n\nComing soon: Dagu Learning Center with verified courses and expert instructors.\n\n#Dagu #Knowledge #Wisdom #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w1p4_dagu_teaser_5f717f99.png",
+      "imagePrompt": "Dagu pillar - Indigo blue learning center imagery with ancient scrolls, knowledge symbols, and modern learning elements",
+      "expectedOutcome": "Introduce Dagu pillar, 42K+ impressions, 2.2K+ engagements",
+      "cta": "\ud83d\udcda Learn about Dagu: ${ETHIOBIZ_WEBSITE}/dagu\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udd14 Subscribe: @Dagu_Mind",
+      "week": 1
+    },
+    {
+      "id": "w1p5",
+      "date": "2026-04-08",
+      "platform": [
+        "instagram",
+        "facebook"
+      ],
+      "pillar": "magala",
+      "contentType": "Pillar Introduction",
+      "title": "Magala: Marketplace of the Body",
+      "content": "\ud83d\udcbc MAGALA - Marketplace of the Body\n\nWork as Worship. Prosperity as a Fruit of Integrity.\n\nMagala is the realm where we engage our bodies in the world\u2014our work, our health, our material success. This pillar teaches that honest labor is a form of worship.\n\nMagala features:\n\u2705 DOBiz Smart ERP - Cloud business management for all industries\n\ud83d\udcbc Jobs Portal - Find and hire top talent\n\ud83d\udecd\ufe0f Shop Marketplace - Reach global markets\n\ud83e\udd16 Hadeeda BizAI - Your 24/7 business assistant\n\nJoin 10+ active businesses already thriving on Magala.\n\n#Magala #Business #Entrepreneurship #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w1p5_magala_teaser_4e952ccb.png",
+      "imagePrompt": "Magala pillar - Earth green marketplace imagery with Ethiopian businesses, shops, and prosperity symbols",
+      "expectedOutcome": "Introduce Magala pillar, 48K+ impressions, 2.5K+ engagements",
+      "cta": "\ud83d\udcbc Explore Magala: ${ETHIOBIZ_WEBSITE}/magala\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\ude80 Start Free Trial: [REGISTER_LINK]",
+      "week": 1
+    },
+    {
+      "id": "w1p6",
+      "date": "2026-04-08",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "walta",
+      "contentType": "Feature Introduction",
+      "title": "Walta: Your Support Guardian",
+      "content": "\ud83d\udee1\ufe0f WALTA - Your Support & Security Guardian\n\nEveryone needs a trusted guardian. That's Walta.\n\nWalta is EthioBiz's dedicated support and security system, protecting you across all pillars. Whether you're learning with Dagu, building with Magala, or connecting with Tibeb and Afocha\u2014Walta is there to support you.\n\nWalta provides:\n\ud83d\udd10 24/7 Helpdesk Support - Instant assistance whenever you need it\n\ud83d\udee1\ufe0f Account Security - Two-factor authentication and privacy protection\n\ud83d\udcbb Secure Transactions - Protected business operations\n\ud83d\udd12 Account Recovery - Fast and secure account restoration\n\nYour trusted guardian across all EthioBiz pillars.\n\n#Walta #Support #Security #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w1p6_walta_teaser_d2bff53e.png",
+      "imagePrompt": "Walta Support System - Purple guardian protecting users across multiple pillars, helpdesk imagery, security shields, 24/7 support concept",
+      "expectedOutcome": "Introduce Walta support system, 35K+ impressions, 1.6K+ engagements",
+      "cta": "\ud83d\udee1\ufe0f Access Walta Support: ${ETHIOBIZ_WEBSITE}/walta\n\ud83d\udcde 24/7 Support: ${ETHIOBIZ_PHONE}\n\ud83d\udcac Telegram Support: [TELEGRAM_SUPPORT_LINK]\n\ud83d\udd14 Subscribe: @EthioBiz_Support",
+      "week": 1
+    },
+    {
+      "id": "w1p7",
+      "date": "2026-04-10",
+      "platform": [
+        "facebook",
+        "instagram"
+      ],
+      "pillar": "afocha",
+      "contentType": "Pillar Introduction",
+      "title": "Afocha: Love of the Heart",
+      "content": "\u2764\ufe0f AFOCHA - Love of the Heart\n\nCommunity is our strength. Connection is our power.\n\nAfocha is about the bonds that hold us together\u2014family, friendship, community, and collective purpose. In the digital age, Afocha reminds us that technology serves humanity, not the other way around.\n\nAfocha features:\n\ud83d\udc9d Community Connection - Build meaningful relationships\n\ud83e\udd1d Collective Support - Help each other thrive\n\u2764\ufe0f Shared Values - United by purpose\n\ud83c\udf0d Global Community - One humanity\n\nComing soon: Afocha community features and connection tools.\n\n#Afocha #Community #Love #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w1p7_afocha_teaser_1d816519.png",
+      "imagePrompt": "Afocha pillar - Red heart imagery with community connections, Ethiopian people, and unity symbols",
+      "expectedOutcome": "Introduce Afocha pillar, 44K+ impressions, 2.3K+ engagements",
+      "cta": "\u2764\ufe0f Join Afocha: ${ETHIOBIZ_WEBSITE}/afocha\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udd14 Subscribe: @Afocha_Community",
+      "week": 1
+    },
+    {
+      "id": "w2p1",
+      "date": "2026-04-11",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "tibeb",
+      "contentType": "Full Feature",
+      "title": "Tibeb Full Launch - Worship of the Soul",
+      "content": "\ud83d\udd4c TIBEB IS NOW LIVE\n\nExperience the soul of Ethiopia through Tibeb\u2014a platform dedicated to preserving our spiritual heritage and connecting us to timeless wisdom.\n\nTibeb Features:\n\ud83d\udcd6 Sacred Stories - Ethiopia's spiritual history\n\ud83c\udfb5 Traditional Music - Authentic Ethiopian melodies\n\ud83d\ude4f Community Worship - Connect with believers\n\ud83d\udcab Spiritual Guidance - Wisdom for daily life\n\ud83c\udf1f Heritage Preservation - Keep our traditions alive\n\nJoin thousands discovering the light within our shared history.\n\n#Tibeb #Soul #Heritage #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w2p1_tibeb_full_video_cd94f0ea.png",
+      "imagePrompt": "Tibeb full launch - Beautiful Ethiopian spiritual imagery with ancient churches, sacred sites, and spiritual energy",
+      "expectedOutcome": "Tibeb full launch, 60K+ impressions, 3K+ engagements, 500+ signups",
+      "cta": "\ud83d\udd4c Experience Tibeb: ${ETHIOBIZ_WEBSITE}/tibeb\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Join: @Tibeb_Soul",
+      "week": 2
+    },
+    {
+      "id": "w2p2",
+      "date": "2026-04-12",
+      "platform": [
+        "instagram",
+        "facebook"
+      ],
+      "pillar": "tibeb",
+      "contentType": "Blog Post",
+      "title": "Blog: The Spiritual Roots of Ethiopian Innovation",
+      "content": "\ud83d\udcd6 NEW BLOG POST\n\n\"The Spiritual Roots of Ethiopian Innovation\"\n\nExplore how Ethiopia's ancient wisdom traditions inform modern innovation. From the spiritual practices of our ancestors to the digital tools of today, discover how Tibeb bridges tradition and technology.\n\nRead the full article on our blog and learn:\n\u2728 How spiritual values guide innovation\n\ud83c\udf1f The role of faith in Ethiopian entrepreneurship\n\ud83d\udcab Building technology with purpose and integrity\n\n#Tibeb #Innovation #Heritage #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w2p2_tibeb_blog_ea3496a5.png",
+      "imagePrompt": "Tibeb blog - Artistic blend of ancient Ethiopian spiritual symbols with modern technology elements",
+      "expectedOutcome": "Blog engagement, 35K+ impressions, 1.5K+ clicks",
+      "cta": "\ud83d\udcd6 Read Full Blog: ${ETHIOBIZ_WEBSITE}/blog/spiritual-roots\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Share your thoughts: @EthioBiz_Official",
+      "week": 2
+    },
+    {
+      "id": "w2p3",
+      "date": "2026-04-13",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "dagu",
+      "contentType": "Interactive Poll",
+      "title": "Dagu Poll: What Knowledge Do You Want to Learn?",
+      "content": "\ud83e\udde0 DAGU POLL - Your Voice Matters\n\nWhat skills would you like to master on Dagu Learning Center?\n\nVote now:\n\ud83d\udcca A) DOBiz Smart ERP System\n\ud83d\udcca B) Digital Marketing Mastery\n\ud83d\udcca C) Managerial Accounting\n\ud83d\udcca D) All of the above!\n\nYour vote helps us prioritize courses that matter most to you.\n\nCast your vote in our Telegram channel: @Dagu_Mind\n\n#Dagu #Learning #Community #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w2p3_dagu_poll_8bb87a39.png",
+      "imagePrompt": "Dagu poll - Indigo blue interactive poll design with learning symbols and engagement elements",
+      "expectedOutcome": "Community engagement, 40K+ impressions, 3K+ votes",
+      "cta": "\ud83d\uddf3\ufe0f Vote Now: @Dagu_Mind\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcda Learn More: ${ETHIOBIZ_WEBSITE}/dagu",
+      "week": 2
+    },
+    {
+      "id": "w2p4",
+      "date": "2026-04-14",
+      "platform": [
+        "instagram",
+        "facebook"
+      ],
+      "pillar": "magala",
+      "contentType": "Feature Highlight",
+      "title": "Magala Spotlight: SME Success Stories",
+      "content": "\ud83d\udcbc MAGALA SPOTLIGHT - SME Success Stories\n\nMeet the entrepreneurs building Ethiopia's future with DOBiz Smart ERP.\n\nFrom retail shops to service providers, from educators to manufacturers\u2014DOBiz is empowering small and medium enterprises across all sectors.\n\nSuccess Stories:\n\u2705 Addis Retail Co. - 300% inventory efficiency\n\u2705 Tech Services Ltd. - 50+ jobs created\n\u2705 Education Plus - 5,000+ students managed\n\u2705 Health First Clinic - Seamless patient management\n\nYour success story could be next.\n\n#Magala #Business #Entrepreneurship #DOBiz #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w2p4_magala_sme_9e07f17c.png",
+      "imagePrompt": "Magala SME success - Earth green imagery with Ethiopian small businesses, entrepreneurs, and prosperity symbols",
+      "expectedOutcome": "Business engagement, 50K+ impressions, 2.5K+ engagements",
+      "cta": "\ud83d\udcbc Start Your Success: ${ETHIOBIZ_WEBSITE}/magala\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\ude80 Free Trial: [REGISTER_LINK]",
+      "week": 2
+    },
+    {
+      "id": "w2p5",
+      "date": "2026-04-15",
+      "platform": [
+        "telegram",
+        "instagram"
+      ],
+      "pillar": "walta",
+      "contentType": "Support Feature",
+      "title": "Walta Support: Your Account Security Matters",
+      "content": "\ud83d\udee1\ufe0f WALTA SUPPORT - Account Security Essentials\n\nWalta protects your account with these 5 security features:\n\n1\ufe0f\u20e3 Two-Factor Authentication - Extra protection for your login\n2\ufe0f\u20e3 Strong Password Requirements - Secure by default\n3\ufe0f\u20e3 Session Management - Control your active devices\n4\ufe0f\u20e3 Account Recovery - Fast restoration if needed\n5\ufe0f\u20e3 24/7 Support Team - Always here to help\n\nYour account security is our top priority. Walta has your back.\n\n#Walta #Support #Security #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w2p5_walta_security_9dbe1b47.png",
+      "imagePrompt": "Walta Support - Purple shield protecting account with security features, helpdesk agent, 24/7 support imagery",
+      "expectedOutcome": "Promote Walta support features, 36K+ impressions, 1.8K+ engagements",
+      "cta": "\ud83d\udee1\ufe0f Enable 2FA: ${ETHIOBIZ_WEBSITE}/walta\n\ud83d\udcde Support Team: ${ETHIOBIZ_PHONE}\n\ud83d\udcac Telegram: [TELEGRAM_SUPPORT_LINK]\n\ud83d\udd14 Subscribe: @EthioBiz_Support",
+      "week": 2
+    },
+    {
+      "id": "w2p6",
+      "date": "2026-04-16",
+      "platform": [
+        "facebook",
+        "instagram"
+      ],
+      "pillar": "general",
+      "contentType": "Announcement",
+      "title": "Special Announcement: Influencer Partnership",
+      "content": "\ud83c\udf1f SPECIAL ANNOUNCEMENT\n\nWe're thrilled to announce partnerships with Ethiopia's leading influencers and thought leaders!\n\nTogether, we're amplifying the EthioBiz message and reaching millions with our vision of digital transformation.\n\nInfluencer Partners Include:\n\ud83c\udfa4 [INFLUENCER_NAME_1] - Tech & Innovation\n\ud83c\udfa4 [INFLUENCER_NAME_2] - Business & Entrepreneurship\n\ud83c\udfa4 [INFLUENCER_NAME_3] - Community & Culture\n\ud83c\udfa4 [INFLUENCER_NAME_4] - Digital Transformation\n\nFollow them for exclusive EthioBiz content and insights.\n\n#EthioBiz #Influencers #Partnership #Ethiopia #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w2p6_influencer_announcement_3c7acb35.png",
+      "imagePrompt": "Influencer partnership announcement - Collaborative imagery with multiple influencers and EthioBiz branding",
+      "expectedOutcome": "Partnership visibility, 55K+ impressions, 3K+ engagements",
+      "cta": "\ud83e\udd1d Partner With Us: ${ETHIOBIZ_WEBSITE}/partnerships\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Follow: @EthioBiz_Official",
+      "week": 2
+    },
+    {
+      "id": "w2p7",
+      "date": "2026-04-17",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "afocha",
+      "contentType": "Community Story",
+      "title": "Afocha Story: Building Community Together",
+      "content": "\u2764\ufe0f AFOCHA STORY - Building Community Together\n\nIn Ethiopia, we have a saying: \"Yetesfa Sefer\" (the journey is long, but we walk together).\n\nAfocha is about that spirit of togetherness. It's about recognizing that our strength lies not in individual success, but in collective growth.\n\nThis week, we celebrate the communities forming around EthioBiz:\n\ud83d\udc9d Support groups helping each other learn\n\ud83e\udd1d Business networks creating opportunities\n\u2764\ufe0f Spiritual circles preserving our heritage\n\ud83c\udf0d Global connections bridging continents\n\nYour community awaits.\n\n#Afocha #Community #Together #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w2p7_afocha_community_eefc89f8.png",
+      "imagePrompt": "Afocha community story - Red heart imagery with diverse Ethiopian people coming together in community",
+      "expectedOutcome": "Community engagement, 42K+ impressions, 2.2K+ engagements",
+      "cta": "\u2764\ufe0f Join Community: ${ETHIOBIZ_WEBSITE}/community\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udd14 Subscribe: @Afocha_Community",
+      "week": 2
+    },
+    {
+      "id": "w3p1",
+      "date": "2026-04-18",
+      "platform": [
+        "telegram",
+        "facebook",
+        "instagram"
+      ],
+      "pillar": "general",
+      "contentType": "Major Announcement",
+      "title": "\ud83d\ude80 OFFICIAL ETHIOBIZ LAUNCH - LIVE NOW",
+      "content": "\ud83d\ude80 ETHIOBIZ IS OFFICIALLY LIVE\n\nToday marks a historic moment. EthioBiz\u2014the unified digital ecosystem rooted in Ethiopia's heritage\u2014is now live and accessible to all.\n\nAfter months of development, we're proud to present:\n\n\u2705 Tibeb (Soul) - Spiritual connection and heritage\n\u2705 Dagu (Mind) - Verified learning and wisdom\n\u2705 Magala (Body) - Marketplace and prosperity\n\u2705 Walta (Self) - Digital security and protection\n\u2705 Afocha (Heart) - Community and connection\n\nPlus: DOBiz Smart ERP, Jobs Portal, Shop Marketplace, and Hadeeda BizAI\n\nJoin millions of Ethiopians building the future together.\n\n#EthioBizLaunch #OneEthiopia #DigitalFuture #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w3p1_official_launch_ff87313a.png",
+      "imagePrompt": "Official EthioBiz launch - Grand celebration imagery with all five pillars, Ethiopian flag, and digital elements",
+      "expectedOutcome": "Major launch announcement, 100K+ impressions, 5K+ engagements, 1K+ signups",
+      "cta": "\ud83d\ude80 Launch Now: ${ETHIOBIZ_WEBSITE}\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Join: @EthioBiz_Official",
+      "week": 3
+    },
+    {
+      "id": "w3p2",
+      "date": "2026-04-19",
+      "platform": [
+        "instagram",
+        "facebook"
+      ],
+      "pillar": "magala",
+      "contentType": "Product Feature",
+      "title": "DOBiz Smart ERP - Your Business Transformation Starts Here",
+      "content": "\ud83d\udcbc DOBIZ SMART ERP - Transform Your Business\n\nIntroducing DOBiz Smart ERP\u2014the cloud-based business management system designed specifically for Ethiopian enterprises.\n\nDOBiz Modules:\n\ud83c\udfe0 DOBiz Home - Personal & home business operations\n\ud83d\udecd\ufe0f DOBiz Retail - Shop inventory & sales management\n\ud83d\udd27 DOBiz Service - Service provider scheduling\n\ud83d\udcda DOBiz Education - School & institution management\n\ud83c\udfed DOBiz Manufacturing - Production & supply chain\n\ud83c\udfe5 DOBiz Health - Healthcare clinic management\n\nPowered by Hadeeda BizAI - Your 24/7 business assistant\n\nStart your free 1-week trial today. No credit card required.\n\n#DOBiz #ERP #Business #Entrepreneurship #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w3p2_dobiz_erp_d064f2f6.png",
+      "imagePrompt": "DOBiz Smart ERP feature - Modern business dashboard with Ethiopian elements and all six modules visualized",
+      "expectedOutcome": "DOBiz awareness, 65K+ impressions, 3.5K+ engagements, 800+ trial signups",
+      "cta": "\ud83d\udcbc Start Free Trial: ${ETHIOBIZ_WEBSITE}/magala\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83e\udd16 Ask Hadeeda: [HADEEDA_LINK]",
+      "week": 3
+    },
+    {
+      "id": "w3p3",
+      "date": "2026-04-20",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "dagu",
+      "contentType": "Feature Launch",
+      "title": "Dagu Daily Bot - Your Personal Learning Assistant",
+      "content": "\ud83e\udd16 DAGU DAILY BOT - Your Personal Learning Assistant\n\nMeet Dagu Daily Bot\u2014your AI-powered learning companion on Telegram.\n\nEvery morning, receive:\n\ud83d\udcda Daily Lesson - Bite-sized knowledge on business, skills, and wisdom\n\ud83c\udfaf Challenge of the Day - Test your knowledge\n\ud83d\udca1 Tip of the Day - Practical advice for success\n\ud83c\udfc6 Leaderboard - See how you rank among learners\n\nSubscribe now and start your learning journey.\n\n#Dagu #Learning #AI #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w3p3_dagu_daily_bot_efea6886.png",
+      "imagePrompt": "Dagu Daily Bot - Indigo blue AI assistant imagery with learning symbols and daily notification elements",
+      "expectedOutcome": "Bot adoption, 45K+ impressions, 2.5K+ bot subscriptions",
+      "cta": "\ud83e\udd16 Subscribe to Bot: @Dagu_Daily_Bot\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcda Learn More: ${ETHIOBIZ_WEBSITE}/dagu",
+      "week": 3
+    },
+    {
+      "id": "w3p4",
+      "date": "2026-04-21",
+      "platform": [
+        "instagram",
+        "facebook"
+      ],
+      "pillar": "walta",
+      "contentType": "Support Resource",
+      "title": "Blog: Getting the Most from Walta Support",
+      "content": "\ud83d\udee1\ufe0f NEW BLOG - Your Complete Walta Support Guide\n\nDiscover how Walta supports you across all EthioBiz pillars:\n\n\ud83d\udcd6 Chapter 1: Getting Started with Walta\n\ud83d\udcd6 Chapter 2: Account Security Features\n\ud83d\udcd6 Chapter 3: Using the Helpdesk\n\ud83d\udcd6 Chapter 4: Troubleshooting Common Issues\n\ud83d\udcd6 Chapter 5: Best Practices for Account Protection\n\nRead the guide and maximize your EthioBiz experience.\n\n#Walta #Support #Guide #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w3p4_walta_blog_c793f992.png",
+      "imagePrompt": "Walta Support Blog - Purple shield with helpdesk agent, support documentation, user guide imagery",
+      "expectedOutcome": "Promote Walta support resources, 35K+ impressions, 1.5K+ guide downloads",
+      "cta": "\ud83d\udcd6 Read Full Guide: ${ETHIOBIZ_WEBSITE}/walta/guide\n\ud83d\udcde Support: ${ETHIOBIZ_PHONE}\n\ud83d\udcac Telegram: [TELEGRAM_SUPPORT_LINK]\n\ud83d\udd14 Subscribe: @EthioBiz_Support",
+      "week": 3
+    },
+    {
+      "id": "w3p5",
+      "date": "2026-04-22",
+      "platform": [
+        "telegram",
+        "instagram"
+      ],
+      "pillar": "tibeb",
+      "contentType": "Testimonial",
+      "title": "Tibeb Testimonials - Voices of Faith",
+      "content": "\ud83d\udd4c TIBEB TESTIMONIALS - Voices of Faith\n\nHear from Ethiopians discovering spiritual connection through Tibeb:\n\n\"Tibeb helped me reconnect with my heritage while embracing modern life.\" - Abebe, Addis Ababa\n\n\"The spiritual guidance on Tibeb has transformed my daily practice.\" - Almaz, Dire Dawa\n\n\"Finally, a platform that honors our traditions in the digital age.\" - Dawit, Hawassa\n\n\"I feel part of a global Ethiopian community.\" - Selam, Diaspora\n\nYour story matters. Share your Tibeb experience with us.\n\n#Tibeb #Testimonials #Faith #Community #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w3p5_tibeb_testimonials_d95de739.png",
+      "imagePrompt": "Tibeb testimonials - Golden imagery with diverse Ethiopian faces and spiritual connection elements",
+      "expectedOutcome": "Social proof, 42K+ impressions, 2.2K+ engagements",
+      "cta": "\ud83d\udd4c Share Your Story: ${ETHIOBIZ_WEBSITE}/tibeb\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Join: @Tibeb_Soul",
+      "week": 3
+    },
+    {
+      "id": "w4p1",
+      "date": "2026-04-25",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "general",
+      "contentType": "Explainer Video",
+      "title": "EthioBiz Explainer Video - One Civilization. Many Paths.",
+      "content": "\ud83c\udfac ETHIOBIZ EXPLAINER VIDEO\n\nWatch our comprehensive explainer video to understand the full EthioBiz ecosystem:\n\n\ud83d\udd4c Tibeb - Worship of the Soul\n\ud83e\udde0 Dagu - Knowledge of the Mind\n\ud83d\udcbc Magala - Marketplace of the Body\n\ud83d\udee1\ufe0f Walta - Securing the Self\n\u2764\ufe0f Afocha - Love of the Heart\n\nPlus: DOBiz Smart ERP, Hadeeda BizAI, and more.\n\n3 minutes. Life-changing insights.\n\n#EthioBiz #Explainer #OneEthiopia #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w4p1_explainer_video_3b924c06.png",
+      "imagePrompt": "EthioBiz explainer video - Cinematic overview of all five pillars with modern animation and Ethiopian elements",
+      "expectedOutcome": "Video engagement, 70K+ impressions, 4K+ video views",
+      "cta": "\ud83c\udfac Watch Video: ${ETHIOBIZ_WEBSITE}\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Share: @EthioBiz_Official",
+      "week": 4
+    },
+    {
+      "id": "w4p2",
+      "date": "2026-04-26",
+      "platform": [
+        "instagram",
+        "facebook"
+      ],
+      "pillar": "dagu",
+      "contentType": "Feature Highlight",
+      "title": "Dagu Verified Skill Tree - Earn Your Badge",
+      "content": "\ud83c\udfc6 DAGU VERIFIED SKILL TREE - Earn Your Badge\n\nIntroducing Dagu's Verified Skill Tree\u2014a comprehensive learning pathway to mastery.\n\nComplete courses and earn verified badges:\n\ud83e\udd49 Bronze Badge - Foundational Skills\n\ud83e\udd48 Silver Badge - Intermediate Mastery\n\ud83e\udd47 Gold Badge - Expert Level\n\ud83d\udc8e Platinum Badge - Master Instructor\n\nEach badge is verified and recognized by employers across Ethiopia and beyond.\n\nStart your skill journey today.\n\n#Dagu #Skills #Certification #Learning #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w4p2_dagu_skills_45226141.png",
+      "imagePrompt": "Dagu skill tree - Indigo blue badge system with skill progression and achievement elements",
+      "expectedOutcome": "Skill engagement, 48K+ impressions, 2.5K+ course enrollments",
+      "cta": "\ud83c\udfc6 Start Learning: ${ETHIOBIZ_WEBSITE}/dagu\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcda Browse Courses: [COURSES_LINK]",
+      "week": 4
+    },
+    {
+      "id": "w4p3",
+      "date": "2026-04-27",
+      "platform": [
+        "telegram",
+        "facebook"
+      ],
+      "pillar": "magala",
+      "contentType": "Feature Showcase",
+      "title": "DOBiz Smart Features - Hadeeda BizAI in Action",
+      "content": "\ud83e\udd16 DOBIZ SMART FEATURES - Hadeeda BizAI in Action\n\nHadeeda BizAI transforms how you do business. Watch her in action:\n\n\u2728 Executive Assistant - Manage your calendar and communications\n\ud83d\udca1 Strategy & Content - Create marketing strategies in minutes\n\ud83d\udcb0 Sales Agent - Automate sales flows and close deals\n\ud83d\udcca Asset Management - Control inventories and finances\n\ud83c\udfaf Project Manager - Plan and execute projects flawlessly\n\ud83d\udedf 24/7 Support - Always there when you need help\n\nYour business just got smarter.\n\n#DOBiz #Hadeeda #AI #Business #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w4p3_dobiz_smart_186fe983.png",
+      "imagePrompt": "DOBiz Smart features - Hadeeda BizAI showcase with all six capabilities visualized in modern interface",
+      "expectedOutcome": "Feature awareness, 55K+ impressions, 3K+ engagements",
+      "cta": "\ud83e\udd16 Experience Hadeeda: ${ETHIOBIZ_WEBSITE}/magala\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\ude80 Start Trial: [REGISTER_LINK]",
+      "week": 4
+    },
+    {
+      "id": "w4p4",
+      "date": "2026-04-28",
+      "platform": [
+        "instagram",
+        "facebook"
+      ],
+      "pillar": "magala",
+      "contentType": "Announcement",
+      "title": "Hadeeda BizAI - Your Business Transformation Partner",
+      "content": "\ud83e\udd16 HADEEDA BIZAI - Your Business Transformation Partner\n\nMeet Hadeeda\u2014Ethiopia's most sophisticated business intelligence agent.\n\nHadeeda is trained specifically for the Ethiopian market and understands:\n\ud83c\udf0d Local business culture and practices\n\ud83d\udcbc Multi-industry operations\n\ud83c\udfaf Entrepreneurial challenges\n\ud83d\udcc8 Growth opportunities\n\ud83e\udd1d Community values\n\nShe's not just software. She's your partner in success.\n\nAvailable 24/7. Ready to transform your business.\n\n#Hadeeda #BizAI #Business #Ethiopia #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w4p4_hadeeda_bizai_42b36fc6.png",
+      "imagePrompt": "Hadeeda BizAI - Sophisticated AI agent imagery with Ethiopian business elements and modern technology",
+      "expectedOutcome": "Hadeeda awareness, 52K+ impressions, 2.8K+ engagements",
+      "cta": "\ud83e\udd16 Meet Hadeeda: ${ETHIOBIZ_WEBSITE}/magala\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Chat Now: [HADEEDA_CHAT]",
+      "week": 4
+    },
+    {
+      "id": "w4p5",
+      "date": "2026-04-29",
+      "platform": [
+        "telegram",
+        "instagram"
+      ],
+      "pillar": "afocha",
+      "contentType": "Launch Teaser",
+      "title": "Afocha Coming Soon - Love of the Heart",
+      "content": "\u2764\ufe0f AFOCHA COMING SOON - Love of the Heart\n\nThe final pillar is almost here. Afocha\u2014Love of the Heart\u2014is launching next week.\n\nGet ready for:\n\ud83d\udc9d Community Connection Tools\n\ud83e\udd1d Collective Support Features\n\u2764\ufe0f Shared Values Platform\n\ud83c\udf0d Global Community Network\n\nAfocha will transform how we connect, support, and grow together.\n\nMark your calendars. The heart of EthioBiz is coming.\n\n#Afocha #Community #Love #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w4p5_afocha_launch_4434d14c.png",
+      "imagePrompt": "Afocha launch teaser - Red heart imagery with anticipation elements and community connection symbols",
+      "expectedOutcome": "Anticipation building, 45K+ impressions, 2.2K+ engagements",
+      "cta": "\u2764\ufe0f Get Ready: ${ETHIOBIZ_WEBSITE}/afocha\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udd14 Notify Me: [NOTIFY_LINK]",
+      "week": 4
+    },
+    {
+      "id": "w4p6",
+      "date": "2026-04-30",
+      "platform": [
+        "facebook",
+        "instagram"
+      ],
+      "pillar": "tibeb",
+      "contentType": "Live Event",
+      "title": "Tibeb Live Q&A - Ask the Experts",
+      "content": "\ud83d\udd4c TIBEB LIVE Q&A - Ask the Experts\n\nJoin us for a live Q&A session with Tibeb experts and spiritual leaders.\n\nTopics:\n\ud83d\udd4c Preserving Ethiopian spiritual heritage in the digital age\n\ud83d\ude4f Integrating traditional wisdom with modern life\n\ud83d\udcab Building spiritual community online\n\ud83c\udf1f The role of faith in entrepreneurship\n\nLive on Facebook & Instagram\nTime: [TIME_TO_BE_ANNOUNCED]\n\nYour questions. Expert answers. Live.\n\n#Tibeb #LiveQA #Spirituality #Heritage #EthioBiz #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w4p6_tibeb_live_qa_879517a8.png",
+      "imagePrompt": "Tibeb live Q&A - Golden imagery with spiritual leaders and live event elements",
+      "expectedOutcome": "Live engagement, 50K+ impressions, 3K+ live viewers",
+      "cta": "\ud83d\udd4c Join Live: ${ETHIOBIZ_WEBSITE}/live\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Ask Question: [LIVE_LINK]",
+      "week": 4
+    },
+    {
+      "id": "w4p7",
+      "date": "2026-05-01",
+      "platform": [
+        "telegram",
+        "facebook",
+        "instagram"
+      ],
+      "pillar": "general",
+      "contentType": "Campaign Recap",
+      "title": "\ud83c\udf89 Campaign Recap - One Month of Transformation",
+      "content": "\ud83c\udf89 CAMPAIGN RECAP - One Month of Transformation\n\nWhat an incredible journey! In just one month, we've launched EthioBiz and touched millions of lives.\n\nCampaign Highlights:\n\ud83d\udcca 1M+ Impressions\n\ud83e\udd1d 50K+ Engagements\n\ud83d\ude80 25K+ Website Visits\n\ud83d\udcbc 500+ DOBiz ERP Signups\n\ud83d\udd4c Tibeb Community: 15K+ Members\n\ud83e\udde0 Dagu Learners: 12K+ Enrolled\n\ud83d\udcb0 Magala Businesses: 50+ Active\n\ud83d\udee1\ufe0f Walta Users: 8K+ Secured\n\u2764\ufe0f Afocha Ready: Launch Next Week\n\nThank you for being part of this vision.\n\n#EthioBizCampaign #OneEthiopia #DigitalFuture #InShaAllah",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663514420600/4rkb9Du77yDf2a5ivFHFXC/ethiobiz_w4p7_recap_a1fa84e8.png",
+      "imagePrompt": "Campaign recap - Celebratory imagery with all five pillars, statistics, and success elements",
+      "expectedOutcome": "Campaign closure, 80K+ impressions, 4K+ engagements",
+      "cta": "\ud83d\ude80 Continue Journey: ${ETHIOBIZ_WEBSITE}\n\ud83d\udcde ${ETHIOBIZ_PHONE}\n\ud83d\udcac Join: @EthioBiz_Official",
+      "week": 4
+    }
+  ]
+}

@@ -9,7 +9,7 @@
    "label": "Lead Acquisition Trend"
   }
  ],
- "content": "[{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Campaign Dashboard\",\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"Strategic Planning\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Plan\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Strategy\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Persona\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Campaign Execution\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Campaign\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Campaign Pillar\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Campaign Target\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Social Media Actions\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Social Media Account\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Social Media Post\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Publishing Queue\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Analytics & Tracking\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Post Engagement\",\"col\":6}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing KPI\",\"col\":6}},{\"type\":\"header\",\"data\":{\"text\":\"Funnel & Automation\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Funnel\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Workflow\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead Scoring Rule\",\"col\":4}}]",
+ "content": "[{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Campaign Dashboard\",\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"Strategic Planning\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Plan\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Strategy\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Persona\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Campaign Execution\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Campaign\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Campaign Pillar\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Campaign Target\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Social Media Actions\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Social Media Account\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Social Media Post\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Publishing Queue\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Analytics & Tracking\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Post Engagement\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing KPI\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead Score Log\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Funnel & Automation\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Funnel\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Marketing Workflow\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead Scoring Rule\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Key Reports\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Campaign Performance\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Budget vs Actual\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Funnel Analytics\",\"col\":4}}]",
  "creation": "2026-02-17 18:00:00.000000",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -152,14 +152,19 @@
    "link_to": "Post Engagement"
   },
   {
-   "label": "Marketing Funnel",
-   "type": "DocType",
-   "link_to": "Marketing Funnel"
-  },
-  {
    "label": "Marketing KPI",
    "type": "DocType",
    "link_to": "Marketing KPI"
+  },
+  {
+   "label": "Lead Score Log",
+   "type": "DocType",
+   "link_to": "Lead Score Log"
+  },
+  {
+   "label": "Marketing Funnel",
+   "type": "DocType",
+   "link_to": "Marketing Funnel"
   },
   {
    "label": "Marketing Workflow",
@@ -170,6 +175,21 @@
    "label": "Lead Scoring Rule",
    "type": "DocType",
    "link_to": "Lead Scoring Rule"
+  },
+  {
+   "label": "Campaign Performance",
+   "type": "Report",
+   "link_to": "Campaign Performance"
+  },
+  {
+   "label": "Budget vs Actual",
+   "type": "Report",
+   "link_to": "Budget vs Actual"
+  },
+  {
+   "label": "Funnel Analytics",
+   "type": "Report",
+   "link_to": "Funnel Analytics"
   }
  ],
  "title": "Marketing"
