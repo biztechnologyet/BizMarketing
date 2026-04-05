@@ -263,6 +263,7 @@
  "modified_by": "Administrator",
  "module": "Marketing",
  "name": "Marketing Campaign",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
