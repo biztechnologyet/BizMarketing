@@ -1,127 +1,144 @@
 {
-    "actions": [],
-    "creation": "2026-02-17 18:00:00.000000",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "kpi_name",
-        "kpi_category",
-        "target_value",
-        "actual_value",
-        "unit",
-        "detailed_metrics_section",
-        "impressions",
-        "views",
-        "clicks",
-        "engagement_score",
-        "conversions",
-        "monitoring_section",
-        "frequency",
-        "last_checked"
-    ],
-    "fields": [
-        {
-            "fieldname": "kpi_name",
-            "fieldtype": "Data",
-            "in_list_view": 1,
-            "label": "KPI Name",
-            "reqd": 1
-        },
-        {
-            "fieldname": "kpi_category",
-            "fieldtype": "Select",
-            "in_list_view": 1,
-            "label": "Category",
-            "options": "Awareness\nEngagement\nLead Generation\nConversion\nRetention"
-        },
-        {
-            "fieldname": "target_value",
-            "fieldtype": "Float",
-            "in_list_view": 1,
-            "label": "Target Value (Total)",
-            "reqd": 1
-        },
-        {
-            "fieldname": "actual_value",
-            "fieldtype": "Float",
-            "in_list_view": 1,
-            "label": "Actual Value (Total)"
-        },
-        {
-            "default": "Number",
-            "fieldname": "unit",
-            "fieldtype": "Select",
-            "label": "Unit",
-            "options": "Number\nPercentage\nCurrency"
-        },
-        {
-            "fieldname": "detailed_metrics_section",
-            "fieldtype": "Section Break",
-            "label": "Detailed Performance Tracking"
-        },
-        {
-            "fieldname": "impressions",
-            "fieldtype": "Int",
-            "label": "Impressions"
-        },
-        {
-            "fieldname": "views",
-            "fieldtype": "Int",
-            "label": "Views"
-        },
-        {
-            "fieldname": "clicks",
-            "fieldtype": "Int",
-            "label": "Clicks"
-        },
-        {
-            "fieldname": "engagement_score",
-            "fieldtype": "Percent",
-            "label": "Engagement Rate / Score"
-        },
-        {
-            "fieldname": "conversions",
-            "fieldtype": "Int",
-            "label": "Conversions"
-        },
-        {
-            "fieldname": "monitoring_section",
-            "fieldtype": "Section Break",
-            "label": "Monitoring"
-        },
-        {
-            "default": "Daily",
-            "fieldname": "frequency",
-            "fieldtype": "Select",
-            "label": "Frequency",
-            "options": "Daily\nWeekly\nMonthly\nQuarterly"
-        },
-        {
-            "fieldname": "last_checked",
-            "fieldtype": "Date",
-            "label": "Last Checked"
-        }
-    ],
-    "modified": "2026-02-17 18:00:00.000000",
-    "modified_by": "Administrator",
-    "module": "Analytics",
-    "name": "Marketing KPI",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "track_changes": 1
+ "actions": [],
+ "creation": "2026-02-17 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "kpi_name",
+  "company",
+  "kpi_category",
+  "target_value",
+  "actual_value",
+  "unit",
+  "detailed_metrics_section",
+  "impressions",
+  "views",
+  "clicks",
+  "engagement_score",
+  "conversions",
+  "monitoring_section",
+  "frequency",
+  "last_checked",
+  "employee"
+ ],
+ "fields": [
+  {
+   "fieldname": "kpi_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "KPI Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "kpi_category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Category",
+   "options": "Awareness\nEngagement\nLead Generation\nConversion\nRetention"
+  },
+  {
+   "fieldname": "target_value",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Target Value (Total)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "actual_value",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Actual Value (Total)"
+  },
+  {
+   "default": "Number",
+   "fieldname": "unit",
+   "fieldtype": "Select",
+   "label": "Unit",
+   "options": "Number\nPercentage\nCurrency"
+  },
+  {
+   "fieldname": "detailed_metrics_section",
+   "fieldtype": "Section Break",
+   "label": "Detailed Performance Tracking"
+  },
+  {
+   "fieldname": "impressions",
+   "fieldtype": "Int",
+   "label": "Impressions"
+  },
+  {
+   "fieldname": "views",
+   "fieldtype": "Int",
+   "label": "Views"
+  },
+  {
+   "fieldname": "clicks",
+   "fieldtype": "Int",
+   "label": "Clicks"
+  },
+  {
+   "fieldname": "engagement_score",
+   "fieldtype": "Percent",
+   "label": "Engagement Rate / Score"
+  },
+  {
+   "fieldname": "conversions",
+   "fieldtype": "Int",
+   "label": "Conversions"
+  },
+  {
+   "fieldname": "monitoring_section",
+   "fieldtype": "Section Break",
+   "label": "Monitoring"
+  },
+  {
+   "default": "Daily",
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "Daily\nWeekly\nMonthly\nQuarterly"
+  },
+  {
+   "fieldname": "last_checked",
+   "fieldtype": "Date",
+   "label": "Last Checked"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Responsible Employee",
+   "options": "Employee"
+  }
+ ],
+ "modified": "2026-02-17 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Marketing KPI",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
 }

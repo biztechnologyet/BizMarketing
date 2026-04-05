@@ -1,77 +1,87 @@
 {
-    "actions": [],
-    "creation": "2026-02-17 18:00:00.000000",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "persona_name",
-        "description",
-        "audience_details_section",
-        "pain_points",
-        "preferences",
-        "channels_section",
-        "preferred_channels"
-    ],
-    "fields": [
-        {
-            "fieldname": "persona_name",
-            "fieldtype": "Data",
-            "in_list_view": 1,
-            "label": "Persona Name",
-            "reqd": 1
-        },
-        {
-            "fieldname": "description",
-            "fieldtype": "Small Text",
-            "label": "Description"
-        },
-        {
-            "fieldname": "audience_details_section",
-            "fieldtype": "Section Break",
-            "label": "Audience Deep-Dive"
-        },
-        {
-            "fieldname": "pain_points",
-            "fieldtype": "Text Editor",
-            "label": "Pain Points & Motivations"
-        },
-        {
-            "fieldname": "preferences",
-            "fieldtype": "Text Editor",
-            "label": "Preferences & Cultural Nuance"
-        },
-        {
-            "fieldname": "channels_section",
-            "fieldtype": "Section Break",
-            "label": "Channels"
-        },
-        {
-            "fieldname": "preferred_channels",
-            "fieldtype": "Table MultiSelect",
-            "label": "Preferred Channels",
-            "options": "Channel"
-        }
-    ],
-    "modified": "2026-02-17 18:00:00.000000",
-    "modified_by": "Administrator",
-    "module": "Marketing Operations",
-    "name": "Marketing Persona",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "track_changes": 1
+ "actions": [],
+ "creation": "2026-02-17 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "persona_name",
+  "company",
+  "description",
+  "audience_details_section",
+  "pain_points",
+  "preferences",
+  "channels_section",
+  "preferred_channels"
+ ],
+ "fields": [
+  {
+   "fieldname": "persona_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Persona Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "audience_details_section",
+   "fieldtype": "Section Break",
+   "label": "Audience Deep-Dive"
+  },
+  {
+   "fieldname": "pain_points",
+   "fieldtype": "Text Editor",
+   "label": "Pain Points & Motivations"
+  },
+  {
+   "fieldname": "preferences",
+   "fieldtype": "Text Editor",
+   "label": "Preferences & Cultural Nuance"
+  },
+  {
+   "fieldname": "channels_section",
+   "fieldtype": "Section Break",
+   "label": "Channels"
+  },
+  {
+   "fieldname": "preferred_channels",
+   "fieldtype": "Table MultiSelect",
+   "label": "Preferred Channels",
+   "options": "Channel"
+  }
+ ],
+ "modified": "2026-02-17 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Marketing Persona",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
 }

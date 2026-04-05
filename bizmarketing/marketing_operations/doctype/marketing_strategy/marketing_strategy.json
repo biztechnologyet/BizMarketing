@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "company",
   "location",
   "status",
   "usage_section",
@@ -41,7 +42,8 @@
   "execution_plan_section",
   "phase_1_plan",
   "phase_2_plan",
-  "phase_3_plan"
+  "phase_3_plan",
+  "item_group"
  ],
  "fields": [
   {
@@ -50,6 +52,15 @@
    "in_list_view": 1,
    "label": "Strategy Title",
    "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
    "fieldname": "location",
@@ -237,13 +248,19 @@
    "fieldname": "phase_3_plan",
    "fieldtype": "Small Text",
    "label": "Phase 3 Activity"
+  },
+  {
+   "fieldname": "item_group",
+   "fieldtype": "Link",
+   "label": "Item Group",
+   "options": "Item Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
  "modified": "2026-02-17 18:00:00.000000",
  "modified_by": "Administrator",
- "module": "Marketing Operations",
+ "module": "Marketing",
  "name": "Marketing Strategy",
  "owner": "Administrator",
  "permissions": [
@@ -260,17 +277,17 @@
    "write": 1
   },
   {
-    "create": 1,
-    "delete": 1,
-    "email": 1,
-    "export": 1,
-    "print": 1,
-    "read": 1,
-    "report": 1,
-    "role": "Marketing Manager",
-    "share": 1,
-    "write": 1
-   }
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Marketing Manager",
+   "share": 1,
+   "write": 1
+  }
  ],
  "sort_field": "modified",
  "sort_order": "DESC",

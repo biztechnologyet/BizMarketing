@@ -1,0 +1,159 @@
+{
+ "actions": [],
+ "autoname": "PE-.####",
+ "creation": "2026-04-05 17:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "social_media_post",
+  "company",
+  "platform",
+  "platform_post_id",
+  "column_break_meta",
+  "snapshot_time",
+  "engagement_metrics_section",
+  "impressions",
+  "reach",
+  "engagements",
+  "engagement_rate",
+  "column_break_metrics",
+  "clicks",
+  "shares",
+  "comments_count",
+  "saves",
+  "reactions_section",
+  "reactions"
+ ],
+ "fields": [
+  {
+   "fieldname": "social_media_post",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Social Media Post",
+   "options": "Social Media Post",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Platform",
+   "options": "Telegram\nFacebook\nInstagram\nLinkedIn",
+   "reqd": 1
+  },
+  {
+   "fieldname": "platform_post_id",
+   "fieldtype": "Data",
+   "label": "Platform Post ID"
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "snapshot_time",
+   "fieldtype": "Datetime",
+   "label": "Snapshot Time",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "engagement_metrics_section",
+   "fieldtype": "Section Break",
+   "label": "Engagement Metrics"
+  },
+  {
+   "fieldname": "impressions",
+   "fieldtype": "Int",
+   "label": "Impressions"
+  },
+  {
+   "fieldname": "reach",
+   "fieldtype": "Int",
+   "label": "Reach"
+  },
+  {
+   "fieldname": "engagements",
+   "fieldtype": "Int",
+   "label": "Total Engagements"
+  },
+  {
+   "fieldname": "engagement_rate",
+   "fieldtype": "Percent",
+   "label": "Engagement Rate"
+  },
+  {
+   "fieldname": "column_break_metrics",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "clicks",
+   "fieldtype": "Int",
+   "label": "Clicks"
+  },
+  {
+   "fieldname": "shares",
+   "fieldtype": "Int",
+   "label": "Shares"
+  },
+  {
+   "fieldname": "comments_count",
+   "fieldtype": "Int",
+   "label": "Comments Count"
+  },
+  {
+   "fieldname": "saves",
+   "fieldtype": "Int",
+   "label": "Saves"
+  },
+  {
+   "fieldname": "reactions_section",
+   "fieldtype": "Section Break",
+   "label": "Detailed Reactions"
+  },
+  {
+   "fieldname": "reactions",
+   "fieldtype": "Small Text",
+   "label": "Reactions JSON",
+   "description": "E.g. {\"like\": 10, \"love\": 5}"
+  }
+ ],
+ "modified": "2026-04-05 17:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Post Engagement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Marketing User",
+   "write": 1
+  }
+ ],
+ "sort_field": "snapshot_time",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

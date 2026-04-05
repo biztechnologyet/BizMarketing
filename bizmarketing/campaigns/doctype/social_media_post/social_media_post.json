@@ -1,233 +1,372 @@
 {
-    "actions": [],
-    "creation": "2026-02-17 18:00:00.000000",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "title",
-        "status",
-        "platform",
-        "language",
-        "scheduled_time",
-        "promotion_date",
-        "content_section",
-        "content",
-        "media",
-        "content_purpose",
-        "alignment",
-        "seo_section",
-        "keywords",
-        "seo_intent",
-        "insight",
-        "audience_section",
-        "target_persona",
-        "pain_points",
-        "audience_preferences",
-        "campaign_section",
-        "campaign",
-        "paid_ads_section",
-        "paid_ads_budget",
-        "paid_ads_seo",
-        "performance_section",
-        "impressions",
-        "clicks",
-        "conversions",
-        "optimization_section",
-        "optimization_actions",
-        "optimization_learnings"
-    ],
-    "fields": [
-        {
-            "fieldname": "title",
-            "fieldtype": "Data",
-            "in_list_view": 1,
-            "label": "Post Title",
-            "reqd": 1
-        },
-        {
-            "default": "Draft",
-            "fieldname": "status",
-            "fieldtype": "Select",
-            "in_list_view": 1,
-            "label": "Status",
-            "options": "Draft\nPending Review\nScheduled\nPosted\nFailed",
-            "reqd": 1
-        },
-        {
-            "fieldname": "platform",
-            "fieldtype": "Select",
-            "in_list_view": 1,
-            "label": "Platform",
-            "options": "LinkedIn\nTwitter\nFacebook\nInstagram\nTelegram\nBlog",
-            "reqd": 1
-        },
-        {
-            "default": "English",
-            "fieldname": "language",
-            "fieldtype": "Select",
-            "label": "Language",
-            "options": "English\nAmharic\nOromo\nArabic\nFrench"
-        },
-        {
-            "fieldname": "scheduled_time",
-            "fieldtype": "Datetime",
-            "in_list_view": 1,
-            "label": "Scheduled Time"
-        },
-        {
-            "fieldname": "promotion_date",
-            "fieldtype": "Date",
-            "label": "Promotion Date"
-        },
-        {
-            "fieldname": "content_section",
-            "fieldtype": "Section Break",
-            "label": "Content"
-        },
-        {
-            "fieldname": "content",
-            "fieldtype": "Text Editor",
-            "label": "Post Content"
-        },
-        {
-            "fieldname": "media",
-            "fieldtype": "Attach Image",
-            "label": "Image/Video"
-        },
-        {
-            "fieldname": "content_purpose",
-            "fieldtype": "Small Text",
-            "label": "Content Purpose / Goal"
-        },
-        {
-            "fieldname": "alignment",
-            "fieldtype": "Data",
-            "label": "Alignment"
-        },
-        {
-            "fieldname": "seo_section",
-            "fieldtype": "Section Break",
-            "label": "SEO & Strategy"
-        },
-        {
-            "fieldname": "keywords",
-            "fieldtype": "Data",
-            "label": "Target Keywords"
-        },
-        {
-            "fieldname": "seo_intent",
-            "fieldtype": "Select",
-            "label": "Search Intent",
-            "options": "Informational\nNavigational\nCommercial\nTransactional"
-        },
-        {
-            "fieldname": "insight",
-            "fieldtype": "Small Text",
-            "label": "SEO Insight"
-        },
-        {
-            "fieldname": "audience_section",
-            "fieldtype": "Section Break",
-            "label": "Audience"
-        },
-        {
-            "fieldname": "target_persona",
-            "fieldtype": "Link",
-            "label": "Target Persona",
-            "options": "Marketing Persona"
-        },
-        {
-            "fieldname": "pain_points",
-            "fieldtype": "Small Text",
-            "label": "Pain Points"
-        },
-        {
-            "fieldname": "audience_preferences",
-            "fieldtype": "Small Text",
-            "label": "Preferences"
-        },
-        {
-            "fieldname": "campaign_section",
-            "fieldtype": "Section Break",
-            "label": "Campaign Link"
-        },
-        {
-            "fieldname": "campaign",
-            "fieldtype": "Link",
-            "label": "Campaign",
-            "options": "Marketing Campaign"
-        },
-        {
-            "fieldname": "paid_ads_section",
-            "fieldtype": "Section Break",
-            "label": "Paid Ads"
-        },
-        {
-            "fieldname": "paid_ads_budget",
-            "fieldtype": "Data",
-            "label": "Paid Ads Budget"
-        },
-        {
-            "fieldname": "paid_ads_seo",
-            "fieldtype": "Data",
-            "label": "Paid Ads SEO Strategy"
-        },
-        {
-            "fieldname": "performance_section",
-            "fieldtype": "Section Break",
-            "label": "Performance Tracking"
-        },
-        {
-            "fieldname": "impressions",
-            "fieldtype": "Int",
-            "label": "Expected Impressions"
-        },
-        {
-            "fieldname": "clicks",
-            "fieldtype": "Int",
-            "label": "Expected Clicks"
-        },
-        {
-            "fieldname": "conversions",
-            "fieldtype": "Int",
-            "label": "Expected Conversions"
-        },
-        {
-            "fieldname": "optimization_section",
-            "fieldtype": "Section Break",
-            "label": "Optimization"
-        },
-        {
-            "fieldname": "optimization_actions",
-            "fieldtype": "Small Text",
-            "label": "Optimization Actions"
-        },
-        {
-            "fieldname": "optimization_learnings",
-            "fieldtype": "Small Text",
-            "label": "Learnings"
-        }
-    ],
-    "modified": "2026-02-17 18:00:00.000000",
-    "modified_by": "Administrator",
-    "module": "Campaigns",
-    "name": "Social Media Post",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "scheduled_time",
-    "sort_order": "DESC",
-    "track_changes": 1
+ "actions": [],
+ "autoname": "SMP-.####",
+ "creation": "2026-02-17 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "company",
+  "status",
+  "approval_status",
+  "platform",
+  "language",
+  "column_break_meta",
+  "pillar",
+  "content_type",
+  "week",
+  "scheduled_time",
+  "promotion_date",
+  "content_section",
+  "content",
+  "media",
+  "image_url",
+  "content_purpose",
+  "alignment",
+  "cta",
+  "expected_outcome",
+  "seo_section",
+  "keywords",
+  "seo_intent",
+  "insight",
+  "audience_section",
+  "target_persona",
+  "pain_points",
+  "audience_preferences",
+  "campaign_section",
+  "campaign",
+  "item",
+  "publishing_section",
+  "auto_publish",
+  "column_break_pub",
+  "approved_by",
+  "approved_on",
+  "published_time",
+  "platform_post_ids",
+  "publish_error",
+  "paid_ads_section",
+  "paid_ads_budget",
+  "paid_ads_seo",
+  "performance_section",
+  "impressions",
+  "clicks",
+  "conversions",
+  "optimization_section",
+  "optimization_actions",
+  "optimization_learnings"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Post Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nApproved\nScheduled\nPosted\nFailed",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "approval_status",
+   "fieldtype": "Select",
+   "label": "Approval Status",
+   "options": "Draft\nApproved",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Platforms",
+   "reqd": 1,
+   "description": "Comma-separated: Telegram,Facebook,Instagram,LinkedIn"
+  },
+  {
+   "default": "English",
+   "fieldname": "language",
+   "fieldtype": "Select",
+   "label": "Language",
+   "options": "English\nAmharic\nOromo\nArabic\nFrench"
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pillar",
+   "fieldtype": "Link",
+   "label": "Campaign Pillar",
+   "options": "Campaign Pillar",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "content_type",
+   "fieldtype": "Select",
+   "label": "Content Type",
+   "options": "\nVision Statement\nPillar Introduction\nFeature Highlight\nTestimonial\nPoll\nBlog\nVideo Teaser\nExplainer\nAnnouncement\nCommunity Story\nSupport Feature\nInfographic\nBehind-the-Scenes\nUser Story"
+  },
+  {
+   "fieldname": "week",
+   "fieldtype": "Int",
+   "label": "Campaign Week"
+  },
+  {
+   "fieldname": "scheduled_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Scheduled Time"
+  },
+  {
+   "fieldname": "promotion_date",
+   "fieldtype": "Date",
+   "label": "Promotion Date"
+  },
+  {
+   "fieldname": "content_section",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "content",
+   "fieldtype": "Text Editor",
+   "label": "Post Content"
+  },
+  {
+   "fieldname": "media",
+   "fieldtype": "Attach Image",
+   "label": "Image/Video"
+  },
+  {
+   "fieldname": "image_url",
+   "fieldtype": "Data",
+   "label": "Image URL (CDN)",
+   "options": "URL"
+  },
+  {
+   "fieldname": "content_purpose",
+   "fieldtype": "Small Text",
+   "label": "Content Purpose / Goal"
+  },
+  {
+   "fieldname": "alignment",
+   "fieldtype": "Data",
+   "label": "Alignment"
+  },
+  {
+   "fieldname": "cta",
+   "fieldtype": "Small Text",
+   "label": "Call to Action"
+  },
+  {
+   "fieldname": "expected_outcome",
+   "fieldtype": "Small Text",
+   "label": "Expected Outcome"
+  },
+  {
+   "fieldname": "seo_section",
+   "fieldtype": "Section Break",
+   "label": "SEO & Strategy"
+  },
+  {
+   "fieldname": "keywords",
+   "fieldtype": "Data",
+   "label": "Target Keywords"
+  },
+  {
+   "fieldname": "seo_intent",
+   "fieldtype": "Select",
+   "label": "Search Intent",
+   "options": "Informational\nNavigational\nCommercial\nTransactional"
+  },
+  {
+   "fieldname": "insight",
+   "fieldtype": "Small Text",
+   "label": "SEO Insight"
+  },
+  {
+   "fieldname": "audience_section",
+   "fieldtype": "Section Break",
+   "label": "Audience"
+  },
+  {
+   "fieldname": "target_persona",
+   "fieldtype": "Link",
+   "label": "Target Persona",
+   "options": "Marketing Persona"
+  },
+  {
+   "fieldname": "pain_points",
+   "fieldtype": "Small Text",
+   "label": "Pain Points"
+  },
+  {
+   "fieldname": "audience_preferences",
+   "fieldtype": "Small Text",
+   "label": "Preferences"
+  },
+  {
+   "fieldname": "campaign_section",
+   "fieldtype": "Section Break",
+   "label": "Campaign & Product"
+  },
+  {
+   "fieldname": "campaign",
+   "fieldtype": "Link",
+   "label": "Campaign",
+   "options": "Marketing Campaign"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item (Product)",
+   "options": "Item",
+   "description": "ERPNext Item being promoted"
+  },
+  {
+   "fieldname": "publishing_section",
+   "fieldtype": "Section Break",
+   "label": "Publishing & Approval"
+  },
+  {
+   "fieldname": "auto_publish",
+   "fieldtype": "Check",
+   "label": "Auto-Publish When Approved",
+   "default": "0"
+  },
+  {
+   "fieldname": "column_break_pub",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "published_time",
+   "fieldtype": "Datetime",
+   "label": "Published Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "platform_post_ids",
+   "fieldtype": "Small Text",
+   "label": "Platform Post IDs",
+   "read_only": 1,
+   "description": "JSON: {\"telegram\": \"123\", \"facebook\": \"456\"}"
+  },
+  {
+   "fieldname": "publish_error",
+   "fieldtype": "Small Text",
+   "label": "Publish Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "paid_ads_section",
+   "fieldtype": "Section Break",
+   "label": "Paid Ads"
+  },
+  {
+   "fieldname": "paid_ads_budget",
+   "fieldtype": "Currency",
+   "label": "Paid Ads Budget"
+  },
+  {
+   "fieldname": "paid_ads_seo",
+   "fieldtype": "Data",
+   "label": "Paid Ads SEO Strategy"
+  },
+  {
+   "fieldname": "performance_section",
+   "fieldtype": "Section Break",
+   "label": "Performance Tracking"
+  },
+  {
+   "fieldname": "impressions",
+   "fieldtype": "Int",
+   "label": "Expected Impressions"
+  },
+  {
+   "fieldname": "clicks",
+   "fieldtype": "Int",
+   "label": "Expected Clicks"
+  },
+  {
+   "fieldname": "conversions",
+   "fieldtype": "Int",
+   "label": "Expected Conversions"
+  },
+  {
+   "fieldname": "optimization_section",
+   "fieldtype": "Section Break",
+   "label": "Optimization"
+  },
+  {
+   "fieldname": "optimization_actions",
+   "fieldtype": "Small Text",
+   "label": "Optimization Actions"
+  },
+  {
+   "fieldname": "optimization_learnings",
+   "fieldtype": "Small Text",
+   "label": "Learnings"
+  }
+ ],
+ "modified": "2026-04-05 17:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Social Media Post",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Marketing User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "scheduled_time",
+ "sort_order": "DESC",
+ "track_changes": 1
 }

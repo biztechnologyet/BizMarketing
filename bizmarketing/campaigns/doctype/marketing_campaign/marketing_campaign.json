@@ -1,217 +1,296 @@
 {
-    "actions": [],
-    "creation": "2026-02-17 18:00:00.000000",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "title",
-        "status",
-        "type",
-        "strategy",
-        "campaign_objective_section",
-        "primary_objective",
-        "campaign_theme",
-        "target_persona",
-        "audience_channels",
-        "audience_kpis",
-        "campaign_mix_section",
-        "product_particulars",
-        "price_particulars",
-        "campaign_channels",
-        "promotion_particulars",
-        "budget_section",
-        "budget",
-        "actual_spend",
-        "budget_allocation",
-        "contingency_budget",
-        "schedule_section",
-        "start_date",
-        "end_date",
-        "execution_plan_section",
-        "pre_launch",
-        "launch",
-        "monitor"
-    ],
-    "fields": [
-        {
-            "fieldname": "title",
-            "fieldtype": "Data",
-            "in_list_view": 1,
-            "label": "Campaign Title",
-            "reqd": 1
-        },
-        {
-            "default": "Planned",
-            "fieldname": "status",
-            "fieldtype": "Select",
-            "in_list_view": 1,
-            "label": "Status",
-            "options": "Planned\nActive\nCompleted\nCancelled",
-            "reqd": 1
-        },
-        {
-            "fieldname": "type",
-            "fieldtype": "Select",
-            "label": "Campaign Type",
-            "options": "Social Media\nEmail\nEvent\nPPC\nContent\nOther",
-            "reqd": 1
-        },
-        {
-            "fieldname": "strategy",
-            "fieldtype": "Link",
-            "label": "Linked Strategy",
-            "options": "Marketing Strategy"
-        },
-        {
-            "fieldname": "campaign_objective_section",
-            "fieldtype": "Section Break",
-            "label": "Objectives & Themes"
-        },
-        {
-            "fieldname": "primary_objective",
-            "fieldtype": "Small Text",
-            "label": "Primary Objective"
-        },
-        {
-            "fieldname": "campaign_theme",
-            "fieldtype": "Data",
-            "label": "Campaign Theme"
-        },
-        {
-            "fieldname": "target_persona",
-            "fieldtype": "Link",
-            "label": "Target Persona",
-            "options": "Marketing Persona"
-        },
-        {
-            "fieldname": "audience_channels",
-            "fieldtype": "Data",
-            "label": "Audience Channels"
-        },
-        {
-            "fieldname": "audience_kpis",
-            "fieldtype": "Small Text",
-            "label": "Audience KPIs"
-        },
-        {
-            "fieldname": "campaign_mix_section",
-            "fieldtype": "Section Break",
-            "label": "Campaign Mix Details"
-        },
-        {
-            "fieldname": "product_particulars",
-            "fieldtype": "Small Text",
-            "label": "Product Particulars"
-        },
-        {
-            "fieldname": "price_particulars",
-            "fieldtype": "Small Text",
-            "label": "Price Details"
-        },
-        {
-            "fieldname": "campaign_channels",
-            "fieldtype": "Data",
-            "label": "Campaign Channels"
-        },
-        {
-            "fieldname": "promotion_particulars",
-            "fieldtype": "Small Text",
-            "label": "Promotion Particulars"
-        },
-        {
-            "fieldname": "budget_section",
-            "fieldtype": "Section Break",
-            "label": "Financials"
-        },
-        {
-            "fieldname": "budget",
-            "fieldtype": "Currency",
-            "label": "Allocated Budget"
-        },
-        {
-            "fieldname": "actual_spend",
-            "fieldtype": "Currency",
-            "label": "Actual Spend",
-            "read_only": 1
-        },
-        {
-            "fieldname": "budget_allocation",
-            "fieldtype": "Small Text",
-            "label": "Budget Allocation Details"
-        },
-        {
-            "fieldname": "contingency_budget",
-            "fieldtype": "Currency",
-            "label": "Contingency Budget"
-        },
-        {
-            "fieldname": "schedule_section",
-            "fieldtype": "Section Break",
-            "label": "Schedule"
-        },
-        {
-            "fieldname": "start_date",
-            "fieldtype": "Date",
-            "label": "Start Date"
-        },
-        {
-            "fieldname": "end_date",
-            "fieldtype": "Date",
-            "label": "End Date"
-        },
-        {
-            "fieldname": "execution_plan_section",
-            "fieldtype": "Section Break",
-            "label": "Execution Plan"
-        },
-        {
-            "fieldname": "pre_launch",
-            "fieldtype": "Small Text",
-            "label": "Pre-launch Stage"
-        },
-        {
-            "fieldname": "launch",
-            "fieldtype": "Small Text",
-            "label": "Launch Stage"
-        },
-        {
-            "fieldname": "monitor",
-            "fieldtype": "Small Text",
-            "label": "Monitoring Stage"
-        }
-    ],
-    "modified": "2026-02-17 18:00:00.000000",
-    "modified_by": "Administrator",
-    "module": "Campaigns",
-    "name": "Marketing Campaign",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        },
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "Marketing User",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "track_changes": 1
+ "actions": [],
+ "autoname": "MC-.####",
+ "creation": "2026-02-17 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "company",
+  "campaign_id",
+  "status",
+  "type",
+  "strategy",
+  "campaign_pillar",
+  "column_break_info",
+  "languages",
+  "week_count",
+  "total_posts",
+  "published_posts",
+  "campaign_objective_section",
+  "primary_objective",
+  "campaign_theme",
+  "target_persona",
+  "audience_channels",
+  "audience_kpis",
+  "campaign_mix_section",
+  "product_particulars",
+  "price_particulars",
+  "campaign_channels",
+  "promotion_particulars",
+  "budget_section",
+  "budget",
+  "actual_spend",
+  "budget_allocation",
+  "contingency_budget",
+  "cost_center",
+  "schedule_section",
+  "start_date",
+  "end_date",
+  "execution_plan_section",
+  "pre_launch",
+  "launch",
+  "monitor",
+  "erp_section",
+  "project"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Campaign Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "campaign_id",
+   "fieldtype": "Data",
+   "label": "Campaign ID",
+   "unique": 1,
+   "description": "Unique identifier e.g. ethiobiz-2026-q2"
+  },
+  {
+   "default": "Planned",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Planned\nActive\nCompleted\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "label": "Campaign Type",
+   "options": "Social Media\nEmail\nEvent\nPPC\nContent\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "strategy",
+   "fieldtype": "Link",
+   "label": "Linked Strategy",
+   "options": "Marketing Strategy"
+  },
+  {
+   "fieldname": "campaign_pillar",
+   "fieldtype": "Link",
+   "label": "Primary Pillar",
+   "options": "Campaign Pillar",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_info",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "languages",
+   "fieldtype": "Data",
+   "label": "Languages",
+   "description": "e.g. Amharic & English"
+  },
+  {
+   "fieldname": "week_count",
+   "fieldtype": "Int",
+   "label": "Duration (Weeks)"
+  },
+  {
+   "fieldname": "total_posts",
+   "fieldtype": "Int",
+   "label": "Total Posts",
+   "read_only": 1
+  },
+  {
+   "fieldname": "published_posts",
+   "fieldtype": "Int",
+   "label": "Published Posts",
+   "read_only": 1
+  },
+  {
+   "fieldname": "campaign_objective_section",
+   "fieldtype": "Section Break",
+   "label": "Objectives & Themes"
+  },
+  {
+   "fieldname": "primary_objective",
+   "fieldtype": "Small Text",
+   "label": "Primary Objective"
+  },
+  {
+   "fieldname": "campaign_theme",
+   "fieldtype": "Data",
+   "label": "Campaign Theme"
+  },
+  {
+   "fieldname": "target_persona",
+   "fieldtype": "Link",
+   "label": "Target Persona",
+   "options": "Marketing Persona"
+  },
+  {
+   "fieldname": "audience_channels",
+   "fieldtype": "Data",
+   "label": "Audience Channels"
+  },
+  {
+   "fieldname": "audience_kpis",
+   "fieldtype": "Small Text",
+   "label": "Audience KPIs"
+  },
+  {
+   "fieldname": "campaign_mix_section",
+   "fieldtype": "Section Break",
+   "label": "Campaign Mix Details"
+  },
+  {
+   "fieldname": "product_particulars",
+   "fieldtype": "Small Text",
+   "label": "Product Particulars"
+  },
+  {
+   "fieldname": "price_particulars",
+   "fieldtype": "Small Text",
+   "label": "Price Details"
+  },
+  {
+   "fieldname": "campaign_channels",
+   "fieldtype": "Data",
+   "label": "Campaign Channels"
+  },
+  {
+   "fieldname": "promotion_particulars",
+   "fieldtype": "Small Text",
+   "label": "Promotion Particulars"
+  },
+  {
+   "fieldname": "budget_section",
+   "fieldtype": "Section Break",
+   "label": "Financials"
+  },
+  {
+   "fieldname": "budget",
+   "fieldtype": "Currency",
+   "label": "Allocated Budget"
+  },
+  {
+   "fieldname": "actual_spend",
+   "fieldtype": "Currency",
+   "label": "Actual Spend",
+   "read_only": 1
+  },
+  {
+   "fieldname": "budget_allocation",
+   "fieldtype": "Small Text",
+   "label": "Budget Allocation Details"
+  },
+  {
+   "fieldname": "contingency_budget",
+   "fieldtype": "Currency",
+   "label": "Contingency Budget"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "schedule_section",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "execution_plan_section",
+   "fieldtype": "Section Break",
+   "label": "Execution Plan"
+  },
+  {
+   "fieldname": "pre_launch",
+   "fieldtype": "Small Text",
+   "label": "Pre-launch Stage"
+  },
+  {
+   "fieldname": "launch",
+   "fieldtype": "Small Text",
+   "label": "Launch Stage"
+  },
+  {
+   "fieldname": "monitor",
+   "fieldtype": "Small Text",
+   "label": "Monitoring Stage"
+  },
+  {
+   "fieldname": "erp_section",
+   "fieldtype": "Section Break",
+   "label": "ERPNext Integration"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project"
+  }
+ ],
+ "modified": "2026-04-05 17:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Marketing Campaign",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Marketing User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
 }

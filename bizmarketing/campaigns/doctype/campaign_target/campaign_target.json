@@ -1,0 +1,131 @@
+{
+ "actions": [],
+ "autoname": "CT-.####",
+ "creation": "2026-04-05 17:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "campaign",
+  "company",
+  "week",
+  "column_break_target",
+  "target_impressions",
+  "target_engagements",
+  "target_clicks",
+  "target_reach",
+  "column_break_actual",
+  "actual_impressions",
+  "actual_engagements",
+  "actual_clicks",
+  "actual_reach"
+ ],
+ "fields": [
+  {
+   "fieldname": "campaign",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Marketing Campaign",
+   "options": "Marketing Campaign",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "week",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Week Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_target",
+   "fieldtype": "Column Break",
+   "label": "Target (Planned)"
+  },
+  {
+   "fieldname": "target_impressions",
+   "fieldtype": "Int",
+   "label": "Target Impressions"
+  },
+  {
+   "fieldname": "target_engagements",
+   "fieldtype": "Int",
+   "label": "Target Engagements"
+  },
+  {
+   "fieldname": "target_clicks",
+   "fieldtype": "Int",
+   "label": "Target Clicks"
+  },
+  {
+   "fieldname": "target_reach",
+   "fieldtype": "Int",
+   "label": "Target Reach"
+  },
+  {
+   "fieldname": "column_break_actual",
+   "fieldtype": "Column Break",
+   "label": "Actual (Measured)"
+  },
+  {
+   "fieldname": "actual_impressions",
+   "fieldtype": "Int",
+   "label": "Actual Impressions",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_engagements",
+   "fieldtype": "Int",
+   "label": "Actual Engagements",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_clicks",
+   "fieldtype": "Int",
+   "label": "Actual Clicks",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_reach",
+   "fieldtype": "Int",
+   "label": "Actual Reach",
+   "read_only": 1
+  }
+ ],
+ "modified": "2026-04-05 17:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Campaign Target",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Marketing User",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

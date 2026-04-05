@@ -11,6 +11,7 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "company",
   "status",
   "project_id",
   "task_id",
@@ -43,7 +44,8 @@
   "financial_goal",
   "financial_status",
   "funding_section",
-  "funding_requirement"
+  "funding_requirement",
+  "cost_center"
  ],
  "fields": [
   {
@@ -52,6 +54,15 @@
    "in_list_view": 1,
    "label": "Title",
    "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
    "default": "Draft",
@@ -223,13 +234,19 @@
    "fieldname": "funding_requirement",
    "fieldtype": "Currency",
    "label": "Requirement"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
   }
  ],
  "index_pages": [],
  "links": [],
  "modified": "2026-04-03 23:22:00",
  "modified_by": "Administrator",
- "module": "Marketing Operations",
+ "module": "Marketing",
  "name": "Business Plan",
  "owner": "Administrator",
  "permissions": [

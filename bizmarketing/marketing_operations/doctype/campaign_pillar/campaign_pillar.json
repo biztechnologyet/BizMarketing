@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-04-05 17:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "pillar_name",
+  "company",
+  "color",
+  "icon",
+  "column_break_info",
+  "key_message",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "pillar_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pillar Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Color",
+   "label": "Brand Color"
+  },
+  {
+   "fieldname": "icon",
+   "fieldtype": "Data",
+   "label": "Icon",
+   "description": "Emoji or icon class"
+  },
+  {
+   "fieldname": "column_break_info",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "key_message",
+   "fieldtype": "Data",
+   "label": "Key Message",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  }
+ ],
+ "modified": "2026-04-05 17:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Campaign Pillar",
+ "naming_rule": "By fieldname",
+ "autoname": "field:pillar_name",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Marketing User",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

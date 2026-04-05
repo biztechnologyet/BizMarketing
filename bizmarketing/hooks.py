@@ -129,23 +129,19 @@ required_apps = ["frappe", "erpnext"]
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"bizmarketing.tasks.all"
-# 	],
-# 	"daily": [
-# 		"bizmarketing.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"bizmarketing.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"bizmarketing.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"bizmarketing.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"cron": {
+		"*/5 * * * *": [
+			"bizmarketing.tasks.process_publishing_queue"
+		],
+		"0 */6 * * *": [
+			"bizmarketing.tasks.fetch_engagement_metrics"
+		]
+	},
+	"daily": [
+		"bizmarketing.tasks.update_campaign_targets"
+	]
+}
 
 # Testing
 # -------

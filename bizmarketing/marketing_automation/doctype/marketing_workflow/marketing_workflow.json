@@ -1,72 +1,82 @@
 {
-    "actions": [],
-    "creation": "2026-02-17 18:00:00.000000",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "title",
-        "active",
-        "triggers_section",
-        "triggers",
-        "actions_section",
-        "actions"
-    ],
-    "fields": [
-        {
-            "fieldname": "title",
-            "fieldtype": "Data",
-            "label": "Workflow Name",
-            "reqd": 1
-        },
-        {
-            "fieldname": "active",
-            "fieldtype": "Check",
-            "label": "Active",
-            "default": 1
-        },
-        {
-            "fieldname": "triggers_section",
-            "fieldtype": "Section Break",
-            "label": "Triggers"
-        },
-        {
-            "fieldname": "triggers",
-            "fieldtype": "Table",
-            "label": "Triggers",
-            "options": "Workflow Trigger"
-        },
-        {
-            "fieldname": "actions_section",
-            "fieldtype": "Section Break",
-            "label": "Actions"
-        },
-        {
-            "fieldname": "actions",
-            "fieldtype": "Table",
-            "label": "Actions",
-            "options": "Workflow Action"
-        }
-    ],
-    "modified": "2026-02-17 18:00:00.000000",
-    "modified_by": "Administrator",
-    "module": "Marketing Automation",
-    "name": "Marketing Workflow",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "track_changes": 1
+ "actions": [],
+ "creation": "2026-02-17 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "company",
+  "active",
+  "triggers_section",
+  "triggers",
+  "actions_section",
+  "actions"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Workflow Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active",
+   "default": 1
+  },
+  {
+   "fieldname": "triggers_section",
+   "fieldtype": "Section Break",
+   "label": "Triggers"
+  },
+  {
+   "fieldname": "triggers",
+   "fieldtype": "Table",
+   "label": "Triggers",
+   "options": "Workflow Trigger"
+  },
+  {
+   "fieldname": "actions_section",
+   "fieldtype": "Section Break",
+   "label": "Actions"
+  },
+  {
+   "fieldname": "actions",
+   "fieldtype": "Table",
+   "label": "Actions",
+   "options": "Workflow Action"
+  }
+ ],
+ "modified": "2026-02-17 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Marketing Workflow",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
 }

@@ -1,53 +1,63 @@
 {
-    "actions": [],
-    "creation": "2026-02-17 18:00:00.000000",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "title",
-        "score_change",
-        "criteria"
-    ],
-    "fields": [
-        {
-            "fieldname": "title",
-            "fieldtype": "Data",
-            "label": "Rule Name",
-            "reqd": 1
-        },
-        {
-            "fieldname": "score_change",
-            "fieldtype": "Int",
-            "label": "Score Change (+/-)",
-            "reqd": 1
-        },
-        {
-            "fieldname": "criteria",
-            "fieldtype": "Code",
-            "label": "Criteria (Python)",
-            "options": "Python"
-        }
-    ],
-    "modified": "2026-02-17 18:00:00.000000",
-    "modified_by": "Administrator",
-    "module": "Lead Intelligence",
-    "name": "Lead Scoring Rule",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "track_changes": 1
+ "actions": [],
+ "creation": "2026-02-17 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "company",
+  "score_change",
+  "criteria"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Rule Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "score_change",
+   "fieldtype": "Int",
+   "label": "Score Change (+/-)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "criteria",
+   "fieldtype": "Code",
+   "label": "Criteria (Python)",
+   "options": "Python"
+  }
+ ],
+ "modified": "2026-02-17 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Lead Scoring Rule",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
 }
