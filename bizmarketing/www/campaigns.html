@@ -1,0 +1,142 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Active Campaigns - EthioBiz{% endblock %}
+
+{% block head_include %}
+<style>
+  :root {
+      --primary: #1F2937;
+      --accent: #E21D38; /* EthioBiz Red */
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+  }
+  
+  body {
+      background: linear-gradient(135deg, #090B10, #141A28);
+      color: #E5E7EB;
+      font-family: 'Inter', sans-serif;
+  }
+  
+  .campaign-hero {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid var(--glass-border);
+  }
+  
+  .campaign-hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #fff, #9CA3AF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+  }
+
+  .campaign-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+  }
+
+  .campaign-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+  }
+
+  .campaign-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .campaign-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .campaign-card h3 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 1rem;
+  }
+
+  .campaign-detail {
+      font-size: 0.9rem;
+      color: #9CA3AF;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+  }
+  
+  .btn-participate {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+  }
+  
+  .btn-participate:hover {
+      background: #c3172f;
+      color: white;
+      text-decoration: none;
+  }
+  
+  .empty-state {
+      text-align: center;
+      padding: 4rem;
+      color: #9CA3AF;
+      background: var(--glass-bg);
+      border-radius: 24px;
+      border: 1px dashed var(--glass-border);
+  }
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="campaign-hero">
+    <h1>EthioBiz Active Campaigns</h1>
+    <p class="lead">Join our ongoing initiatives and make a difference.</p>
+</div>
+
+<div class="campaign-container">
+    {% if campaigns %}
+    <div class="campaign-grid">
+        {% for camp in campaigns %}
+        <div class="campaign-card">
+            <h3>{{ camp.campaign_name }}</h3>
+            <div class="campaign-detail">
+                <span>Start:</span>
+                <span>{{ frappe.utils.formatdate(camp.start_date) }}</span>
+            </div>
+            <div class="campaign-detail">
+                <span>End:</span>
+                <span>{{ frappe.utils.formatdate(camp.end_date) }}</span>
+            </div>
+            <a href="/contact-us?campaign={{ camp.name }}" class="btn-participate">Get Involved</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <h3>No Active Campaigns</h3>
+        <p>Stay tuned for our upcoming marketing initiatives.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

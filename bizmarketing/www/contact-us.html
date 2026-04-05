@@ -1,0 +1,173 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Contact Us - EthioBiz{% endblock %}
+
+{% block head_include %}
+<style>
+  :root {
+      --primary: #1F2937;
+      --accent: #E21D38; /* EthioBiz Red */
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+  }
+  
+  body {
+      background: linear-gradient(135deg, #090B10, #141A28);
+      color: #E5E7EB;
+      font-family: 'Inter', sans-serif;
+  }
+  
+  .contact-hero {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+  }
+  
+  .contact-hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #fff, #9CA3AF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+  }
+
+  .form-container {
+      max-width: 600px;
+      margin: 0 auto 4rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .form-group {
+      margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #D1D5DB;
+      font-weight: 500;
+  }
+
+  .glass-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      color: white;
+      transition: all 0.3s ease;
+  }
+
+  .glass-input:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
+  }
+
+  .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1rem;
+  }
+  
+  .btn-submit:hover {
+      background: #c3172f;
+  }
+
+  .alert-box {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      display: none;
+      text-align: center;
+      font-weight: 600;
+  }
+  
+  .alert-success { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); }
+  .alert-error { background: rgba(239, 68, 68, 0.2); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="contact-hero">
+    <h1>Get in Touch</h1>
+    <p class="lead">{% if campaign %}Inquiring about {{ campaign }}{% else %}How can we help your business today?{% endif %}</p>
+</div>
+
+<div class="form-container">
+    <div id="contact-alert" class="alert-box"></div>
+    
+    <form id="contactForm">
+        <!-- Hidden field for Marketing DB ingestion hook -->
+        <input type="hidden" id="campaign" value="{{ campaign }}">
+        
+        <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="full_name" class="glass-input" required placeholder="Abebe Bikila">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="email" class="glass-input" required placeholder="abebe@example.com">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" id="phone" class="glass-input" placeholder="+251 9... (Optional)">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea id="message" rows="5" class="glass-input" required placeholder="How can we help?"></textarea>
+        </div>
+        
+        <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
+    </form>
+</div>
+
+<script>
+frappe.ready(function() {
+    $('#contactForm').on('submit', function(e) {
+        e.preventDefault();
+        $('#submitBtn').text('Sending...').prop('disabled', true);
+        
+        frappe.call({
+            method: 'bizmarketing.www.contact-us.submit_contact_us',
+            args: {
+                full_name: $('#full_name').val(),
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                message: $('#message').val(),
+                campaign: $('#campaign').val()
+            },
+            callback: function(r) {
+                $('#submitBtn').text('Send Message').prop('disabled', false);
+                const alertBox = $('#contact-alert');
+                alertBox.show();
+                if (r.message === 'success') {
+                    alertBox.removeClass('alert-error').addClass('alert-success').text('Thank you! We will reach out to you shortly.');
+                    $('#contactForm')[0].reset();
+                } else {
+                    alertBox.removeClass('alert-success').addClass('alert-error').text('Something went wrong. Please try again.');
+                }
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
