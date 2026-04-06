@@ -7,13 +7,13 @@
  "allow_print": 0,
  "anonymous": 1,
  "apply_document_permissions": 0,
- "creation": "2026-04-05 21:00:00.000000",
- "doc_type": "Lead",
+ "creation": "2026-04-06 12:00:00.000000",
+ "doc_type": "Instructor Application",
  "doctype": "Web Form",
  "introduction_text": "Join our community of scholars and experts. Share your knowledge with the world through the Dagu Learning Center.",
  "is_standard": 1,
  "login_required": 0,
- "modified": "2026-04-05 21:00:00.000000",
+ "modified": "2026-04-06 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Marketing",
  "name": "instructor-application",
@@ -21,51 +21,14 @@
  "published": 1,
  "route": "instructor-application",
  "show_sidebar": 0,
- "sidebar_title": "Dagu Instructor",
  "title": "Dagu Instructor Application",
  "web_form_fields": [
-  {
-   "fieldname": "first_name",
-   "fieldtype": "Data",
-   "label": "First Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "last_name",
-   "fieldtype": "Data",
-   "label": "Last Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "email_id",
-   "fieldtype": "Data",
-   "label": "Email Address",
-   "options": "Email",
-   "reqd": 1
-  },
-  {
-   "fieldname": "mobile_no",
-   "fieldtype": "Data",
-   "label": "Phone Number",
-   "reqd": 1
-  },
-  {
-   "fieldname": "company_name",
-   "fieldtype": "Data",
-   "label": "Organization / Institution"
-  },
-  {
-   "fieldname": "job_title",
-   "fieldtype": "Data",
-   "label": "Expertise Area",
-   "reqd": 1,
-   "description": "e.g. Digital Marketing, Solar Engineering, Philosophy"
-  },
-  {
-   "fieldname": "notes",
-   "fieldtype": "Text",
-   "label": "Tell us about your experience and proposed course",
-   "reqd": 1
-  }
+  {"fieldname": "first_name", "fieldtype": "Data", "label": "First Name", "reqd": 1},
+  {"fieldname": "last_name", "fieldtype": "Data", "label": "Last Name", "reqd": 1},
+  {"fieldname": "email", "fieldtype": "Data", "label": "Email Address", "options": "Email", "reqd": 1},
+  {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 1},
+  {"fieldname": "organization", "fieldtype": "Data", "label": "Organization / Institution"},
+  {"fieldname": "expertise_area", "fieldtype": "Data", "label": "Expertise Area", "reqd": 1, "description": "e.g. Digital Marketing, Solar Engineering, Philosophy"},
+  {"fieldname": "experience_and_course", "fieldtype": "Text", "label": "Tell us about your experience and proposed course"}
  ]
 }

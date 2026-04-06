@@ -7,13 +7,13 @@
  "allow_print": 0,
  "anonymous": 1,
  "apply_document_permissions": 0,
- "creation": "2026-04-05 21:00:00.000000",
- "doc_type": "Lead",
+ "creation": "2026-04-06 12:00:00.000000",
+ "doc_type": "DOBiz Trial Signup",
  "doctype": "Web Form",
- "introduction_text": "Sign up for a free 7-day trial of our ERP system. No credit card required.",
+ "introduction_text": "Start your 14-day free trial of DOBiz Smart ERP. No credit card required. Experience the power of intelligent enterprise management.",
  "is_standard": 1,
  "login_required": 0,
- "modified": "2026-04-05 21:00:00.000000",
+ "modified": "2026-04-06 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Marketing",
  "name": "dobiz-trial-signup",
@@ -21,53 +21,13 @@
  "published": 1,
  "route": "dobiz-trial-signup",
  "show_sidebar": 0,
- "sidebar_title": "DOBiz Trial",
- "title": "DOBiz Smart ERP Free Trial Signup",
+ "title": "DOBiz ERP Free Trial Signup",
  "web_form_fields": [
-  {
-   "fieldname": "company_name",
-   "fieldtype": "Data",
-   "label": "Business Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "first_name",
-   "fieldtype": "Data",
-   "label": "Owner First Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "last_name",
-   "fieldtype": "Data",
-   "label": "Owner Last Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "email_id",
-   "fieldtype": "Data",
-   "label": "Business Email Address",
-   "options": "Email",
-   "reqd": 1
-  },
-  {
-   "fieldname": "mobile_no",
-   "fieldtype": "Data",
-   "label": "Business Phone Number",
-   "reqd": 1
-  },
-  {
-   "fieldname": "industry",
-   "fieldtype": "Link",
-   "label": "Business Industry",
-   "options": "Industry Type",
-   "reqd": 1
-  },
-  {
-   "fieldname": "no_of_employees",
-   "fieldtype": "Select",
-   "label": "Number of Employees",
-   "options": "1-10\n11-50\n51-200\n201-500\n501-1000\n1000+",
-   "reqd": 1
-  }
+  {"fieldname": "full_name", "fieldtype": "Data", "label": "Your Name", "reqd": 1},
+  {"fieldname": "last_name", "fieldtype": "Data", "label": "Last Name"},
+  {"fieldname": "email", "fieldtype": "Data", "label": "Work Email", "options": "Email", "reqd": 1},
+  {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 1},
+  {"fieldname": "company_name", "fieldtype": "Data", "label": "Company Name", "reqd": 1},
+  {"fieldname": "role", "fieldtype": "Data", "label": "Your Role", "description": "e.g. CEO, IT Manager, Operations Lead"}
  ]
 }
