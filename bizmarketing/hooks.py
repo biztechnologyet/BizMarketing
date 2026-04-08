@@ -1,9 +1,9 @@
 app_name = "bizmarketing"
 app_title = "BizMarketing"
 app_publisher = "Biz Technology Solutions"
-app_description = "Comprehensive Marketing Operations for Frappe"
-app_email = "hadi@biztechnology.et"
-app_license = "mit"
+app_description = "BizMarketing System for EthioBiz"
+app_email = "sovereign@ethiobiz.et"
+app_license = "Proprietary"
 
 # Apps
 # ------------------
@@ -65,6 +65,7 @@ required_apps = ["frappe", "erpnext"]
 
 # before_install = "bizmarketing.install.before_install"
 # after_install = "bizmarketing.install.after_install"
+after_migrate = "bizmarketing.setup.create_web_forms"
 
 # Uninstallation
 # ------------

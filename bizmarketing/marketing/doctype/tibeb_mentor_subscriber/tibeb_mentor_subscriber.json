@@ -60,6 +60,12 @@
    "label": "City"
   },
   {
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "label": "Country of Residence",
+   "insert_after": "city"
+  },
+  {
    "fieldname": "section_break_2",
    "fieldtype": "Section Break",
    "label": "Spiritual Profile"
@@ -94,6 +100,18 @@
    "fieldname": "subscription_message",
    "fieldtype": "Small Text",
    "label": "What spiritual guidance are you seeking?"
+  },
+  {
+   "fieldname": "professional_background",
+   "fieldtype": "Text",
+   "label": "Professional Background / Credibility",
+   "insert_after": "subscription_message"
+  },
+  {
+   "fieldname": "creative_contribution",
+   "fieldtype": "Text",
+   "label": "What creative/spiritual value will you contribute?",
+   "insert_after": "professional_background"
   },
   {
    "fieldname": "section_break_4",
