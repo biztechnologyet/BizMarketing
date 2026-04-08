@@ -147,6 +147,14 @@
    "role": "Marketing Manager",
    "write": 1,
    "delete": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Guest",
+   "write": 1
   }
  ],
  "sort_field": "creation",
