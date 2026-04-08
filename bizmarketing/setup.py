@@ -1,11 +1,36 @@
 import frappe
 
+def setup_guest_permissions():
+    """Directly insert Guest DocPerm to bypass developer_mode locks or JSON sync issues."""
+    target_forms = ['Instructor Application', 'DOBiz Trial Signup', 'Campaign Contact', 'Tibeb Mentor Subscriber']
+    for dt in target_forms:
+        if not frappe.db.exists("DocPerm", {"parent": dt, "role": "Guest"}):
+            try:
+                frappe.get_doc({
+                    "doctype": "DocPerm",
+                    "parent": dt,
+                    "parenttype": "DocType",
+                    "parentfield": "permissions",
+                    "role": "Guest",
+                    "create": 1,
+                    "read": 1,
+                    "write": 1,
+                    "email": 1,
+                    "print": 1
+                }).insert(ignore_permissions=True)
+                frappe.logger("bizmarketing").info(f"Forced Guest permissions for {dt}")
+            except Exception as e:
+                frappe.logger("bizmarketing").error(f"Failed to set Guest perms for {dt}: {e}")
+
 def create_web_forms():
     """
     Called after bench migrate.
     Ensures all Marketing Web Forms are always present and match the latest schema.
     """
     frappe.logger("bizmarketing").info("Creating/Updating Marketing Web Forms InSha'Allah...")
+    
+    # Run the permission patch first
+    setup_guest_permissions()
     
     forms = [
         {
