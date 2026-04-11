@@ -41,7 +41,28 @@ def execute():
                 doc.approval_status = "Approved"
                 doc.platform = ",".join([plat.capitalize() for plat in p.get("platform", [])])
                 doc.pillar = pillar_map.get(p.get("pillar", ""), pillar_map.get("general"))
-                doc.content_type = p.get("contentType")
+                # Map payload content types to strictly validated DocType options
+                ctype_map = {
+                    "Blog Post": "Blog",
+                    "Explainer Video": "Explainer",
+                    "Major Announcement": "Announcement",
+                    "Interactive Poll": "Poll",
+                    "Live Event": "Announcement",
+                    "Campaign Recap": "Announcement",
+                    "Support Resource": "Support Feature",
+                    "Feature Launch": "Feature Highlight",
+                    "Product Feature": "Feature Highlight",
+                    "Feature Showcase": "Feature Highlight",
+                    "Feature Introduction": "Feature Highlight",
+                    "Launch Teaser": "Announcement",
+                    "Full Feature": "Feature Highlight",
+                    "Community Story": "Community Story",
+                    "Testimonial": "Testimonial",
+                    "Pillar Introduction": "Pillar Introduction",
+                    "Vision Statement": "Vision Statement",
+                    "Announcement": "Announcement"
+                }
+                doc.content_type = ctype_map.get(p.get("contentType"), "Announcement")
                 doc.week = p.get("week")
                 doc.scheduled_time = f"{p.get('date')} 09:00:00" # default 9am
                 doc.promotion_date = p.get("date")
