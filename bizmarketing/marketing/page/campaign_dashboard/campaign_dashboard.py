@@ -1,66 +1,69 @@
 import frappe
-import json
 
 @frappe.whitelist()
 def get_dashboard_stats():
-    """Get comprehensive metrics for the campaign dashboard with chart data."""
+    """Get comprehensive metrics for the campaign dashboard with chart data.
+    Uses raw SQL to bypass company_global_filter restrictions."""
     stats = {}
 
-    # === KPI Summary Cards ===
-    stats['total_campaigns'] = frappe.db.count("Marketing Campaign", {"status": "Active"})
-    stats['pending_posts'] = frappe.db.count("Social Media Post", {"status": ("in", ["Draft", "Approved"])})
-    stats['published_posts'] = frappe.db.count("Social Media Post", {"status": "Posted"})
-    stats['scheduled_posts'] = frappe.db.count("Social Media Post", {"status": "Scheduled"})
-    stats['failed_publishes'] = frappe.db.count("Publishing Queue", {"status": "Failed"})
-    stats['total_posts'] = frappe.db.count("Social Media Post")
+    # === KPI Summary Cards (raw SQL to bypass company filter) ===
+    stats['total_campaigns'] = frappe.db.sql(
+        "SELECT COUNT(*) FROM `tabMarketing Campaign` WHERE status = 'Active'")[0][0]
+    stats['pending_posts'] = frappe.db.sql(
+        "SELECT COUNT(*) FROM `tabSocial Media Post` WHERE status IN ('Draft', 'Approved')")[0][0]
+    stats['published_posts'] = frappe.db.sql(
+        "SELECT COUNT(*) FROM `tabSocial Media Post` WHERE status = 'Posted'")[0][0]
+    stats['scheduled_posts'] = frappe.db.sql(
+        "SELECT COUNT(*) FROM `tabSocial Media Post` WHERE status = 'Scheduled'")[0][0]
+    stats['failed_publishes'] = frappe.db.sql(
+        "SELECT COUNT(*) FROM `tabPublishing Queue` WHERE status = 'Failed'")[0][0]
+    stats['total_posts'] = frappe.db.sql(
+        "SELECT COUNT(*) FROM `tabSocial Media Post`")[0][0]
 
     # === Recent Posts Table ===
-    stats['recent_posts'] = frappe.get_all("Social Media Post",
-        fields=["name", "title", "platform", "status", "scheduled_time", "approval_status", "pillar", "week"],
-        order_by="scheduled_time DESC",
-        limit=10
-    )
+    stats['recent_posts'] = frappe.db.sql("""
+        SELECT name, title, platform, status, scheduled_time, approval_status, pillar, week
+        FROM `tabSocial Media Post`
+        ORDER BY scheduled_time DESC
+        LIMIT 10
+    """, as_dict=True) or []
 
     # === Chart 1: Posts by Status ===
-    status_data = frappe.db.sql("""
+    stats['posts_by_status'] = frappe.db.sql("""
         SELECT status, COUNT(*) as cnt
         FROM `tabSocial Media Post`
         GROUP BY status
         ORDER BY cnt DESC
     """, as_dict=True) or []
-    stats['posts_by_status'] = status_data
 
     # === Chart 2: Posts by Pillar ===
-    pillar_data = frappe.db.sql("""
+    stats['posts_by_pillar'] = frappe.db.sql("""
         SELECT IFNULL(pillar, 'Unassigned') as pillar, COUNT(*) as cnt
         FROM `tabSocial Media Post`
         GROUP BY pillar
         ORDER BY cnt DESC
     """, as_dict=True) or []
-    stats['posts_by_pillar'] = pillar_data
 
     # === Chart 3: Posts by Week ===
-    week_data = frappe.db.sql("""
+    stats['posts_by_week'] = frappe.db.sql("""
         SELECT IFNULL(week, 0) as week, COUNT(*) as cnt
         FROM `tabSocial Media Post`
         GROUP BY week
         ORDER BY week ASC
     """, as_dict=True) or []
-    stats['posts_by_week'] = week_data
 
     # === Chart 4: Plan vs Actual (Campaign Targets) ===
-    plan_actual = frappe.db.sql("""
+    stats['plan_vs_actual'] = frappe.db.sql("""
         SELECT week, target_impressions, target_engagements, target_clicks, target_reach,
                actual_impressions, actual_engagements, actual_clicks, actual_reach
         FROM `tabCampaign Target`
         ORDER BY week ASC
     """, as_dict=True) or []
-    stats['plan_vs_actual'] = plan_actual
 
     # === Chart 5: Platform Distribution ===
-    # Platform is comma-separated, need to parse manually
     platforms_raw = frappe.db.sql("""
-        SELECT platform FROM `tabSocial Media Post` WHERE platform IS NOT NULL AND platform != ''
+        SELECT platform FROM `tabSocial Media Post`
+        WHERE platform IS NOT NULL AND platform != ''
     """, as_dict=True) or []
 
     platform_counts = {}
