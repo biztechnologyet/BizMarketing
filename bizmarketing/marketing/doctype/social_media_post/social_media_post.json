@@ -228,7 +228,7 @@
   {
    "fieldname": "campaign",
    "fieldtype": "Link",
-   "label": "Campaign",
+   "label": "Marketing Campaign",
    "options": "Marketing Campaign"
   },
   {
