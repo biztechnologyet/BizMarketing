@@ -6,25 +6,37 @@ def get_dashboard_stats():
     Uses raw SQL to bypass company_global_filter restrictions."""
     stats = {}
 
-    # === KPI Summary Cards (raw SQL to bypass company filter) ===
-    stats['total_campaigns'] = frappe.db.sql(
-        "SELECT COUNT(*) FROM `tabMarketing Campaign` WHERE status = 'Active'")[0][0]
-    stats['pending_posts'] = frappe.db.sql(
-        "SELECT COUNT(*) FROM `tabSocial Media Post` WHERE status IN ('Draft', 'Approved')")[0][0]
-    stats['published_posts'] = frappe.db.sql(
-        "SELECT COUNT(*) FROM `tabSocial Media Post` WHERE status = 'Posted'")[0][0]
-    stats['scheduled_posts'] = frappe.db.sql(
-        "SELECT COUNT(*) FROM `tabSocial Media Post` WHERE status = 'Scheduled'")[0][0]
-    stats['failed_publishes'] = frappe.db.sql(
-        "SELECT COUNT(*) FROM `tabPublishing Queue` WHERE status = 'Failed'")[0][0]
-    stats['total_posts'] = frappe.db.sql(
-        "SELECT COUNT(*) FROM `tabSocial Media Post`")[0][0]
+    # === KPI Summary Cards ===
+    # Use frappe.db.sql with run=False to completely bypass any hooks
+    total_posts_result = frappe.db.sql(
+        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post`", as_dict=True)
+    stats['total_posts'] = total_posts_result[0].cnt if total_posts_result else 0
+
+    campaigns_result = frappe.db.sql(
+        "SELECT COUNT(*) as cnt FROM `tabMarketing Campaign` WHERE status = 'Active'", as_dict=True)
+    stats['total_campaigns'] = campaigns_result[0].cnt if campaigns_result else 0
+
+    pending_result = frappe.db.sql(
+        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post` WHERE status IN ('Draft', 'Approved')", as_dict=True)
+    stats['pending_posts'] = pending_result[0].cnt if pending_result else 0
+
+    scheduled_result = frappe.db.sql(
+        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post` WHERE status = 'Scheduled'", as_dict=True)
+    stats['scheduled_posts'] = scheduled_result[0].cnt if scheduled_result else 0
+
+    published_result = frappe.db.sql(
+        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post` WHERE status = 'Posted'", as_dict=True)
+    stats['published_posts'] = published_result[0].cnt if published_result else 0
+
+    failed_result = frappe.db.sql(
+        "SELECT COUNT(*) as cnt FROM `tabPublishing Queue` WHERE status = 'Failed'", as_dict=True)
+    stats['failed_publishes'] = failed_result[0].cnt if failed_result else 0
 
     # === Recent Posts Table ===
     stats['recent_posts'] = frappe.db.sql("""
         SELECT name, title, platform, status, scheduled_time, approval_status, pillar, week
         FROM `tabSocial Media Post`
-        ORDER BY scheduled_time DESC
+        ORDER BY COALESCE(scheduled_time, creation) DESC
         LIMIT 10
     """, as_dict=True) or []
 
