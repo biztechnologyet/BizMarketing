@@ -34,7 +34,7 @@ def execute():
     try:
         if not frappe.db.exists("Marketing Campaign", {"campaign_id": camp_id}):
             doc = frappe.new_doc("Marketing Campaign")
-            doc.campaign_name = "EthioBiz 4-Week Social Media Campaign"
+            doc.title = "EthioBiz 4-Week Social Media Campaign"
             doc.campaign_id = camp_id
             doc.status = "Active"
             doc.start_date = "2026-04-04"
