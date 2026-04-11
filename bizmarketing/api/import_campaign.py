@@ -5,9 +5,7 @@ def execute():
     frappe.init(site="ethiobiz.et")
     frappe.connect()
     
-    company = frappe.defaults.get_user_default("Company")
-    if not company:
-        company = frappe.get_all("Company")[0].name
+    company = "Biz Technology Solutions"
 
     camp_id = "ethiobiz-2026-q2"
     camp_name = frappe.get_value("Marketing Campaign", {"campaign_id": camp_id}, "name")
@@ -24,7 +22,7 @@ def execute():
         if 'general' in base_id: base_id = 'general'
         pillar_map[base_id] = p.name
 
-    json_file = r"C:\Users\bizit\OneDrive\Documents\BISMALLAH BIZ PROJECTS INSHA'ALLAH\BISMALLAH ETHIOBIZ INSHA'ALLAH\BISMALLAH ETHIOBIZ INSTALLATION INSHA'ALLAH\BISMALLAH ETHIBIZ STAGING INSHA'ALLAH\bizmarketing\campaign_data.json"
+    json_file = "/home/frappe/frappe-bench/apps/bizmarketing/campaign_data.json"
     with open(json_file, 'r', encoding='utf-8') as f:
         data = json.load(f)
         
