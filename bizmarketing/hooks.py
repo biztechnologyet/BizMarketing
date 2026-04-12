@@ -119,13 +119,14 @@ after_migrate = "bizmarketing.setup.create_web_forms"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"DOBiz Trial Signup": {
+		"after_insert": "bizmarketing.api.dobiz_trial.setup_trial_tenant"
+	},
+	"Subscription": {
+		"on_update": "bizmarketing.api.dobiz_trial.process_subscription_access"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
