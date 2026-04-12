@@ -13,7 +13,7 @@ class SocialMediaPost(Document):
 		If the post is marked as Approved, automatically generate
 		Publishing Queue entries for all selected platforms.
 		"""
-		if self.status != "Approved":
+		if self.status not in ["Approved", "Scheduled"]:
 			return
 
 		if not self.platform:
