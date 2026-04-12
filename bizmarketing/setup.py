@@ -34,7 +34,7 @@ def create_web_forms():
     
     forms = [
         {
-            "name": "instructor-application",
+            "name": "instructor-application-ethiobiz-academy",
             "title": "Instructor Application - EthioBiz Academy",
             "doc_type": "Instructor Application",
             "module": "Marketing",
@@ -58,11 +58,11 @@ def create_web_forms():
             ]
         },
         {
-            "name": "dobiz-trial-signup",
-            "title": "DOBiz Free Trial Signup",
+            "name": "trial",
+            "title": "TRIAL",
             "doc_type": "DOBiz Trial Signup",
             "module": "Marketing",
-            "route": "dobiz-trial-signup",
+            "route": "trial",
             "published": 1,
             "allow_edit": 0,
             "login_required": 0,
@@ -70,17 +70,21 @@ def create_web_forms():
             "success_url": "/contact-us",
             "success_message": "Welcome to DOBiz! Your free trial has been activated. Check your email for login details InSha'Allah.",
             "web_form_fields": [
-                {"fieldname": "naming_series", "fieldtype": "Select", "hidden": 1},
                 {"fieldname": "full_name", "fieldtype": "Data", "label": "Full Name", "reqd": 1},
+                {"fieldname": "last_name", "fieldtype": "Data", "label": "Last Name", "reqd": 0},
                 {"fieldname": "email", "fieldtype": "Data", "label": "Business Email", "reqd": 1},
+                {"fieldname": "column_break_1", "fieldtype": "Column Break"},
                 {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 1},
                 {"fieldname": "company_name", "fieldtype": "Data", "label": "Company Name", "reqd": 1},
                 {"fieldname": "role", "fieldtype": "Data", "label": "Your Role", "reqd": 0},
-                {"fieldname": "company", "fieldtype": "Link", "hidden": 1}
+                {"fieldname": "section_break_2", "fieldtype": "Section Break"},
+                {"fieldname": "status", "fieldtype": "Select", "hidden": 1},
+                {"fieldname": "trial_start_date", "fieldtype": "Date", "hidden": 1},
+                {"fieldname": "company", "fieldtype": "Link", "hidden": 1, "reqd": 0}
             ]
         },
         {
-            "name": "campaign-contact",
+            "name": "contact-us-campaign-inquiry",
             "title": "Contact Us - Campaign Inquiry",
             "doc_type": "Campaign Contact",
             "module": "Marketing",
@@ -103,7 +107,7 @@ def create_web_forms():
             ]
         },
         {
-            "name": "tibeb-mentor-subscriber",
+            "name": "tibeb-mentorship-program",
             "title": "Tibeb Mentorship Program",
             "doc_type": "Tibeb Mentor Subscriber",
             "module": "Marketing",
