@@ -210,3 +210,25 @@ class LinkedInClient:
         resp.raise_for_status()
         # Returns URN in X-RestLi-Id header or response body
         return resp.headers.get("X-RestLi-Id")
+
+    def get_insights(self, post_urn, author_urn):
+        """Get LinkedIn Share Statistics"""
+        # Endpoint: organizationalEntityShareStatistics?q=organizationalEntity&organizationalEntity={author}&shares[0]={post_urn}
+        url = f"{self.BASE_URL}/organizationalEntityShareStatistics"
+        params = {
+            "q": "organizationalEntity",
+            "organizationalEntity": author_urn,
+            "shares[0]": post_urn
+        }
+        resp = requests.get(url, headers=self.headers, params=params, timeout=10)
+        
+        result = {"impressions": 0, "engagements": 0, "clicks": 0, "reach": 0}
+        if resp.status_code == 200:
+            data = resp.json().get('elements', [])
+            if data and len(data) > 0:
+                stats = data[0].get('totalShareStatistics', {})
+                result["impressions"] = stats.get("impressionCount", 0)
+                result["engagements"] = stats.get("engagement", 0)
+                result["clicks"] = stats.get("clickCount", 0)
+                result["reach"] = stats.get("uniqueImpressionsCount", 0)
+        return result

@@ -70,6 +70,9 @@ def sync_post_engagement(post_name):
             elif platform == "instagram":
                 client = InstagramClient(token)
                 metrics = client.get_insights(post_id)
+            elif platform == "linkedin":
+                client = LinkedInClient(token)
+                metrics = client.get_insights(post_id, acc.account_id)
                 
             if metrics:
                 # Create snapshot
