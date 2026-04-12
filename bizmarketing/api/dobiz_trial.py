@@ -58,9 +58,9 @@ def setup_trial_tenant(doc, method=None):
                 "last_name": doc.get("last_name") or "",
                 "phone": doc.phone,
                 "send_welcome_email": 1,
+                "role_profile_name": "Kistet DGM",
                 "module_profile": "Kistet Admin Module"
             })
-            user.append("roles", {"role": "Kistet DGM"})
             user.insert(ignore_permissions=True)
             
             # Restrict User to their Sandbox Company using UserPermission
