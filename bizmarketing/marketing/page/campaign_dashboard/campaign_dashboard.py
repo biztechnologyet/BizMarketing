@@ -1,68 +1,49 @@
 import frappe
+from collections import Counter
 
 @frappe.whitelist()
 def get_dashboard_stats():
     """Get comprehensive metrics for the campaign dashboard with chart data.
-    Uses raw SQL to bypass company_global_filter restrictions."""
+    Uses pure Python aggregation over raw rows to bypass company_global_filter COUNT(*) SQL bugs."""
     stats = {}
 
-    # === KPI Summary Cards ===
-    # Use frappe.db.sql with run=False to completely bypass any hooks
-    total_posts_result = frappe.db.sql(
-        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post`", as_dict=True)
-    stats['total_posts'] = total_posts_result[0].cnt if total_posts_result else 0
-
-    campaigns_result = frappe.db.sql(
-        "SELECT COUNT(*) as cnt FROM `tabMarketing Campaign` WHERE status = 'Active'", as_dict=True)
-    stats['total_campaigns'] = campaigns_result[0].cnt if campaigns_result else 0
-
-    pending_result = frappe.db.sql(
-        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post` WHERE status IN ('Draft', 'Approved')", as_dict=True)
-    stats['pending_posts'] = pending_result[0].cnt if pending_result else 0
-
-    scheduled_result = frappe.db.sql(
-        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post` WHERE status = 'Scheduled'", as_dict=True)
-    stats['scheduled_posts'] = scheduled_result[0].cnt if scheduled_result else 0
-
-    published_result = frappe.db.sql(
-        "SELECT COUNT(*) as cnt FROM `tabSocial Media Post` WHERE status = 'Posted'", as_dict=True)
-    stats['published_posts'] = published_result[0].cnt if published_result else 0
-
-    failed_result = frappe.db.sql(
-        "SELECT COUNT(*) as cnt FROM `tabPublishing Queue` WHERE status = 'Failed'", as_dict=True)
-    stats['failed_publishes'] = failed_result[0].cnt if failed_result else 0
-
-    # === Recent Posts Table ===
-    stats['recent_posts'] = frappe.db.sql("""
+    # 1. Fetch raw underlying datasets using standard API (which company_global_filter is okay with returning rows for)
+    campaigns = frappe.get_all("Marketing Campaign", fields=["name", "status"])
+    all_posts = frappe.db.sql("""
         SELECT name, title, platform, status, scheduled_time, approval_status, pillar, week
         FROM `tabSocial Media Post`
         ORDER BY COALESCE(scheduled_time, creation) DESC
-        LIMIT 10
     """, as_dict=True) or []
+    
+    queues = frappe.get_all("Publishing Queue", fields=["name", "status"])
+    engagements_raw = frappe.db.sql("""
+        SELECT platform, impressions, engagements, clicks, reach
+        FROM `tabPost Engagement`
+    """, as_dict=True) or []
+
+    # === KPI Summary Cards ===
+    stats['total_posts'] = len(all_posts)
+    stats['total_campaigns'] = len([c for c in campaigns if c.status == 'Active'])
+    stats['pending_posts'] = len([p for p in all_posts if p.status in ('Draft', 'Approved')])
+    stats['scheduled_posts'] = len([p for p in all_posts if p.status == 'Scheduled'])
+    stats['published_posts'] = len([p for p in all_posts if p.status == 'Posted'])
+    stats['failed_publishes'] = len([q for q in queues if q.status == 'Failed'])
+
+    # === Recent Posts Table ===
+    stats['recent_posts'] = all_posts[:10]
 
     # === Chart 1: Posts by Status ===
-    stats['posts_by_status'] = frappe.db.sql("""
-        SELECT status, COUNT(*) as cnt
-        FROM `tabSocial Media Post`
-        GROUP BY status
-        ORDER BY cnt DESC
-    """, as_dict=True) or []
+    status_counts = Counter(p.status for p in all_posts if p.status)
+    # Convert Counter to sorted dict list
+    stats['posts_by_status'] = [{"status": k, "cnt": v} for k, v in status_counts.most_common()]
 
     # === Chart 2: Posts by Pillar ===
-    stats['posts_by_pillar'] = frappe.db.sql("""
-        SELECT IFNULL(pillar, 'Unassigned') as pillar, COUNT(*) as cnt
-        FROM `tabSocial Media Post`
-        GROUP BY pillar
-        ORDER BY cnt DESC
-    """, as_dict=True) or []
+    pillar_counts = Counter(p.pillar or 'Unassigned' for p in all_posts)
+    stats['posts_by_pillar'] = [{"pillar": k, "cnt": v} for k, v in pillar_counts.most_common()]
 
     # === Chart 3: Posts by Week ===
-    stats['posts_by_week'] = frappe.db.sql("""
-        SELECT IFNULL(week, 0) as week, COUNT(*) as cnt
-        FROM `tabSocial Media Post`
-        GROUP BY week
-        ORDER BY week ASC
-    """, as_dict=True) or []
+    week_counts = Counter(p.week or 0 for p in all_posts)
+    stats['posts_by_week'] = [{"week": k, "cnt": v} for k, v in sorted(week_counts.items())]
 
     # === Chart 4: Plan vs Actual (Campaign Targets) ===
     stats['plan_vs_actual'] = frappe.db.sql("""
@@ -73,25 +54,30 @@ def get_dashboard_stats():
     """, as_dict=True) or []
 
     # === Chart 5: Platform Distribution ===
-    platforms_raw = frappe.db.sql("""
-        SELECT platform FROM `tabSocial Media Post`
-        WHERE platform IS NOT NULL AND platform != ''
-    """, as_dict=True) or []
-
-    platform_counts = {}
-    for row in platforms_raw:
-        for p in (row.get("platform") or "").split(","):
-            p = p.strip()
-            if p:
-                platform_counts[p] = platform_counts.get(p, 0) + 1
+    platform_counts = Counter()
+    for p in all_posts:
+        if p.platform:
+            for plat in p.platform.split(","):
+                plat = plat.strip()
+                if plat:
+                    platform_counts[plat] += 1
     stats['platform_distribution'] = [{"platform": k, "cnt": v} for k, v in platform_counts.items()]
 
     # === Engagement Summary ===
-    stats['engagement_summary'] = frappe.db.sql("""
-        SELECT platform, SUM(impressions) as impressions, SUM(engagements) as engagements,
-               SUM(clicks) as clicks, SUM(reach) as reach
-        FROM `tabPost Engagement`
-        GROUP BY platform
-    """, as_dict=True) or []
+    eng_summary_map = {}
+    for eng in engagements_raw:
+        plat = eng.platform or 'Unknown'
+        if plat not in eng_summary_map:
+            eng_summary_map[plat] = {"impressions": 0, "engagements": 0, "clicks": 0, "reach": 0}
+        eng_summary_map[plat]["impressions"] += (eng.impressions or 0)
+        eng_summary_map[plat]["engagements"] += (eng.engagements or 0)
+        eng_summary_map[plat]["clicks"] += (eng.clicks or 0)
+        eng_summary_map[plat]["reach"] += (eng.reach or 0)
+        
+    stats['engagement_summary'] = [
+        {"platform": k, "impressions": v["impressions"], "engagements": v["engagements"], 
+         "clicks": v["clicks"], "reach": v["reach"]}
+        for k, v in eng_summary_map.items()
+    ]
 
     return stats
