@@ -125,3 +125,64 @@ def bulk_schedule_posts(campaign_name):
                     queued += 1
                     
     return {"status": "success", "queued": queued}
+
+@frappe.whitelist()
+def publish_now(post_name):
+    """Bypass the schedule and force publish immediately via task runner"""
+    post = frappe.get_doc("Social Media Post", post_name)
+    
+    if post.status != "Approved":
+        frappe.throw("Post must be 'Approved' before publishing.")
+
+    platforms = [p.strip() for p in (post.platform or "").split(",") if p.strip()]
+    if not platforms:
+        frappe.throw("No platforms specified for this post.")
+
+    from bizmarketing.tasks import process_queue_item
+    
+    published_count = 0
+    for plat in platforms:
+        # Create a queue item if it doesn't exist, set to Pending.
+        exists = frappe.get_all("Publishing Queue", filters={
+            "social_media_post": post.name,
+            "platform": plat,
+            "status": ("in", ["Pending", "Failed"])
+        })
+        
+        queue_doc = None
+        if exists:
+            queue_doc = frappe.get_doc("Publishing Queue", exists[0].name)
+        else:
+            # Find matching account
+            accs = frappe.get_all("Social Media Account", 
+                filters={"platform": plat, "company": post.company},
+                limit=1
+            )
+            if accs:
+                queue_doc = frappe.new_doc("Publishing Queue")
+                queue_doc.social_media_post = post.name
+                queue_doc.company = post.company
+                queue_doc.platform = plat
+                queue_doc.social_media_account = accs[0].name
+                queue_doc.scheduled_time = now_datetime()
+                queue_doc.status = "Pending"
+                queue_doc.retry_count = 0
+                queue_doc.insert(ignore_permissions=True)
+        
+        if queue_doc:
+            # Synchronously process the queue item right now
+            try:
+                process_queue_item(queue_doc.name)
+                # Check if it succeeded
+                queue_doc.reload()
+                if queue_doc.status == "Published":
+                    published_count += 1
+            except Exception as e:
+                frappe.log_error(f"Force publish failed for {plat}: {str(e)}")
+
+    if published_count == 0:
+        return {"status": "failed", "message": "Failed to publish to any platforms."}
+    
+    post.reload()
+    frappe.msgprint(f"Successfully published to {published_count} platform(s)!")
+    return {"status": "success"}
