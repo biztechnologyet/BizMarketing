@@ -5,10 +5,9 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "tab_content",
   "title",
   "company",
-  "status",
-  "approval_status",
   "platform",
   "language",
   "column_break_meta",
@@ -25,6 +24,7 @@
   "alignment",
   "cta",
   "expected_outcome",
+  "tab_strategy",
   "seo_section",
   "keywords",
   "seo_intent",
@@ -36,6 +36,9 @@
   "campaign_section",
   "campaign",
   "item",
+  "tab_publishing",
+  "status",
+  "approval_status",
   "publishing_section",
   "auto_publish",
   "column_break_pub",
@@ -56,6 +59,11 @@
   "optimization_learnings"
  ],
  "fields": [
+  {
+   "fieldname": "tab_content",
+   "fieldtype": "Tab Break",
+   "label": "Post Content"
+  },
   {
    "fieldname": "title",
    "fieldtype": "Data",
@@ -179,6 +187,11 @@
    "label": "Expected Outcome"
   },
   {
+   "fieldname": "tab_strategy",
+   "fieldtype": "Tab Break",
+   "label": "Strategy & Targeting"
+  },
+  {
    "fieldname": "seo_section",
    "fieldtype": "Section Break",
    "label": "SEO & Strategy"
@@ -234,9 +247,14 @@
   {
    "fieldname": "item",
    "fieldtype": "Link",
-   "label": "Item (Product)",
+   "label": "Item (Product/Service)",
    "options": "Item",
-   "description": "ERPNext Item being promoted"
+   "description": "Product or service being promoted"
+  },
+  {
+   "fieldname": "tab_publishing",
+   "fieldtype": "Tab Break",
+   "label": "Publishing & Analytics"
   },
   {
    "fieldname": "publishing_section",

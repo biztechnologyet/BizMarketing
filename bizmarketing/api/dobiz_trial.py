@@ -57,7 +57,7 @@ def setup_trial_tenant(doc, method=None):
                 "first_name": doc.full_name,
                 "last_name": doc.get("last_name") or "",
                 "phone": doc.phone,
-                "send_welcome_email": 1,
+                "send_welcome_email": 0,
                 "role_profile_name": "Kistet DGM",
                 "module_profile": "Kistet Admin Module"
             })

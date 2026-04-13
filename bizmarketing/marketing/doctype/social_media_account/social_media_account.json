@@ -58,7 +58,7 @@
    "fieldtype": "Password",
    "label": "API Token",
    "reqd": 1,
-   "description": "Encrypted via Frappe site encryption_key"
+   "description": "Securely encrypted via site key"
   },
   {
    "fieldname": "token_expires_at",

@@ -250,7 +250,7 @@
   {
    "fieldname": "erp_section",
    "fieldtype": "Section Break",
-   "label": "ERPNext Integration"
+   "label": "System Integration"
   },
   {
    "fieldname": "project",
