@@ -16,7 +16,7 @@ def setup_guest_permissions():
                     "read": 1,
                     "write": 1,
                     "email": 1,
-                ).insert(ignore_permissions=True)
+                }).insert(ignore_permissions=True)
                 frappe.clear_cache(doctype=dt)
                 frappe.logger("bizmarketing").info(f"Forced Guest permissions for {dt}")
             except Exception as e:
