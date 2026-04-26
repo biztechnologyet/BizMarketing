@@ -103,17 +103,14 @@ def setup_trial_tenant(doc, method=None):
     except Exception as e:
         frappe.logger("bizmarketing").error(f"Failed to generate Subscription: {e}")
 
-    # 5. Create HADEEDA User Profile (if hadeeda_app is installed)
-    _create_hadeeda_profile(doc)
-
-    # 6. Send Welcome Email
+    # 5. Send Welcome Email
     try:
         from bizmarketing.api.subscription_notifications import send_welcome_email
         send_welcome_email(doc.email, doc.full_name, company_name)
     except Exception as e:
         frappe.logger("bizmarketing").error(f"Failed to send welcome email: {e}")
 
-    # 7. Notify BizFlow
+    # 6. Notify BizFlow
     try:
         from bizmarketing.api.subscription_webhooks import notify_trial_started
         notify_trial_started(doc)
@@ -128,7 +125,6 @@ def process_subscription_access(doc, method=None):
     """
     Hook executed on `Subscription` updates (on_update).
     Links the active/unpaid status of the SaaS Subscription to the mapped User's access.
-    Also gates HADEEDA User role based on subscription status.
     """
     # Only act if it's a subscription managed by the SaaS Parent
     if doc.company != "Biz Technology Solutions":
@@ -163,9 +159,6 @@ def process_subscription_access(doc, method=None):
                     f"Re-activated access for {target_email} (Active Subscription)."
                 )
 
-            # Grant HADEEDA User role if not already present
-            _ensure_role(user, "HADEEDA User", grant=True)
-
         elif doc.status in ["Unpaid", "Cancelled", "Past Due Date", "Expired"]:
             if user.enabled == 1:
                 user.enabled = 0
@@ -174,51 +167,7 @@ def process_subscription_access(doc, method=None):
                     f"Deactivated access for {target_email} (Expired/Unpaid)."
                 )
 
-            # Revoke HADEEDA User role
-            _ensure_role(user, "HADEEDA User", grant=False)
-
     except Exception as e:
         frappe.logger("bizmarketing").error(f"Error toggling access for {target_email}: {e}")
 
-
-# ── Internal Helpers ────────────────────────────────────────────────
-
-def _create_hadeeda_profile(doc):
-    """Create a HADEEDA User Profile if the doctype exists (hadeeda_app installed)."""
-    try:
-        if not frappe.db.table_exists("tabHADEEDA User Profile"):
-            return
-
-        if frappe.db.exists("HADEEDA User Profile", {"user": doc.email}):
-            return
-
-        frappe.get_doc({
-            "doctype": "HADEEDA User Profile",
-            "user": doc.email,
-            "full_name": doc.full_name,
-            "email": doc.email,
-            "phone_number": doc.phone,
-            "preferred_language": "English",
-            "interaction_preference": "Text",
-            "total_interactions": 0,
-        }).insert(ignore_permissions=True)
-        frappe.logger("bizmarketing").info(f"Created HADEEDA User Profile for {doc.email}")
-    except Exception as e:
-        frappe.logger("bizmarketing").error(f"Failed to create HADEEDA profile: {e}")
-
-
-def _ensure_role(user, role_name, grant=True):
-    """Grant or revoke a role on a user document."""
-    try:
-        has_role = any(r.role == role_name for r in user.roles)
-        if grant and not has_role:
-            user.append("roles", {"role": role_name})
-            user.save(ignore_permissions=True)
-            frappe.logger("bizmarketing").info(f"Granted '{role_name}' to {user.name}")
-        elif not grant and has_role:
-            user.roles = [r for r in user.roles if r.role != role_name]
-            user.save(ignore_permissions=True)
-            frappe.logger("bizmarketing").info(f"Revoked '{role_name}' from {user.name}")
-    except Exception as e:
-        frappe.logger("bizmarketing").error(f"Error managing role '{role_name}' for {user.name}: {e}")
 

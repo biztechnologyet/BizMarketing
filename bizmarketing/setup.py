@@ -58,11 +58,11 @@ def create_web_forms():
             ]
         },
         {
-            "name": "trial",
+            "name": "dobiz-trial-signup",
             "title": "DOBiz Free Trial Signup",
             "doc_type": "DOBiz Trial Signup",
             "module": "Marketing",
-            "route": "trial",
+            "route": "dobiz-trial-signup",
             "published": 1,
             "allow_edit": 0,
             "login_required": 0,

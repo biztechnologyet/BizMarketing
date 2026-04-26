@@ -55,7 +55,7 @@ def run():
             ]
         },
         {
-            "name": "dobiz-free-trial-signup",
+            "name": "dobiz-trial-signup",
             "title": "DOBiz Free Trial Signup",
             "doc_type": "DOBiz Trial Signup",
             "module": "Marketing",
@@ -69,10 +69,15 @@ def run():
             "web_form_fields": [
                 {"fieldname": "naming_series", "fieldtype": "Select", "hidden": 1},
                 {"fieldname": "full_name", "fieldtype": "Data", "label": "Full Name", "reqd": 1},
+                {"fieldname": "last_name", "fieldtype": "Data", "label": "Last Name", "reqd": 0},
                 {"fieldname": "email", "fieldtype": "Data", "label": "Business Email", "reqd": 1},
+                {"fieldname": "column_break_1", "fieldtype": "Column Break"},
                 {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 1},
                 {"fieldname": "company_name", "fieldtype": "Data", "label": "Company Name", "reqd": 1},
                 {"fieldname": "role", "fieldtype": "Data", "label": "Your Role", "reqd": 0},
+                {"fieldname": "section_break_2", "fieldtype": "Section Break", "hidden": 1},
+                {"fieldname": "status", "fieldtype": "Select", "hidden": 1},
+                {"fieldname": "trial_start_date", "fieldtype": "Date", "hidden": 1},
                 {"fieldname": "company", "fieldtype": "Link", "hidden": 1}
             ]
         },
