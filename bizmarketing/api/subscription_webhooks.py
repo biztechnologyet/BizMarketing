@@ -46,6 +46,7 @@ def notify_trial_started(doc):
         "email": doc.email,
         "full_name": doc.full_name,
         "phone": doc.phone,
+        "industry": doc.industry,
         "status": doc.status
     }
     frappe.enqueue(

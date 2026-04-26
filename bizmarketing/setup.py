@@ -78,6 +78,7 @@ def create_web_forms():
                 {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 1},
                 {"fieldname": "company_name", "fieldtype": "Data", "label": "Company Name", "reqd": 1},
                 {"fieldname": "role", "fieldtype": "Data", "label": "Your Role", "reqd": 0},
+                {"fieldname": "industry", "fieldtype": "Select", "label": "Industry", "reqd": 1},
                 {"fieldname": "section_break_2", "fieldtype": "Section Break", "hidden": 1},
                 {"fieldname": "status", "fieldtype": "Select", "hidden": 1},
                 {"fieldname": "trial_start_date", "fieldtype": "Date", "hidden": 1},

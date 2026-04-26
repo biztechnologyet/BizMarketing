@@ -13,6 +13,7 @@
   "phone",
   "company_name",
   "role",
+  "industry",
   "section_break_2",
   "status",
   "trial_start_date"
@@ -68,6 +69,13 @@
    "fieldtype": "Data",
    "label": "Your Role",
    "description": "e.g. CEO, IT Manager, Operations Lead"
+  },
+  {
+   "fieldname": "industry",
+   "fieldtype": "Select",
+   "label": "Industry",
+   "options": "Agriculture\nManufacturing\nConstruction\nRetail & Wholesale\nServices\nHealthcare\nEducation\nTechnology & IT\nHospitality & Tourism\nFinance & Insurance\nNon-Profit / NGO\nOther",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_2",
