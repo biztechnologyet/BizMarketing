@@ -1,0 +1,117 @@
+{
+  "name": "Trial Lifecycle Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "trial-lifecycle",
+        "options": {}
+      },
+      "id": "e2f1837c-f236-4d2c-8d18-9a6d713c8e47",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "b1b7a9f0-1d8c-4a1b-9e2b-f3c1b6d0e8a2"
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.headers['x-ethiobiz-event'] }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "trial_started"
+            },
+            {
+              "value2": "subscription_upgraded",
+              "output": 1
+            }
+          ]
+        }
+      },
+      "id": "c1f7b9e0-8a2c-4b3d-9f4e-f5c2b7d1e9b3",
+      "name": "Switch on Event Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_ADMIN_CHAT_ID",
+        "text": "=🚀 *New DOBiz Trial Signup!*\n\n*Name:* {{ $json.body.full_name }}\n*Company:* {{ $json.body.company_name }}\n*Industry:* {{ $json.body.industry }}\n*Phone:* {{ $json.body.phone }}\n*Email:* {{ $json.body.email }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "d2f8c0f1-9b3d-4c4e-a05f-06d3c8e2fa4c",
+      "name": "Telegram Alert (Trial Started)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        700,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_ADMIN_CHAT_ID",
+        "text": "=🎉 *Trial Converted to Paid!*\n\n*Company:* {{ $json.body.customer }}\n*Plan:* {{ $json.body.plan_name }}\n*Subscription:* {{ $json.body.subscription }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "e3f9d1g2-0c4e-5d5f-b16g-17e4d9f3gb5d",
+      "name": "Telegram Alert (Upgraded)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        700,
+        400
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch on Event Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch on Event Type": {
+      "main": [
+        [
+          {
+            "node": "Telegram Alert (Trial Started)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram Alert (Upgraded)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f789d97a-e4cc-4081-8178-591b65fb74e7"
+}
