@@ -141,7 +141,10 @@ scheduler_events = {
 		]
 	},
 	"daily": [
-		"bizmarketing.tasks.update_campaign_targets"
+		"bizmarketing.tasks.update_campaign_targets",
+		"bizmarketing.api.subscription_cron.check_trial_expirations",
+		"bizmarketing.api.subscription_cron.send_expiry_warnings",
+		"bizmarketing.api.subscription_cron.sync_trial_signup_status"
 	]
 }
 
