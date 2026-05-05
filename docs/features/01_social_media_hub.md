@@ -56,8 +56,12 @@ The `on_update` hook fires whenever a Social Media Post is saved:
 
 ### Background Scheduler (`tasks.py`)
 Two registered cron jobs:
-- **`process_publishing_queue`** (every 5 minutes): Sweeps all "Pending" queue items, fires API calls via platform clients, updates status to "Sent" or "Failed", logs errors
-- **`fetch_all_engagement`** (every 30 minutes): Iterates all "Posted" Social Media Posts and syncs engagement metrics back into `Post Engagement` records
+- **`process_publishing_queue`** (every 5 minutes): 
+  - Sweeps all "Pending" queue items.
+  - **CTA Enrichment**: Automatically appends the "Call to Action" text to the post content using a professional pointer (e.g., `👉 [CTA content]`) for high-conversion publishing.
+  - Fires API calls via platform clients.
+  - Updates status to "Sent" or "Failed", and logs errors in the queue record.
+- **`fetch_all_engagement`** (every 30 minutes): Iterates all "Posted" Social Media Posts and syncs engagement metrics back into `Post Engagement` records.
 
 ## 5. Client Scripts
 

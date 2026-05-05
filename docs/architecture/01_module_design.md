@@ -5,19 +5,22 @@ Prior to stabilization, the EthioBiz ERP system had 17 fragmented DocTypes scatt
 
 **Key Design Decisions:**
 - **Single Workspace (`marketing/workspace/marketing`)**: Implements Frappe's workspace layout schema with Glassmorphism UI tokens, segregating views into Quick Links and Campaign reporting.
+- **Tabbed UI Standard**: Adopted a horizontal "Tab Break" interface for all primary record forms to minimize vertical scrolling and maximize data clarity across marketing strategies, campaigns, and brands.
 - **DocType Reassignment**: Core records like `Marketing Campaign` were hard-reassigned from Frappe's Core module into our custom `bizmarketing` repo context to ensure complete ownership over overrides and dashboard linkages.
 
 ## 2. DocType Inventory
 
-| DocType | Purpose | Key Fields |
+| DocType | Purpose | Key Features / Fields |
 |---------|---------|------------|
-| `Marketing Campaign` | Parent campaign container | title, status, campaign_id, company |
-| `Social Media Post` | Individual content entry | title, content, platform, pillar, week, status, campaign, scheduled_time, platform_post_ids |
-| `Campaign Pillar` | Content category/theme | pillar_name (e.g., Dagu, Magala, Tibeb, Afocha, Walta) |
-| `Campaign Target` | Weekly KPI targets | week, target_impressions, target_engagements, actual_impressions, actual_engagements |
-| `Social Media Account` | Platform API credentials | platform, account_name, api_token (encrypted), account_id, company, is_active |
-| `Publishing Queue` | Scheduled dispatch jobs | social_media_post, platform, social_media_account, status, scheduled_time, error_log |
-| `Post Engagement` | Analytics snapshots | social_media_post, platform, impressions, engagements, clicks, reach, snapshot_time |
+| `Brand` | Visual & Strategic identity hub | Creative Engine: Color pickers, Typography selectors, Live HTML Preview. |
+| `Marketing Persona` | Customer archetype definition | Segmented tabs for Demographics, Psychographics (Pain points/Goals), and Channels. |
+| `Marketing Campaign` | Parent campaign container | Tabbed view: Overview, Targeting, Schedule & Budget. |
+| `Social Media Post` | Individual content entry | CTA Enrichment: Automatic beautiful CTA appending during publishing. |
+| `Campaign Pillar` | Content category/theme | pillar_name (e.g., Dagu, Magala, Tibeb, Afocha, Walta). |
+| `Campaign Target` | Weekly KPI targets | week, target_impressions, target_engagements, actual_impressions, actual_engagements. |
+| `Social Media Account` | Platform API credentials | platform, account_name, api_token (encrypted), account_id, company, is_active. |
+| `Publishing Queue` | Scheduled dispatch jobs | social_media_post, platform, social_media_account, status, scheduled_time, error_log. |
+| `Post Engagement` | Analytics snapshots | social_media_post, platform, impressions, engagements, clicks, reach, snapshot_time. |
 
 ## 3. Multi-Tenant Security (Company Global Filter)
 

@@ -59,16 +59,21 @@ docker exec bismallah_ethiobiz_inshaallah-backend-1 \
 docker restart bismallah_ethiobiz_inshaallah-backend-1
 ```
 
+### Step 6: Automated Force Deployment (Schema Sync)
+For changes involving DocType schema updates or Fixtures, use the `deploy_bizmarketing_force.py` pattern which automates the git pull, clear-cache, and `bench migrate` safely:
+```bash
+python deploy_bizmarketing_force.py
+```
+This script ensures that the database schema is synchronized without manual error.
+
 ## 4. Change Type Decision Matrix
 
-| Change Type | Clear Cache? | Nuke .pyc? | Restart Container? |
-|------------|-------------|-----------|-------------------|
-| JS/CSS only | ✅ | ❌ | ❌ (bench restart) |
-| Python logic | ✅ | ✅ | ✅ (docker restart) |
-| DocType schema | ✅ | ❌ | ❌ | 
-| New DocType | ⚠️ Requires `bench migrate` | — | — |
-
-> **WARNING**: Adding a new DocType requires `bench migrate` which is prohibited on production. New DocTypes must be created via the Desk GUI directly, or in a staging environment first.
+| Change Type | Clear Cache? | Nuke .pyc? | Restart Container? | Schema Sync? |
+|------------|-------------|-----------|-------------------|--------------|
+| JS/CSS only | ✅ | ❌ | ❌ (bench restart) | ❌ |
+| Python logic | ✅ | ✅ | ✅ (docker restart) | ❌ |
+| DocType schema | ✅ | ❌ | ❌ | ✅ (bench migrate) | 
+| New DocType | ✅ | ❌ | ❌ | ✅ (bench migrate) | 
 
 ## 5. SSH Access Pattern (via Python/Paramiko)
 ```python

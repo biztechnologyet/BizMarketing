@@ -150,6 +150,7 @@ User creates Social Media Post → Sets status to "Approved"
 Publishing Queue records auto-created (one per platform)
     ↓ (every 5 minutes via tasks.py cron)
 process_publishing_queue() fires API calls via platform clients
+    → Appends beautifully formatted CTA (e.g. 👉 [CTA Text]) if present
     ↓
 Post status updated to "Posted", platform_post_ids stored as JSON
     ↓ (every 30 minutes via tasks.py cron)
@@ -169,6 +170,11 @@ Each platform requires specific values in the `Social Media Account` DocType:
 ---
 
 ## 5. UI / Dashboard Design Tenets
+- **Tabbed Layout Standard**: All primary marketing doctypes (`Brand`, `Strategy`, `Campaign`, `Persona`, `Post`) MUST use `Tab Break` fields to group related data (Overview, Vision, Demographics, etc.) for a professional horizontal interface.
+- **Brand Creative Engine**: The standard `Brand` doctype is upgraded via fixtures with:
+  - **Color Pickers**: Visual hex code selection for Primary, Secondary, and Accent colors.
+  - **Typography Selector**: Selectable Heading/Body fonts and weights.
+  - **Live Preview Wrapper**: Interactive HTML section that renders the brand identity (Logo, H1-H4, Paragraphs, Buttons) in real-time as fields are modified.
 - Utilize pure, modern Vanilla CSS (Glassmorphism injected stylesheets).
 - Frappe APIs (`frappe.call`) must use `freeze: true` for async loading states.
 - `frappe.Chart` arrays MUST be sanitized for length; empty arrays crash the chart renderer.
