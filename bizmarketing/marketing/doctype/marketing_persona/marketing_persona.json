@@ -57,12 +57,12 @@
   },
   {
    "fieldname": "preferred_channels",
-   "fieldtype": "Table MultiSelect",
+   "fieldtype": "Small Text",
    "label": "Preferred Channels",
-   "options": "Channel"
+   "description": "Enter comma-separated channels (e.g. Facebook, LinkedIn, Email)"
   }
  ],
- "modified": "2026-02-17 18:00:00.000000",
+ "modified": "2026-04-05 17:00:00.000000",
  "modified_by": "Administrator",
  "module": "Marketing",
  "name": "Marketing Persona",

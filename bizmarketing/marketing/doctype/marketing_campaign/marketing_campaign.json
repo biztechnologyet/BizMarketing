@@ -20,6 +20,7 @@
   "campaign_objective_section",
   "primary_objective",
   "campaign_theme",
+  "brand",
   "target_persona",
   "audience_channels",
   "audience_kpis",
@@ -138,6 +139,12 @@
    "fieldname": "campaign_theme",
    "fieldtype": "Data",
    "label": "Campaign Theme"
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Link",
+   "label": "Brand",
+   "options": "Brand"
   },
   {
    "fieldname": "target_persona",

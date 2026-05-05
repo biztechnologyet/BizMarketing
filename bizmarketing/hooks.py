@@ -168,3 +168,8 @@ scheduler_events = {
 # }
 
 # git_url = "https://github.com/biztechnology/bizmarketing"
+
+fixtures = [
+	{"dt": "Custom Field", "filters": [["dt", "=", "Brand"]]},
+	{"dt": "Property Setter", "filters": [["doc_type", "=", "Brand"]]}
+]
