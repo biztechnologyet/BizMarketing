@@ -30,6 +30,10 @@ def process_queue_item(queue_id):
     # Strip HTML from text editor for plain text APIs
     text = frappe.utils.strip_html(post.content or "")
     
+    # Beautifully append CTA if present
+    if post.cta:
+        text += f"\n\n👉 {post.cta}"
+    
     try:
         platform_id = None
         if doc.platform == "Telegram":
