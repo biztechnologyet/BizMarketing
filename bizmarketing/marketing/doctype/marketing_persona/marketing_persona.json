@@ -4,16 +4,22 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "tab_overview",
   "persona_name",
   "company",
   "description",
-  "audience_details_section",
+  "tab_psychographics",
   "pain_points",
   "preferences",
-  "channels_section",
+  "tab_channels",
   "preferred_channels"
  ],
  "fields": [
+  {
+   "fieldname": "tab_overview",
+   "fieldtype": "Tab Break",
+   "label": "Demographics"
+  },
   {
    "fieldname": "persona_name",
    "fieldtype": "Data",
@@ -36,9 +42,9 @@
    "label": "Description"
   },
   {
-   "fieldname": "audience_details_section",
-   "fieldtype": "Section Break",
-   "label": "Audience Deep-Dive"
+   "fieldname": "tab_psychographics",
+   "fieldtype": "Tab Break",
+   "label": "Psychographics"
   },
   {
    "fieldname": "pain_points",
@@ -51,8 +57,8 @@
    "label": "Preferences & Cultural Nuance"
   },
   {
-   "fieldname": "channels_section",
-   "fieldtype": "Section Break",
+   "fieldname": "tab_channels",
+   "fieldtype": "Tab Break",
    "label": "Channels"
   },
   {

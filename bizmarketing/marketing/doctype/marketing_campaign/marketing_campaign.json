@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "tab_overview",
   "title",
   "company",
   "campaign_id",
@@ -46,6 +47,11 @@
   "project"
  ],
  "fields": [
+  {
+   "fieldname": "tab_overview",
+   "fieldtype": "Tab Break",
+   "label": "Overview"
+  },
   {
    "fieldname": "title",
    "fieldtype": "Data",
@@ -127,8 +133,8 @@
   },
   {
    "fieldname": "campaign_objective_section",
-   "fieldtype": "Section Break",
-   "label": "Objectives & Themes"
+   "fieldtype": "Tab Break",
+   "label": "Targeting & Objectives"
   },
   {
    "fieldname": "primary_objective",

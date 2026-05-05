@@ -5,6 +5,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "tab_overview",
   "title",
   "company",
   "location",
@@ -47,6 +48,11 @@
   "item_group"
  ],
  "fields": [
+  {
+   "fieldname": "tab_overview",
+   "fieldtype": "Tab Break",
+   "label": "Overview"
+  },
   {
    "fieldname": "title",
    "fieldtype": "Data",
@@ -94,7 +100,7 @@
   },
   {
    "fieldname": "strategic_section",
-   "fieldtype": "Section Break",
+   "fieldtype": "Tab Break",
    "label": "Strategic Vision"
   },
   {
@@ -135,8 +141,8 @@
   },
   {
    "fieldname": "marketing_mix_section",
-   "fieldtype": "Section Break",
-   "label": "Marketing Mix (4Ps)"
+   "fieldtype": "Tab Break",
+   "label": "Marketing Mix"
   },
   {
    "fieldname": "product_strategy",
@@ -160,8 +166,8 @@
   },
   {
    "fieldname": "swot_section",
-   "fieldtype": "Section Break",
-   "label": "SWOT Analysis"
+   "fieldtype": "Tab Break",
+   "label": "SWOT & Market"
   },
   {
    "fieldname": "strengths",
@@ -196,8 +202,8 @@
   },
   {
    "fieldname": "goals_section",
-   "fieldtype": "Section Break",
-   "label": "SMART Goals & KPIs"
+   "fieldtype": "Tab Break",
+   "label": "Goals & Budget"
   },
   {
    "fieldname": "smart_goals",
@@ -218,8 +224,8 @@
   },
   {
    "fieldname": "content_strategy_section",
-   "fieldtype": "Section Break",
-   "label": "Content Strategy"
+   "fieldtype": "Tab Break",
+   "label": "Execution Plan"
   },
   {
    "fieldname": "awareness_strategy",
