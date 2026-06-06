@@ -9,7 +9,7 @@ from bizmarketing import __version__ as version
 setup(
 	name="bizmarketing",
 	version=version,
-	description="Comprehensive Marketing Operations for Frappe",
+	description="Comprehensive Marketing Operations",
 	author="Biz Technology Solutions",
 	author_email="hadi@biztechnology.et",
 	packages=find_packages(),

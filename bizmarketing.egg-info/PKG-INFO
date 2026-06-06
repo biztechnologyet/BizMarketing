@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: bizmarketing
+Version: 0.0.1
+Summary: Comprehensive Marketing Operations for Frappe
+Author: Biz Technology Solutions
+Author-email: Biz Technology Solutions <hadi@biztechnology.et>
+Requires-Python: >=3.10
+Dynamic: author
