@@ -23,6 +23,7 @@ def execute():
             ("Non-Profit / NGO", "NGO User", "NGO Module"),
             ("Other", "General User", "General Module"),
         ]
+        doc.flags.ignore_links = True
         for industry, role, module in industry_profiles:
             doc.append("industry_role_mappings", {
                 "industry": industry,
