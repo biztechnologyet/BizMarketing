@@ -172,5 +172,6 @@ scheduler_events = {
 fixtures = [
 	{"dt": "Custom Field", "filters": [["dt", "=", "Brand"]]},
 	{"dt": "Property Setter", "filters": [["doc_type", "=", "Brand"]]},
-	{"dt": "Client Script", "filters": [["dt", "=", "Brand"]]}
+	{"dt": "Client Script", "filters": [["dt", "=", "Brand"]]},
+	{"dt": "Workspace", "filters": [["label", "=", "DOBiz Subscription Management"]]}
 ]

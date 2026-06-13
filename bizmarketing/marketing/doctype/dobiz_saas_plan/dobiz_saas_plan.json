@@ -1,0 +1,214 @@
+{
+ "actions": [],
+ "autoname": "field:plan_name",
+ "creation": "2026-06-13 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan_name",
+  "enabled",
+  "is_trial_plan",
+  "trial_duration_days",
+  "column_break_general",
+  "billing_interval",
+  "billing_interval_count",
+  "cost",
+  "currency",
+  "pricing_section",
+  "price_determination",
+  "per_user_cost",
+  "max_users",
+  "column_break_limits",
+  "max_social_accounts",
+  "max_ai_queries_per_day",
+  "max_storage_gb",
+  "features_section",
+  "has_advanced_analytics",
+  "has_priority_support",
+  "column_break_features",
+  "linked_erpnext_plan",
+  "color_theme",
+  "plan_features_section",
+  "features"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Plan Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": 1
+  },
+  {
+   "fieldname": "is_trial_plan",
+   "fieldtype": "Check",
+   "label": "Is Trial Plan"
+  },
+  {
+   "fieldname": "trial_duration_days",
+   "fieldtype": "Int",
+   "label": "Trial Duration (Days)",
+   "depends_on": "eval:doc.is_trial_plan"
+  },
+  {
+   "fieldname": "column_break_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "billing_interval",
+   "fieldtype": "Select",
+   "label": "Billing Interval",
+   "options": "Month\nYear\nOne-Time",
+   "default": "Month"
+  },
+  {
+   "fieldname": "billing_interval_count",
+   "fieldtype": "Int",
+   "label": "Billing Interval Count",
+   "default": 1
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost",
+   "options": "ETB",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "default": "ETB"
+  },
+  {
+   "fieldname": "pricing_section",
+   "fieldtype": "Section Break",
+   "label": "Pricing & Limits"
+  },
+  {
+   "fieldname": "price_determination",
+   "fieldtype": "Select",
+   "label": "Price Determination",
+   "options": "Fixed Rate\nPer User\nTiered",
+   "default": "Fixed Rate"
+  },
+  {
+   "fieldname": "per_user_cost",
+   "fieldtype": "Currency",
+   "label": "Per User Cost (ETB)",
+   "options": "ETB",
+   "depends_on": "eval:doc.price_determination == 'Per User'"
+  },
+  {
+   "fieldname": "max_users",
+   "fieldtype": "Int",
+   "label": "Max Users (0 = Unlimited)",
+   "default": 0
+  },
+  {
+   "fieldname": "column_break_limits",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "max_social_accounts",
+   "fieldtype": "Int",
+   "label": "Max Social Media Accounts",
+   "default": 0
+  },
+  {
+   "fieldname": "max_ai_queries_per_day",
+   "fieldtype": "Int",
+   "label": "Max AI Queries Per Day",
+   "default": 0
+  },
+  {
+   "fieldname": "max_storage_gb",
+   "fieldtype": "Int",
+   "label": "Max Storage (GB)",
+   "default": 0
+  },
+  {
+   "fieldname": "features_section",
+   "fieldtype": "Section Break",
+   "label": "Feature Toggles"
+  },
+  {
+   "fieldname": "has_advanced_analytics",
+   "fieldtype": "Check",
+   "label": "Advanced Analytics"
+  },
+  {
+   "fieldname": "has_priority_support",
+   "fieldtype": "Check",
+   "label": "Priority Support"
+  },
+  {
+   "fieldname": "column_break_features",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "linked_erpnext_plan",
+   "fieldtype": "Link",
+   "label": "Linked ERPNext Subscription Plan",
+   "options": "Subscription Plan"
+  },
+  {
+   "fieldname": "color_theme",
+   "fieldtype": "Data",
+   "label": "Color Theme",
+   "default": "#1a73e8"
+  },
+  {
+   "fieldname": "plan_features_section",
+   "fieldtype": "Section Break",
+   "label": "Plan Features"
+  },
+  {
+   "fieldname": "features",
+   "fieldtype": "Table",
+   "label": "Features",
+   "options": "DOBiz SaaS Plan Feature"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-13 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "DOBiz SaaS Plan",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Marketing Manager"
+  }
+ ],
+ "sort_field": "cost",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "plan_name",
+ "track_changes": 1
+}

@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "autoname": "format:EMAIL-{template_type}-{#####}",
+ "creation": "2026-06-13 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "template_name",
+  "template_type",
+  "column_break_type",
+  "sender_email",
+  "sender_name",
+  "content_section",
+  "subject",
+  "message_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "template_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Template Type",
+   "options": "Welcome\nExpiry Warning\nExpired\nConversion\nPayment Receipt",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_type",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sender_email",
+   "fieldtype": "Data",
+   "label": "Sender Email (override)",
+   "options": "Email"
+  },
+  {
+   "fieldname": "sender_name",
+   "fieldtype": "Data",
+   "label": "Sender Name (override)"
+  },
+  {
+   "fieldname": "content_section",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Subject (Jinja supported)",
+   "reqd": 1,
+   "description": "Available variables: {{ full_name }}, {{ company_name }}, {{ plan_name }}, {{ expiry_date }}, {{ days_remaining }}, {{ login_url }}"
+  },
+  {
+   "fieldname": "message_html",
+   "fieldtype": "Text Editor",
+   "label": "Message HTML (Jinja supported)",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-13 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "DOBiz Email Template",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "template_name",
+ "track_changes": 1
+}

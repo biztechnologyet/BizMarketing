@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "creation": "2026-06-13 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "general_settings_section",
+  "default_trial_duration_days",
+  "parent_company",
+  "sender_email",
+  "sender_name",
+  "column_break_general",
+  "default_role_profile_fallback",
+  "default_module_profile_fallback",
+  "addispay_settings_section",
+  "addispay_api_key",
+  "addispay_webhook_secret",
+  "column_break_addispay",
+  "addispay_sandbox_mode",
+  "industry_role_mapping_section",
+  "industry_role_mappings"
+ ],
+ "fields": [
+  {
+   "fieldname": "general_settings_section",
+   "fieldtype": "Section Break",
+   "label": "General Settings"
+  },
+  {
+   "fieldname": "default_trial_duration_days",
+   "fieldtype": "Int",
+   "label": "Default Trial Duration (Days)",
+   "default": 7
+  },
+  {
+   "fieldname": "parent_company",
+   "fieldtype": "Link",
+   "label": "Parent Company",
+   "options": "Company",
+   "default": "Biz Technology Solutions",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_email",
+   "fieldtype": "Data",
+   "label": "Sender Email",
+   "default": "onboard@ethiobiz.et",
+   "options": "Email"
+  },
+  {
+   "fieldname": "sender_name",
+   "fieldtype": "Data",
+   "label": "Sender Name",
+   "default": "DOBiz by EthioBiz"
+  },
+  {
+   "fieldname": "column_break_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_role_profile_fallback",
+   "fieldtype": "Link",
+   "label": "Default Role Profile (Fallback)",
+   "options": "Role Profile"
+  },
+  {
+   "fieldname": "default_module_profile_fallback",
+   "fieldtype": "Link",
+   "label": "Default Module Profile (Fallback)",
+   "options": "Module Profile"
+  },
+  {
+   "fieldname": "addispay_settings_section",
+   "fieldtype": "Section Break",
+   "label": "AddisPay Settings"
+  },
+  {
+   "fieldname": "addispay_api_key",
+   "fieldtype": "Password",
+   "label": "AddisPay API Key"
+  },
+  {
+   "fieldname": "addispay_webhook_secret",
+   "fieldtype": "Password",
+   "label": "AddisPay Webhook Secret"
+  },
+  {
+   "fieldname": "column_break_addispay",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "addispay_sandbox_mode",
+   "fieldtype": "Check",
+   "label": "Sandbox Mode",
+   "default": 1
+  },
+  {
+   "fieldname": "industry_role_mapping_section",
+   "fieldtype": "Section Break",
+   "label": "Industry Role Mapping"
+  },
+  {
+   "fieldname": "industry_role_mappings",
+   "fieldtype": "Table",
+   "label": "Industry Role Mappings",
+   "options": "Industry Role Mapping"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-13 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "DOBiz SaaS Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

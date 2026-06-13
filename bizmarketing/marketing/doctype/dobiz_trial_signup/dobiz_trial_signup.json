@@ -14,9 +14,19 @@
   "company_name",
   "role",
   "industry",
+  "qualification_section",
+  "number_of_employees",
+  "expected_use_case",
+  "column_break_qual",
+  "how_did_you_hear",
+  "preferred_plan",
   "section_break_2",
   "status",
-  "trial_start_date"
+  "trial_start_date",
+  "column_break_status",
+  "subscription_link",
+  "user_linked",
+  "company_linked"
  ],
  "fields": [
   {
@@ -78,6 +88,38 @@
    "reqd": 1
   },
   {
+   "fieldname": "qualification_section",
+   "fieldtype": "Section Break",
+   "label": "Qualification"
+  },
+  {
+   "fieldname": "number_of_employees",
+   "fieldtype": "Select",
+   "label": "Number of Employees",
+   "options": "\n1-10\n11-50\n51-200\n200+"
+  },
+  {
+   "fieldname": "expected_use_case",
+   "fieldtype": "Small Text",
+   "label": "Expected Use Case"
+  },
+  {
+   "fieldname": "column_break_qual",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "how_did_you_hear",
+   "fieldtype": "Select",
+   "label": "How Did You Hear About Us?",
+   "options": "\nSocial Media\nFriend / Referral\nGoogle Search\nTV / Radio\nOther"
+  },
+  {
+   "fieldname": "preferred_plan",
+   "fieldtype": "Link",
+   "label": "Preferred Plan",
+   "options": "DOBiz SaaS Plan"
+  },
+  {
    "fieldname": "section_break_2",
    "fieldtype": "Section Break",
    "label": "Trial Management"
@@ -96,6 +138,31 @@
    "label": "Trial Start Date"
   },
   {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "subscription_link",
+   "fieldtype": "Link",
+   "label": "Subscription",
+   "options": "Subscription",
+   "read_only": 1
+  },
+  {
+   "fieldname": "user_linked",
+   "fieldtype": "Link",
+   "label": "Provisioned User",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_linked",
+   "fieldtype": "Link",
+   "label": "Sandbox Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
@@ -106,7 +173,7 @@
   }
  ],
  "index_web_pages_for_search": 1,
- "modified": "2026-04-06 12:00:00.000000",
+ "modified": "2026-06-13 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "Marketing",
  "name": "DOBiz Trial Signup",

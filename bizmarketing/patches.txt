@@ -1,1 +1,5 @@
 # patches.txt
+bizmarketing.patches.v1_0.create_dobiz_saas_settings.execute
+bizmarketing.patches.v1_0.create_default_plans.execute
+bizmarketing.patches.v1_0.seed_email_templates.execute
+bizmarketing.patches.v1_0.create_subscription_workspace.execute

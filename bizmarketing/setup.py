@@ -79,9 +79,18 @@ def create_web_forms():
                 {"fieldname": "company_name", "fieldtype": "Data", "label": "Company Name", "reqd": 1},
                 {"fieldname": "role", "fieldtype": "Data", "label": "Your Role", "reqd": 0},
                 {"fieldname": "industry", "fieldtype": "Select", "label": "Industry", "reqd": 1},
+                {"fieldname": "qualification_section", "fieldtype": "Section Break", "label": "More About Your Business"},
+                {"fieldname": "number_of_employees", "fieldtype": "Select", "label": "Number of Employees", "reqd": 0},
+                {"fieldname": "expected_use_case", "fieldtype": "Small Text", "label": "Expected Use Case", "reqd": 0},
+                {"fieldname": "column_break_qual", "fieldtype": "Column Break"},
+                {"fieldname": "how_did_you_hear", "fieldtype": "Select", "label": "How Did You Hear About Us?", "reqd": 0},
+                {"fieldname": "preferred_plan", "fieldtype": "Link", "label": "Preferred Plan", "reqd": 0},
                 {"fieldname": "section_break_2", "fieldtype": "Section Break", "hidden": 1},
                 {"fieldname": "status", "fieldtype": "Select", "hidden": 1},
                 {"fieldname": "trial_start_date", "fieldtype": "Date", "hidden": 1},
+                {"fieldname": "subscription_link", "fieldtype": "Link", "hidden": 1},
+                {"fieldname": "user_linked", "fieldtype": "Link", "hidden": 1},
+                {"fieldname": "company_linked", "fieldtype": "Link", "hidden": 1},
                 {"fieldname": "company", "fieldtype": "Link", "hidden": 1}
             ]
         },

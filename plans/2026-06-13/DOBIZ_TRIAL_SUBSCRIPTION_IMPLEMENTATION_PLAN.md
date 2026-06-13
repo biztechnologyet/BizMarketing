@@ -537,12 +537,20 @@ User receives welcome email → clicks login → uses DOBiz SmartERP
 
 ## ROLLBACK PLAN
 
+Backup created on: **June 13, 2026**
+
+| Backup Method | Location | Details |
+|---------------|----------|---------|
+| Git Tag | Local repo | `v1.0-before-subscription-refactor` (commit `072b4d7`) |
+| Zip Archive | `C:\Users\bizit\AppData\Local\Temp\opencode\bizmarketing_BACKUP_2026-06-13.zip` | Full source |
+| Git Remote | `origin/main` | Pushed before changes |
+
 If any phase causes production disruption:
 
 1. **Revert code**:
    ```bash
    docker exec -u frappe -w /home/frappe/frappe-bench/apps/bizmarketing \
-     bismallah_ethiobiz_inshaallah-backend-1 git checkout <previous_commit_hash> -- .
+     bismallah_ethiobiz_inshaallah-backend-1 git checkout v1.0-before-subscription-refactor -- .
    ```
 
 2. **Nuke pycache & restart**:
@@ -554,13 +562,13 @@ If any phase causes production disruption:
 
 3. **Restore DB** if migration patches ran:
    ```bash
+   bench --site ethiobiz.et backup --with-files  # current state backup first
    docker exec -u frappe bismallah_ethiobiz_inshaallah-backend-1 \
-     bench --site ethiobiz.et restore --with-public-files /path/to/backup.sql
+     bench --site ethiobiz.et restore --with-public-files /path/to/pre_refactor_backup.sql
    ```
 
-4. **Verify**: Check browser, logs, and trial signup flow.
+4. **Verify**: Check browser (trial signup flow, subscription list), logs, and user access.
 
 ---
 
-**BISMALLAH. Implementation plan complete and ready for execution INSHA'ALLAH.**
-**ALHAMDULILLAH.**
+**BISMALLAH. ALHAMDULILLAH. Backup secured. Proceeding with implementation INSHA'ALLAH.**

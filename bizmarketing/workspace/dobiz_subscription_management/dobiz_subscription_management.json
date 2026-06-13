@@ -1,0 +1,165 @@
+{
+ "charts": [
+  {
+   "chart_name": "MRR",
+   "label": "Monthly Recurring Revenue (ETB)",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "Subscriptions by Plan",
+   "label": "Subscriptions by Plan",
+   "type": "Chart"
+  }
+ ],
+ "content": "[{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Subscription Dashboard\",\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"Configuration\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Settings\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Plan\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Email Template\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Leads & Transactions\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Trial Signup\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Payment Transaction\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Subscription\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Revenue Metrics\",\"level\":3,\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"MRR\",\"col\":6}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Subscriptions by Plan\",\"col\":6}}]",
+ "creation": "2026-06-13 18:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "idx": 0,
+ "label": "DOBiz Subscription Management",
+ "links": [
+  {
+   "label": "Subscription Dashboard",
+   "link_to": "subscription_dashboard",
+   "link_type": "Page",
+   "type": "Link"
+  },
+  {
+   "label": "DOBiz SaaS Settings",
+   "link_to": "DOBiz SaaS Settings",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "DOBiz SaaS Plan",
+   "link_to": "DOBiz SaaS Plan",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "DOBiz Email Template",
+   "link_to": "DOBiz Email Template",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "DOBiz Trial Signup",
+   "link_to": "DOBiz Trial Signup",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "DOBiz Payment Transaction",
+   "link_to": "DOBiz Payment Transaction",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Subscription",
+   "link_to": "Subscription",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Subscription Plan",
+   "link_to": "Subscription Plan",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Customer",
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-06-13 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "DOBiz Subscription Management",
+ "owner": "Administrator",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "DOBiz Trial Signup",
+   "label": "Active Trials",
+   "filters": [
+    ["status", "=", "Trial Active"]
+   ]
+  },
+  {
+   "document_type": "Subscription",
+   "label": "Active Subscriptions",
+   "filters": [
+    ["status", "=", "Active"]
+   ]
+  },
+  {
+   "document_type": "DOBiz Payment Transaction",
+   "label": "Pending Payments",
+   "filters": [
+    ["status", "=", "Pending"]
+   ]
+  },
+  {
+   "document_type": "DOBiz Trial Signup",
+   "label": "Trial Signups"
+  },
+  {
+   "document_type": "DOBiz SaaS Plan",
+   "label": "SaaS Plans"
+  }
+ ],
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Marketing Manager"
+  }
+ ],
+ "shortcuts": [
+  {
+   "label": "Subscription Dashboard",
+   "type": "Page",
+   "link_to": "subscription_dashboard"
+  },
+  {
+   "label": "DOBiz SaaS Settings",
+   "type": "DocType",
+   "link_to": "DOBiz SaaS Settings"
+  },
+  {
+   "label": "DOBiz SaaS Plan",
+   "type": "DocType",
+   "link_to": "DOBiz SaaS Plan"
+  },
+  {
+   "label": "DOBiz Email Template",
+   "type": "DocType",
+   "link_to": "DOBiz Email Template"
+  },
+  {
+   "label": "DOBiz Trial Signup",
+   "type": "DocType",
+   "link_to": "DOBiz Trial Signup"
+  },
+  {
+   "label": "DOBiz Payment Transaction",
+   "type": "DocType",
+   "link_to": "DOBiz Payment Transaction"
+  },
+  {
+   "label": "Subscription",
+   "type": "DocType",
+   "link_to": "Subscription"
+  }
+ ],
+ "title": "DOBiz Subscription Management"
+}
