@@ -31,8 +31,7 @@ def _send_email(email, subject, message):
     try:
         frappe.sendmail(
             recipients=[email],
-            sender="onboard@ethiobiz.et",
-            display_sender="DOBiz by EthioBiz <onboard@ethiobiz.et>",
+            sender="DOBiz by EthioBiz <onboard@ethiobiz.et>",
             subject=subject,
             message=message,
             now=True,
