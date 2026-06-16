@@ -49,7 +49,9 @@ def setup_trial_tenant(doc, method=None):
                 "phone": doc.phone,
                 "send_welcome_email": 0,
                 "role_profile_name": role_profile,
-                "module_profile": module_profile
+                "module_profile": module_profile,
+                "company": company_name,
+                "custom_company": company_name
             })
             user.insert(ignore_permissions=True)
             frappe.get_doc({

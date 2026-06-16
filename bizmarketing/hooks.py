@@ -170,5 +170,7 @@ fixtures = [
 	{"dt": "Custom Field", "filters": [["dt", "=", "Brand"]]},
 	{"dt": "Property Setter", "filters": [["doc_type", "=", "Brand"]]},
 	{"dt": "Client Script", "filters": [["dt", "=", "Brand"]]},
+	{"dt": "Client Script", "filters": [["name", "=", "DOBiz Payment Transaction Admin Approval"]]},
+	{"dt": "Client Script", "filters": [["name", "=", "DOBiz Trial Signup Admin Provision"]]},
 	{"dt": "Workspace", "filters": [["label", "=", "DOBiz Subscription Management"]]}
 ]
