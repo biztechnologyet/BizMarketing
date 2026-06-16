@@ -108,7 +108,7 @@ def process_subscription_access(doc, method=None):
         return
     try:
         user = frappe.get_doc("User", target_email)
-        if doc.status in ["Active", "Trialing"]:
+        if doc.status == "Active":
             if user.enabled == 0:
                 user.enabled = 1
                 user.save(ignore_permissions=True)
