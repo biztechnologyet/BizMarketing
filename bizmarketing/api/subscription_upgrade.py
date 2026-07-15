@@ -20,10 +20,18 @@ def upgrade_subscription(subscription_name, plan_name="DOBiz Standard Plan"):
     if doc.company != parent_company:
         frappe.throw("Cannot upgrade subscriptions outside the parent company.")
     try:
-        doc.trial_period_end = today()
-        doc.plans = []
-        doc.append("plans", {"plan": erpnext_plan_name, "qty": 1})
-        doc.save(ignore_permissions=True, ignore_validate=True)
+        frappe.db.set_value("Subscription", subscription_name, "trial_period_end", today())
+        frappe.db.delete("Subscription Plan Detail", {"parent": subscription_name})
+        plan_doc = frappe.get_doc({
+            "doctype": "Subscription Plan Detail",
+            "parent": subscription_name,
+            "parenttype": "Subscription",
+            "parentfield": "plans",
+            "plan": erpnext_plan_name,
+            "qty": 1
+        })
+        plan_doc.insert(ignore_permissions=True)
+        doc = frappe.get_doc("Subscription", subscription_name)
         frappe.logger("bizmarketing").info(f"Upgraded subscription {subscription_name} to {erpnext_plan_name}")
         trial_signups = frappe.get_all(
             "DOBiz Trial Signup",
