@@ -46,7 +46,7 @@ def upgrade_subscription(subscription_name, plan_name="DOBiz Standard Plan"):
             txn.customer = doc.party
             txn.amount = plan_cost
             txn.status = "Pending"
-            txn.insert(ignore_permissions=True)
+            txn.insert(ignore_permissions=True, ignore_mandatory=True)
             frappe.db.set_value("DOBiz Trial Signup", signup.name, "status", "Converted")
             try:
                 payment_response = initiate_payment(
