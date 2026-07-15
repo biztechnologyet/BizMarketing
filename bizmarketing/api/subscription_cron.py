@@ -54,12 +54,13 @@ def sync_trial_signup_status():
     frappe.logger("bizmarketing").info("Syncing Trial Signup statuses...")
     trial_signups = frappe.get_all(
         "DOBiz Trial Signup",
-        filters={"status": ["in", ["Pending", "Trial Active"]]},
         fields=["name", "company_name", "email", "status"]
     )
     settings = frappe.get_single("DOBiz SaaS Settings")
     parent_company = settings.parent_company or "Biz Technology Solutions"
     for signup in trial_signups:
+        if signup.status == "Converted":
+            continue
         try:
             sub = frappe.db.get_value(
                 "Subscription",

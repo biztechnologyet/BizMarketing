@@ -23,7 +23,7 @@ def upgrade_subscription(subscription_name, plan_name="DOBiz Standard Plan"):
         doc.trial_period_end = today()
         doc.plans = []
         doc.append("plans", {"plan": erpnext_plan_name, "qty": 1})
-        doc.save(ignore_permissions=True)
+        doc.save(ignore_permissions=True, ignore_validate=True)
         frappe.logger("bizmarketing").info(f"Upgraded subscription {subscription_name} to {erpnext_plan_name}")
         trial_signups = frappe.get_all(
             "DOBiz Trial Signup",
