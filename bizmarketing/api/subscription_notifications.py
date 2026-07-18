@@ -38,11 +38,25 @@ def send_welcome_email(email, full_name, company_name, password_setup_link=None)
     if not subject:
         subject = f"Bismillah! Welcome to DOBiz, {full_name}! Your 7-Day Trial is Active"
         message = _default_welcome_html(full_name, company_name, password_setup_link)
+    elif password_setup_link and f'href="{password_setup_link}"' not in (message or ""):
+        message = (message or "") + _password_setup_section(password_setup_link)
     _send_email(email, subject, message, sender, sender_name)
     frappe.logger("bizmarketing").info(f"Welcome email sent to {email}")
 
+def _password_setup_section(password_setup_link):
+    return f"""
+    <div style="background:#fff3e0;padding:20px;border-radius:8px;margin:20px 0;border:1px solid #ffe0b2;">
+        <h3 style="margin:0 0 10px 0;color:#e65100;">Set Your Password</h3>
+        <p style="margin:0 0 15px 0;color:#555;">Click the button below to create your login password and access your DOBiz dashboard:</p>
+        <p style="text-align:center;margin:0;">
+            <a href="{password_setup_link}" style="background:#e65100;color:white;padding:14px 35px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:16px;">Set Your Password</a>
+        </p>
+    </div>"""
+
 def send_expiry_warning_email(email, company_name, days_remaining, expiry_date):
+    full_name = frappe.db.get_value("DOBiz Trial Signup", {"company_name": company_name, "email": email}, "full_name")
     context = {
+        "full_name": full_name or company_name,
         "company_name": company_name,
         "days_remaining": days_remaining,
         "expiry_date": expiry_date,
@@ -57,7 +71,12 @@ def send_expiry_warning_email(email, company_name, days_remaining, expiry_date):
     frappe.logger("bizmarketing").info(f"Expiry warning ({days_remaining}d) sent to {email}")
 
 def send_expired_email(email, company_name):
-    context = {"company_name": company_name, "login_url": LOGIN_URL}
+    full_name = frappe.db.get_value("DOBiz Trial Signup", {"company_name": company_name, "email": email}, "full_name")
+    context = {
+        "full_name": full_name or company_name,
+        "company_name": company_name,
+        "login_url": LOGIN_URL,
+    }
     sender, sender_name, subject, message = _load_template("Expired", context)
     if not subject:
         subject = "Your DOBiz Trial Has Expired - Subscribe to Continue"
@@ -84,16 +103,7 @@ def send_payment_receipt_email(email, full_name, plan_name, amount):
     frappe.logger("bizmarketing").info(f"Payment receipt sent to {email}")
 
 def _default_welcome_html(full_name, company_name, password_setup_link=None):
-    setup_section = ""
-    if password_setup_link:
-        setup_section = f"""
-        <div style="background:#fff3e0;padding:20px;border-radius:8px;margin:20px 0;border:1px solid #ffe0b2;">
-            <h3 style="margin:0 0 10px 0;color:#e65100;">Set Your Password</h3>
-            <p style="margin:0 0 15px 0;color:#555;">Click the button below to create your login password and access your DOBiz dashboard:</p>
-            <p style="text-align:center;margin:0;">
-                <a href="{password_setup_link}" style="background:#e65100;color:white;padding:14px 35px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:16px;">Set Your Password</a>
-            </p>
-        </div>"""
+    setup_section = _password_setup_section(password_setup_link) if password_setup_link else ""
     return f"""
     <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;">
         <div style="background:linear-gradient(135deg,#1a73e8,#0d47a1);padding:30px;border-radius:12px 12px 0 0;text-align:center;">

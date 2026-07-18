@@ -7,8 +7,45 @@ def _get_fiscal_year():
         "name")
     return fy or str(getdate().year)
 
+CHILD_TABLES_WITH_COMPANY = [
+    "tabAccounting Dimension Detail", "tabAllowed To Transact With",
+    "tabAsset Movement Item", "tabCustomer Credit Limit",
+    "tabExpense Claim Account", "tabFee Category Default",
+    "tabFiscal Year Company", "tabItem Default",
+    "tabLedger Health Monitor Company", "tabMode of Payment Account",
+    "tabParty Account", "tabSalary Component Account",
+    "tabTax Withholding Account", "tabWork Experience",
+]
+
+def _clean_orphaned_company_data():
+    for t in CHILD_TABLES_WITH_COMPANY:
+        frappe.db.sql(f"""DELETE FROM `{t}` WHERE company IS NOT NULL
+            AND company != '' AND company NOT IN (SELECT name FROM `tabCompany`)""")
+    for t in ["tabAccount", "tabCost Center", "tabWarehouse"]:
+        frappe.db.sql(f"""DELETE FROM `{t}` WHERE company IS NOT NULL
+            AND company != '' AND company NOT IN (SELECT name FROM `tabCompany`)""")
+
+def validate_trial_signup(doc, method=None):
+    mandatory_fields = {"full_name": "Full Name", "email": "Email", "phone": "Phone", "company_name": "Company Name"}
+    missing = []
+    for field, label in mandatory_fields.items():
+        if not doc.get(field):
+            missing.append(label)
+    if missing:
+        frappe.throw(f"Missing mandatory fields: {', '.join(missing)}")
+    if doc.email and doc.is_new():
+        existing = frappe.db.get_value("DOBiz Trial Signup",
+            {"email": doc.email, "name": ("!=", doc.name if doc.name else "")})
+        if existing:
+            frappe.throw(f"A signup with email {doc.email} already exists.")
+
 def setup_trial_tenant(doc, method=None):
     frappe.logger("bizmarketing").info(f"Bismillah. Starting Trial Onboarding for: {doc.email}")
+    try:
+        _clean_orphaned_company_data()
+        frappe.logger("bizmarketing").info("Cleaned orphaned company references before provisioning")
+    except Exception:
+        frappe.logger("bizmarketing").warning("Orphaned data cleanup failed (non-fatal, continuing)")
     settings = frappe.get_single("DOBiz SaaS Settings")
     parent_company = settings.parent_company or "Biz Technology Solutions"
     doc.db_set("trial_start_date", today())
@@ -28,17 +65,27 @@ def setup_trial_tenant(doc, method=None):
     try:
         if not frappe.db.exists("Company", company_name):
             try:
-                frappe.get_doc({
+                company_doc = frappe.get_doc({
                     "doctype": "Company",
                     "company_name": company_name,
                     "abbr": abbr,
                     "default_currency": "ETB",
                     "domain": "Services"
                 }).insert(ignore_permissions=True)
+                fy_name = _get_fiscal_year()
+                if frappe.db.exists("Fiscal Year", fy_name):
+                    fy_doc = frappe.get_doc("Fiscal Year", fy_name)
+                    if not any(c.company == company_name for c in fy_doc.companies):
+                        fy_doc.append("companies", {"company": company_name})
+                        fy_doc.save(ignore_permissions=True)
+                        frappe.logger("bizmarketing").info(f"Company {company_name} linked to Fiscal Year {fy_name}")
+                company_doc.db_set("default_fiscal_year", fy_name)
                 frappe.logger("bizmarketing").info(f"Created Tenant Company: {company_name} ({abbr})")
             except Exception as e:
                 frappe.logger("bizmarketing").error(f"Failed to create Company: {e}")
-                frappe.throw(f"Error creating Company Sandbox: {e}")
+                doc.db_set("status", "Failed")
+                frappe.logger("bizmarketing").error(f"Trial provisioning FAILED for {doc.email}: Company creation error")
+                return
         customer_name = company_name
         if not frappe.db.exists("Customer", customer_name):
             try:
@@ -83,6 +130,8 @@ def setup_trial_tenant(doc, method=None):
                 frappe.logger("bizmarketing").info(f"User {doc.email} provisioned with {role_profile}/{module_profile}, FY={fy}")
             except Exception as e:
                 frappe.logger("bizmarketing").error(f"Failed to create User: {e}")
+                doc.db_set("status", "Failed")
+                return
         trial_plan = frappe.get_all("DOBiz SaaS Plan", filters={"is_trial_plan": 1, "enabled": 1}, limit=1)
         trial_duration = settings.default_trial_duration_days or 7
         plan_name = None
@@ -151,4 +200,4 @@ def _get_industry_profiles(industry, settings=None):
         for mapping in settings.industry_role_mappings:
             if mapping.industry == industry:
                 return mapping.role_profile, mapping.module_profile
-    return settings.default_role_profile_fallback or "Kistet DGM", settings.default_module_profile_fallback or "Kistet Admin Module"
+    return settings.default_role_profile_fallback or "Kistet DGM", settings.default_module_profile_fallback or "Biz Service"
