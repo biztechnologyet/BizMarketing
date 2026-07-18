@@ -79,7 +79,6 @@ def setup_trial_tenant(doc, method=None):
                         fy_doc.append("companies", {"company": company_name})
                         fy_doc.save(ignore_permissions=True)
                         frappe.logger("bizmarketing").info(f"Company {company_name} linked to Fiscal Year {fy_name}")
-                company_doc.db_set("default_fiscal_year", fy_name)
                 frappe.logger("bizmarketing").info(f"Created Tenant Company: {company_name} ({abbr})")
             except Exception as e:
                 frappe.logger("bizmarketing").error(f"Failed to create Company: {e}")
