@@ -1,7 +1,7 @@
 import frappe
 import json
 from frappe.utils import get_datetime, now_datetime
-from bizmarketing.api.platform_clients import TelegramClient, FacebookClient, InstagramClient, LinkedInClient
+from bizmarketing.api.platform_clients import get_platform_client
 
 @frappe.whitelist()
 def verify_credential(account_name):
@@ -13,17 +13,12 @@ def verify_credential(account_name):
     
     success = False
     try:
-        if account.platform == "Telegram":
-            client = TelegramClient(token)
-            success = client.verify()
-        elif account.platform == "Facebook":
-            client = FacebookClient(token)
-            success = client.verify()
-        elif account.platform == "Instagram":
-            client = InstagramClient(token)
+        client = get_platform_client(account.platform, token)
+        if account.platform == "Instagram":
             success = client.verify(account.account_id)
-        elif account.platform == "LinkedIn":
-            client = LinkedInClient(token)
+        elif account.platform == "WhatsApp":
+            success = client.verify(account.account_id)
+        else:
             success = client.verify()
             
         if success:
@@ -61,18 +56,15 @@ def sync_post_engagement(post_name):
         
         metrics = {}
         try:
+            client = get_platform_client(platform, token)
             if platform == "telegram":
-                client = TelegramClient(token)
                 metrics = client.get_insights(acc.account_id, post_id)
-            elif platform == "facebook":
-                client = FacebookClient(token)
+            elif platform in ("facebook", "instagram", "twitter/x", "tiktok"):
                 metrics = client.get_insights(post_id)
-            elif platform == "instagram":
-                client = InstagramClient(token)
-                metrics = client.get_insights(post_id)
-            elif platform == "linkedin":
-                client = LinkedInClient(token)
+            elif platform in ("linkedin",):
                 metrics = client.get_insights(post_id, acc.account_id)
+            else:
+                metrics = client.get_insights(post_id)
                 
             if metrics:
                 # Create snapshot

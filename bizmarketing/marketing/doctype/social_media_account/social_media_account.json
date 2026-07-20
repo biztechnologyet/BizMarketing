@@ -38,7 +38,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Platform",
-   "options": "Telegram\nFacebook\nInstagram\nLinkedIn",
+   "options": "Telegram\nFacebook\nInstagram\nLinkedIn\nTwitter/X\nTikTok\nYouTube\nWhatsApp",
    "reqd": 1,
    "in_standard_filter": 1
   },
@@ -47,7 +47,7 @@
    "fieldtype": "Data",
    "label": "Account/Channel ID",
    "reqd": 1,
-   "description": "Telegram channel ID, Facebook Page ID, Instagram User ID, or LinkedIn Organization ID"
+   "description": "Telegram channel/chat ID, Facebook Page ID, Instagram IG User ID, LinkedIn Organization URN, Twitter/X user ID, TikTok user ID, YouTube channel ID, WhatsApp phone number ID"
   },
   {
    "fieldname": "column_break_cred",
@@ -55,8 +55,9 @@
   },
   {
    "fieldname": "api_token",
-   "fieldtype": "Password",
-   "label": "API Token",
+    "fieldtype": "Password",
+    "label": "API Token",
+    "length": 500,
    "reqd": 1,
    "description": "Securely encrypted via site key"
   },

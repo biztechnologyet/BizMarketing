@@ -47,7 +47,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Platform",
-   "options": "Telegram\nFacebook\nInstagram\nLinkedIn",
+   "options": "Telegram\nFacebook\nInstagram\nLinkedIn\nTwitter/X\nTikTok\nYouTube\nWhatsApp",
    "reqd": 1
   },
   {

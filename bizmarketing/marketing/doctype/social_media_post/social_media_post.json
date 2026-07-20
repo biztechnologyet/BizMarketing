@@ -104,7 +104,7 @@
             "in_list_view": 1,
             "label": "Platforms",
             "reqd": 1,
-            "description": "Comma-separated: Telegram,Facebook,Instagram,LinkedIn"
+            "description": "Comma-separated: Telegram,Facebook,Instagram,LinkedIn,Twitter/X,TikTok,YouTube,WhatsApp"
         },
         {
             "default": "English",

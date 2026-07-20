@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils import now_datetime
 import json
-from bizmarketing.api.platform_clients import TelegramClient, FacebookClient, InstagramClient, LinkedInClient
+from bizmarketing.api.platform_clients import get_platform_client
 
 def process_publishing_queue():
     """Background job executed every 5 minutes by Frappe scheduler."""
@@ -42,17 +42,25 @@ def process_queue_item(queue_id):
     
     try:
         platform_id = None
+        if doc.platform == "WhatsApp":
+            client = get_platform_client(doc.platform, token, phone_number_id=acc.account_id)
+        else:
+            client = get_platform_client(doc.platform, token)
         if doc.platform == "Telegram":
-            client = TelegramClient(token)
             platform_id = client.publish(acc.account_id, text, image_url)
         elif doc.platform == "Facebook":
-            client = FacebookClient(token)
             platform_id = client.publish(acc.account_id, text, image_url)
         elif doc.platform == "Instagram":
-            client = InstagramClient(token)
             platform_id = client.publish(acc.account_id, text, image_url)
         elif doc.platform == "LinkedIn":
-            client = LinkedInClient(token)
+            platform_id = client.publish(acc.account_id, text, image_url)
+        elif doc.platform == "Twitter/X":
+            platform_id = client.publish(text, image_url)
+        elif doc.platform == "TikTok":
+            platform_id = client.publish(text, image_url=image_url)
+        elif doc.platform == "YouTube":
+            platform_id = client.publish(post.title, text, image_url=image_url)
+        elif doc.platform == "WhatsApp":
             platform_id = client.publish(acc.account_id, text, image_url)
             
         if platform_id: # Success
