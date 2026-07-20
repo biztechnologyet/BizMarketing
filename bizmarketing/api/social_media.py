@@ -155,10 +155,13 @@ def publish_now(post_name):
         queue_doc = None
         if exists:
             queue_doc = frappe.get_doc("Publishing Queue", exists[0].name)
-        else:
+            if queue_doc.retry_count >= 3:
+                queue_doc.delete()
+                queue_doc = None
+        if not queue_doc:
             # Find matching account
             accs = frappe.get_all("Social Media Account", 
-                filters={"platform": plat, "company": post.company},
+                filters={"platform": plat, "company": post.company, "is_active": 1},
                 limit=1
             )
             if accs:

@@ -26,7 +26,7 @@ class SocialMediaPost(Document):
 		# Note: In a true multi-account setup, we would link this. Here we grab the first matching account.
 		for plat in platforms:
 			# Find an active account for this platform
-			account = frappe.db.get_value("Social Media Account", {"platform": plat}, "name")
+			account = frappe.db.get_value("Social Media Account", {"platform": plat, "is_active": 1, "company": self.company}, "name")
 			if not account:
 				frappe.msgprint(f"No configured Social Media Account found for {plat}. Cannot queue.")
 				continue

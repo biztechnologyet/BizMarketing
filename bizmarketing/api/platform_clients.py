@@ -17,7 +17,7 @@ class TelegramClient:
 
     def publish(self, chat_id, text, image_url=None):
         """Publish message (with optional image) to channel"""
-        if image_url:
+        if image_url and image_url.startswith(("http://", "https://")):
             payload = {
                 "chat_id": chat_id,
                 "caption": text,

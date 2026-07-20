@@ -27,6 +27,12 @@ def process_queue_item(queue_id):
     post = frappe.get_doc("Social Media Post", doc.social_media_post)
     token = acc.get_password("api_token")
     
+    # Resolve image URL - handle local /files/ paths
+    image_url = post.image_url
+    if image_url and not image_url.startswith(("http://", "https://")):
+        site_url = frappe.utils.get_url()
+        image_url = site_url.rstrip("/") + "/" + image_url.lstrip("/")
+    
     # Strip HTML from text editor for plain text APIs
     text = frappe.utils.strip_html(post.content or "")
     
@@ -38,16 +44,16 @@ def process_queue_item(queue_id):
         platform_id = None
         if doc.platform == "Telegram":
             client = TelegramClient(token)
-            platform_id = client.publish(acc.account_id, text, post.image_url)
+            platform_id = client.publish(acc.account_id, text, image_url)
         elif doc.platform == "Facebook":
             client = FacebookClient(token)
-            platform_id = client.publish(acc.account_id, text, post.image_url)
+            platform_id = client.publish(acc.account_id, text, image_url)
         elif doc.platform == "Instagram":
             client = InstagramClient(token)
-            platform_id = client.publish(acc.account_id, text, post.image_url)
+            platform_id = client.publish(acc.account_id, text, image_url)
         elif doc.platform == "LinkedIn":
             client = LinkedInClient(token)
-            platform_id = client.publish(acc.account_id, text, post.image_url)
+            platform_id = client.publish(acc.account_id, text, image_url)
             
         if platform_id: # Success
             doc.db_set("status", "Published")
