@@ -42,6 +42,7 @@ def create_web_forms():
             "published": 1,
             "allow_edit": 0,
             "login_required": 0,
+            "anonymous": 1,
             "introduction_text": "Apply to become an instructor at EthioBiz Academy. Share your expertise with Ethiopian businesses.",
             "success_url": "/contact-us",
             "success_message": "Thank you for applying! We will review your application and get back to you InSha'Allah.",
@@ -53,12 +54,11 @@ def create_web_forms():
                 {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 1},
                 {"fieldname": "organization", "fieldtype": "Data", "label": "Organization / Institution", "reqd": 0},
                 {"fieldname": "expertise_area", "fieldtype": "Data", "label": "Expertise Area", "reqd": 1},
-                {"fieldname": "experience_and_course", "fieldtype": "Text", "label": "Experience & Proposed Course", "reqd": 0},
-                {"fieldname": "company", "fieldtype": "Link", "hidden": 1}
+                {"fieldname": "experience_and_course", "fieldtype": "Text", "label": "Experience & Proposed Course", "reqd": 0}
             ]
         },
         {
-            "name": "dobiz-trial-signup",
+            "name": "dobiz-free-trial-signup",
             "title": "DOBiz Free Trial Signup",
             "doc_type": "DOBiz Trial Signup",
             "module": "Marketing",
@@ -66,6 +66,7 @@ def create_web_forms():
             "published": 1,
             "allow_edit": 0,
             "login_required": 0,
+            "anonymous": 1,
             "introduction_text": "Sign up for a free trial of DOBiz - the complete business management platform for Ethiopian enterprises.",
             "success_url": "/contact-us",
             "success_message": "Welcome to DOBiz! Your free trial has been activated. Check your email for login details InSha'Allah.",
@@ -84,14 +85,13 @@ def create_web_forms():
                 {"fieldname": "expected_use_case", "fieldtype": "Small Text", "label": "Expected Use Case", "reqd": 0},
                 {"fieldname": "column_break_qual", "fieldtype": "Column Break"},
                 {"fieldname": "how_did_you_hear", "fieldtype": "Select", "label": "How Did You Hear About Us?", "reqd": 0},
-                {"fieldname": "preferred_plan", "fieldtype": "Link", "label": "Preferred Plan", "reqd": 0},
+                {"fieldname": "preferred_plan", "fieldtype": "Link", "options": "DOBiz SaaS Plan", "label": "Preferred Plan", "reqd": 0},
                 {"fieldname": "section_break_2", "fieldtype": "Section Break", "hidden": 1},
                 {"fieldname": "status", "fieldtype": "Select", "hidden": 1},
                 {"fieldname": "trial_start_date", "fieldtype": "Date", "hidden": 1},
-                {"fieldname": "subscription_link", "fieldtype": "Link", "hidden": 1},
-                {"fieldname": "user_linked", "fieldtype": "Link", "hidden": 1},
-                {"fieldname": "company_linked", "fieldtype": "Link", "hidden": 1},
-                {"fieldname": "company", "fieldtype": "Link", "hidden": 1}
+                {"fieldname": "subscription_link", "fieldtype": "Link", "options": "Subscription", "hidden": 1},
+                {"fieldname": "user_linked", "fieldtype": "Link", "options": "User", "hidden": 1},
+                {"fieldname": "company_linked", "fieldtype": "Link", "options": "Company", "hidden": 1}
             ]
         },
         {
@@ -103,6 +103,7 @@ def create_web_forms():
             "published": 1,
             "allow_edit": 0,
             "login_required": 0,
+            "anonymous": 1,
             "introduction_text": "Interested in our campaigns? Reach out to us and our team will respond promptly.",
             "success_url": "/contact-us",
             "success_message": "Thank you for your interest! Our marketing team will contact you shortly InSha'Allah.",
@@ -113,8 +114,7 @@ def create_web_forms():
                 {"fieldname": "phone", "fieldtype": "Data", "label": "Phone Number", "reqd": 0},
                 {"fieldname": "organization", "fieldtype": "Data", "label": "Organization", "reqd": 0},
                 {"fieldname": "subject", "fieldtype": "Data", "label": "Subject", "reqd": 1},
-                {"fieldname": "message", "fieldtype": "Text", "label": "Message", "reqd": 1},
-                {"fieldname": "company", "fieldtype": "Link", "hidden": 1}
+                {"fieldname": "message", "fieldtype": "Text", "label": "Message", "reqd": 1}
             ]
         },
         {
@@ -126,6 +126,7 @@ def create_web_forms():
             "published": 1,
             "allow_edit": 0,
             "login_required": 0,
+            "anonymous": 1,
             "introduction_text": "Join the holistic Tibeb Mentorship Program. Share your spiritual and professional wisdom, and connect with creative minds.",
             "success_url": "/contact-us",
             "success_message": "Alhamdulillah! You have successfully applied to the Tibeb Mentorship Program. We will contact you soon InSha'Allah.",
@@ -141,8 +142,7 @@ def create_web_forms():
                 {"fieldname": "preferred_frequency", "fieldtype": "Select", "label": "How often would you like to receive wisdom?", "reqd": 0},
                 {"fieldname": "subscription_message", "fieldtype": "Small Text", "label": "What spiritual guidance are you seeking?", "reqd": 0},
                 {"fieldname": "professional_background", "fieldtype": "Text", "label": "Professional Background", "reqd": 0},
-                {"fieldname": "creative_contribution", "fieldtype": "Text", "label": "Creative Contribution", "reqd": 0},
-                {"fieldname": "company", "fieldtype": "Link", "hidden": 1}
+                {"fieldname": "creative_contribution", "fieldtype": "Text", "label": "Creative Contribution", "reqd": 0}
             ]
         },
     ]
