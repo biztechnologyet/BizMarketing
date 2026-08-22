@@ -303,15 +303,18 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     "party_type": "Customer",
                     "party": company_name,
                     "company": parent_company,
-                    # Manual review: Trialling WITHOUT trial_period_end so the
-                    # expiry cron ignores it and the user hook keeps login off.
-                    # Admin approval flips it to Active (enables the user).
+                    # ANFRG-26-00063 P0: ERPNext FORCES status=Active when
+                    # Trialling has NO trial_period_end (verified live), which
+                    # re-enables the user via process_subscription_access.
+                    # So review-pending subs ALWAYS carry a 30-day trial end:
+                    # status stays Trialling, login stays locked, and approval
+                    # flips it to Active via dobiz_manual_activation.
                     "status": "Trialling" if manual_review else "Active",
+                    "trial_period_start": today() if manual_review else None,
+                    "trial_period_end": add_days(today(), 30) if manual_review else None,
                     "current_invoice_start": today(),
                     "current_invoice_end": add_months(today(), billing_term_int)
                 })
-                if manual_review:
-                    sub_doc.trial_period_start = today()
                 if plan_for_sub:
                     sub_doc.append("plans", {"plan": plan_for_sub, "qty": 1})
                 sub_doc.insert(ignore_permissions=True)
@@ -491,13 +494,14 @@ def upload_payment_proof(signup_ref, payment_ref, bank_name, receipt_file=None):
                     "party": signup_doc.company_name,
                     "company": "Biz Technology Solutions",
                     "status": "Trialling" if manual_review else "Active",
+                    # 30-day trial window keeps status Trialling (ERPNext
+                    # would force Active without trial_period_end).
+                    "trial_period_start": today() if manual_review else None,
+                    "trial_period_end": add_days(today(), 30) if manual_review else None,
                     "plans": plans_data,
                     "current_invoice_start": today(),
                     "current_invoice_end": add_months(today(), 3)
                 }).insert(ignore_permissions=True)
-                if manual_review:
-                    # No trial_period_end: expiry cron must ignore review-pending subs.
-                    sub_doc.db_set("trial_period_start", today())
                 sub_name = sub_doc.name
 
             if sub_name:

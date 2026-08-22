@@ -189,6 +189,8 @@ def setup_trial_tenant(doc, method=None):
     frappe.logger("bizmarketing").info(f"Alhamdulillah. Trial onboarding complete for {doc.email}")
 
 def process_subscription_access(doc, method=None):
+    from bizmarketing.api.dobiz_manual_activation import manual_review_required
+
     settings = frappe.get_single("DOBiz SaaS Settings")
     parent_company = settings.parent_company or "Biz Technology Solutions"
     if doc.company != parent_company:
@@ -203,6 +205,20 @@ def process_subscription_access(doc, method=None):
     try:
         user = frappe.get_doc("User", target_email)
         if doc.status == "Active":
+            # ANFRG-26-00063 P0 (defense-in-depth): when manual review is
+            # enforced, ONLY dobiz_manual_activation may enable an account.
+            # Any signup state other than Converted (Pending, Failed, Trial
+            # Active, ...) means the bank claim was never vetted — this hook
+            # must not enable anyone, regardless of how the status got there
+            # (including ERPNext forcing Trialling subs to Active).
+            if manual_review_required():
+                signup_status = frappe.db.get_value("DOBiz Trial Signup",
+                    {"company_name": doc.party}, "status")
+                if signup_status != "Converted":
+                    frappe.logger("bizmarketing").warning(
+                        f"Blocked auto-enable for {target_email}: "
+                        f"signup status '{signup_status}' is not vetted")
+                    return
             if user.enabled == 0:
                 user.enabled = 1
                 user.save(ignore_permissions=True)

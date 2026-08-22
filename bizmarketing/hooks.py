@@ -5,6 +5,11 @@ app_description = "BizMarketing System for EthioBiz"
 app_email = "sovereign@ethiobiz.et"
 app_license = "Proprietary"
 
+# ANFRG-26-00063: durable runtime patches (module-map DB fallback).
+# Ships via Git — survives restarts & fresh-server deploys, InSha'Allah.
+from . import monkeypatches as _ethiobiz_monkeypatches  # noqa: E402
+_ethiobiz_monkeypatches.apply()
+
 # Apps
 # ------------------
 

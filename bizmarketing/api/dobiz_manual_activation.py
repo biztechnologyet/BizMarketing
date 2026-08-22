@@ -1,6 +1,6 @@
 import frappe
 from frappe import _
-from frappe.utils import now_datetime, today, add_days, get_datetime
+from frappe.utils import now_datetime, today, add_days, get_datetime, getdate
 
 # ============================================================
 # DOBiz MANUAL ACTIVATION CORE (Bismillah)
@@ -111,7 +111,9 @@ def activate_account(signup_name, payment_doc=None, actor=None):
     if signup.subscription_link and frappe.db.exists("Subscription", signup.subscription_link):
         sub = frappe.get_doc("Subscription", signup.subscription_link)
         end_date = sub.current_invoice_end
-        if not end_date or get_datetime(end_date).date() < today():
+        # getdate() on both sides: today() yields a string while
+        # current_invoice_end is a date — mixing them raises TypeError.
+        if not end_date or getdate(end_date) < getdate(today()):
             sub.current_invoice_end = add_days(today(), 30)
         sub.db_set("status", "Active")
         result["subscription_active"] = True

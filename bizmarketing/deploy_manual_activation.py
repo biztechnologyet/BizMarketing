@@ -142,7 +142,7 @@ def _upsert_client_script():
 
 
 def execute():
-    created = create_custom_fields(_settings_fields(), ignore_if_exists=True)
+    created = create_custom_fields(_settings_fields())
     print(f"[MANUAL-ACTIVATION] custom fields ensured: {json.dumps(list((created or {}).keys()))}")
     _upsert_client_script()
     # Sensible defaults for an existing single record (fields may be NULL).
