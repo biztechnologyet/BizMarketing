@@ -11,7 +11,7 @@
    "type": "Chart"
   }
  ],
- "content": "[{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Subscription Dashboard\",\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"Configuration\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Settings\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Plan\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Email Template\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Leads & Transactions\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Trial Signup\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Payment Transaction\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Subscription\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"Revenue Metrics\",\"level\":3,\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"MRR\",\"col\":6}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Subscriptions by Plan\",\"col\":6}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"🎯 Subscriber Operations & Lifecycle\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Pending Signups\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Active Paid Tenants\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expiring Subscriptions\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expired Subscribers\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"💳 Payments & Settlement Approvals\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pending Payment Proofs\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Transactions Ledger\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoices\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"⚙️ SaaS Configuration & Packages\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Settings\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Plan\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Module Profile\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"📖 Tutorials & Self-Help Portal\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz User Guide Tutorials\",\"col\":6}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Product Overview\",\"col\":6}}]",
  "creation": "2026-06-13 18:00:00.000000",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -19,10 +19,74 @@
  "label": "DOBiz Subscription Management",
  "links": [
   {
-   "label": "Subscription Dashboard",
-   "link_to": "subscription_dashboard",
-   "link_type": "Page",
+   "label": "New Signups & Pending Actions",
+   "type": "Card Break"
+  },
+  {
+   "label": "New Signups (Pending Payment)",
+   "link_to": "DOBiz Trial Signup",
+   "link_type": "DocType",
+   "type": "Link",
+   "filters": "[[\"status\",\"=\",\"Pending\"]]"
+  },
+  {
+   "label": "All Trial & Subscription Signups",
+   "link_to": "DOBiz Trial Signup",
+   "link_type": "DocType",
    "type": "Link"
+  },
+  {
+   "label": "Pending Payment Slips",
+   "link_to": "DOBiz Payment Transaction",
+   "link_type": "DocType",
+   "type": "Link",
+   "filters": "[[\"status\",\"=\",\"Submitted\"]]"
+  },
+  {
+   "label": "Active & Converted Subscribers",
+   "type": "Card Break"
+  },
+  {
+   "label": "Converted Paid Tenants",
+   "link_to": "DOBiz Trial Signup",
+   "link_type": "DocType",
+   "type": "Link",
+   "filters": "[[\"status\",\"=\",\"Converted\"]]"
+  },
+  {
+   "label": "Active Subscriptions (Contracts)",
+   "link_to": "Subscription",
+   "link_type": "DocType",
+   "type": "Link",
+   "filters": "[[\"status\",\"=\",\"Active\"]]"
+  },
+  {
+   "label": "Tenant Companies & Customers",
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Expiring & Expired Subscriptions",
+   "type": "Card Break"
+  },
+  {
+   "label": "Past Due / Expired Subscriptions",
+   "link_to": "Subscription",
+   "link_type": "DocType",
+   "type": "Link",
+   "filters": "[[\"status\",\"in\",[\"Past Due Date\",\"Cancelled\",\"Unpaid\"]]]"
+  },
+  {
+   "label": "Expired Trial Signups",
+   "link_to": "DOBiz Trial Signup",
+   "link_type": "DocType",
+   "type": "Link",
+   "filters": "[[\"status\",\"=\",\"Expired\"]]"
+  },
+  {
+   "label": "SaaS Configuration & Profiles",
+   "type": "Card Break"
   },
   {
    "label": "DOBiz SaaS Settings",
@@ -31,55 +95,53 @@
    "type": "Link"
   },
   {
-   "label": "DOBiz SaaS Plan",
+   "label": "DOBiz SaaS Packages & Pricing",
    "link_to": "DOBiz SaaS Plan",
    "link_type": "DocType",
    "type": "Link"
   },
   {
-   "label": "DOBiz Email Template",
+   "label": "Role Profiles (Industry RBAC)",
+   "link_to": "Role Profile",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Module Profiles (Industry Scopes)",
+   "link_to": "Module Profile",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "DOBiz Email Templates",
    "link_to": "DOBiz Email Template",
    "link_type": "DocType",
    "type": "Link"
   },
   {
-   "label": "DOBiz Trial Signup",
-   "link_to": "DOBiz Trial Signup",
-   "link_type": "DocType",
-   "type": "Link"
+   "label": "Billing, Payments & Invoices",
+   "type": "Card Break"
   },
   {
-   "label": "DOBiz Payment Transaction",
+   "label": "Payment Transactions Ledger",
    "link_to": "DOBiz Payment Transaction",
    "link_type": "DocType",
    "type": "Link"
   },
   {
-   "label": "Subscription",
-   "link_to": "Subscription",
-   "link_type": "DocType",
-   "type": "Link"
-  },
-  {
-   "label": "Subscription Plan",
-   "link_to": "Subscription Plan",
-   "link_type": "DocType",
-   "type": "Link"
-  },
-  {
-   "label": "Customer",
-   "link_to": "Customer",
-   "link_type": "DocType",
-   "type": "Link"
-  },
-  {
-   "label": "Sales Invoice",
+   "label": "Sales Invoices",
    "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Payment Requests",
+   "link_to": "Payment Request",
    "link_type": "DocType",
    "type": "Link"
   }
  ],
- "modified": "2026-06-13 18:00:00.000000",
+ "modified": "2026-08-21 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "Marketing",
  "name": "DOBiz Subscription Management",
@@ -88,77 +150,139 @@
  "quick_lists": [
   {
    "document_type": "DOBiz Trial Signup",
-   "label": "Active Trials",
-   "filters": [
-    ["status", "=", "Trial Active"]
-   ]
-  },
-  {
-   "document_type": "Subscription",
-   "label": "Active Subscriptions",
-   "filters": [
-    ["status", "=", "Active"]
-   ]
-  },
-  {
-   "document_type": "DOBiz Payment Transaction",
-   "label": "Pending Payments",
+   "label": "New Pending Signups",
    "filters": [
     ["status", "=", "Pending"]
    ]
   },
   {
    "document_type": "DOBiz Trial Signup",
-   "label": "Trial Signups"
+   "label": "Converted Paid Subscribers",
+   "filters": [
+    ["status", "=", "Converted"]
+   ]
   },
   {
-   "document_type": "DOBiz SaaS Plan",
-   "label": "SaaS Plans"
+   "document_type": "DOBiz Payment Transaction",
+   "label": "Pending Payment Slips",
+   "filters": [
+    ["status", "=", "Submitted"]
+   ]
+  },
+  {
+   "document_type": "Subscription",
+   "label": "Active Paid Subscriptions",
+   "filters": [
+    ["status", "=", "Active"]
+   ]
+  },
+  {
+   "document_type": "DOBiz Trial Signup",
+   "label": "Expired Subscribers",
+   "filters": [
+    ["status", "=", "Expired"]
+   ]
   }
  ],
  "roles": [
   {
    "role": "System Manager"
-  },
-  {
-   "role": "Marketing Manager"
   }
  ],
  "shortcuts": [
   {
-   "label": "Subscription Dashboard",
-   "type": "Page",
-   "link_to": "subscription_dashboard"
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "New Pending Signups",
+   "link_to": "DOBiz Trial Signup",
+   "stats_filter": "[[\"DOBiz Trial Signup\",\"status\",\"=\",\"Pending\",false]]",
+   "type": "DocType"
   },
   {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Active Paid Tenants",
+   "link_to": "DOBiz Trial Signup",
+   "stats_filter": "[[\"DOBiz Trial Signup\",\"status\",\"=\",\"Converted\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Expiring Subscriptions",
+   "link_to": "Subscription",
+   "stats_filter": "[[\"Subscription\",\"status\",\"=\",\"Active\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "label": "Expired Subscribers",
+   "link_to": "DOBiz Trial Signup",
+   "stats_filter": "[[\"DOBiz Trial Signup\",\"status\",\"=\",\"Expired\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Pending Payment Proofs",
+   "link_to": "DOBiz Payment Transaction",
+   "stats_filter": "[[\"DOBiz Payment Transaction\",\"status\",\"=\",\"Submitted\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Payment Transactions Ledger",
+   "link_to": "DOBiz Payment Transaction",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Invoices",
+   "link_to": "Sales Invoice",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "DOBiz SaaS Settings",
-   "type": "DocType",
-   "link_to": "DOBiz SaaS Settings"
+   "link_to": "DOBiz SaaS Settings",
+   "type": "DocType"
   },
   {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "DOBiz SaaS Plan",
-   "type": "DocType",
-   "link_to": "DOBiz SaaS Plan"
+   "link_to": "DOBiz SaaS Plan",
+   "type": "DocType"
   },
   {
-   "label": "DOBiz Email Template",
-   "type": "DocType",
-   "link_to": "DOBiz Email Template"
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Role Profile",
+   "link_to": "Role Profile",
+   "type": "DocType"
   },
   {
-   "label": "DOBiz Trial Signup",
-   "type": "DocType",
-   "link_to": "DOBiz Trial Signup"
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Module Profile",
+   "link_to": "Module Profile",
+   "type": "DocType"
   },
   {
-   "label": "DOBiz Payment Transaction",
-   "type": "DocType",
-   "link_to": "DOBiz Payment Transaction"
+   "color": "Teal",
+   "label": "DOBiz User Guide Tutorials",
+   "type": "URL",
+   "url": "https://ethiobiz.et/lms/courses/dobiz-smart-erp-system-user-guide"
   },
   {
-   "label": "Subscription",
-   "type": "DocType",
-   "link_to": "Subscription"
+   "color": "Blue",
+   "label": "DOBiz Product Overview",
+   "type": "URL",
+   "url": "https://biztechnology.et/dobiz-erp"
   }
  ],
  "title": "DOBiz Subscription Management"

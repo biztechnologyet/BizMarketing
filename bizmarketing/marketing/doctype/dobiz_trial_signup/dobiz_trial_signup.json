@@ -84,7 +84,7 @@
    "fieldname": "industry",
    "fieldtype": "Select",
    "label": "Industry",
-   "options": "Agriculture\nManufacturing\nConstruction\nRetail & Wholesale\nServices\nHealthcare\nEducation\nTechnology & IT\nHospitality & Tourism\nFinance & Insurance\nNon-Profit / NGO\nOther",
+   "options": "Agriculture\nManufacturing\nConstruction\nRetail & Wholesale\nRetail & Trade\nServices\nProfessional Services\nHealthcare\nEducation\nTechnology & IT\nHospitality & Tourism\nHotel Management\nRestaurant\nProperty Management\nFinance & Insurance\nNon-Profit / NGO\nNon-Profit\nOther",
    "reqd": 1
   },
   {
@@ -129,7 +129,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Pending\nTrial Active\nConverted\nExpired",
+   "options": "Pending\nTrial Active\nPayment Verified & Active\nActive\nConverted\nExpired",
    "default": "Pending"
   },
   {

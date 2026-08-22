@@ -1,4 +1,4 @@
-import frappe
+﻿import frappe
 from frappe.utils import today, add_days, getdate
 
 def _get_fiscal_year():
@@ -39,7 +39,15 @@ def validate_trial_signup(doc, method=None):
         if existing:
             frappe.throw(f"A signup with email {doc.email} already exists.")
 
+def _trace(tag):
+    import time as _t
+    print(f"[DOBIZ-TRIAL-TRACE] {tag} t={round(_t.time())}", flush=True)
+
 def setup_trial_tenant(doc, method=None):
+    if doc.flags.get("dobiz_skip_provisioning"):
+        frappe.logger("bizmarketing").info(
+            f"Skipping hook provisioning for {doc.email} (API path handles it)")
+        return
     frappe.logger("bizmarketing").info(f"Bismillah. Starting Trial Onboarding for: {doc.email}")
     try:
         _clean_orphaned_company_data()
@@ -59,7 +67,9 @@ def setup_trial_tenant(doc, method=None):
     while frappe.db.exists("Company", {"abbr": abbr}):
         counter += 1
         suffix = str(counter)
-        abbr = (base_abbr + suffix)[:5]
+        # Truncate base so the counter always fits within 5 chars,
+        # otherwise (base+suffix)[:5] can reproduce the same colliding abbr forever.
+        abbr = (base_abbr[:5 - len(suffix)] + suffix)
     prev_user = frappe.session.user
     frappe.set_user("Administrator")
     try:
@@ -81,7 +91,7 @@ def setup_trial_tenant(doc, method=None):
                         frappe.logger("bizmarketing").info(f"Company {company_name} linked to Fiscal Year {fy_name}")
                 frappe.logger("bizmarketing").info(f"Created Tenant Company: {company_name} ({abbr})")
             except Exception as e:
-                frappe.logger("bizmarketing").error(f"Failed to create Company: {e}")
+                frappe.logger("bizmarketing").error(f"Failed to create Company: {e}"); _trace(f"ERR-COMPANY {e}")
                 doc.db_set("status", "Failed")
                 frappe.logger("bizmarketing").error(f"Trial provisioning FAILED for {doc.email}: Company creation error")
                 return
@@ -98,7 +108,7 @@ def setup_trial_tenant(doc, method=None):
                 }).insert(ignore_permissions=True)
                 frappe.logger("bizmarketing").info(f"Created Customer: {customer_name}")
             except Exception as e:
-                frappe.logger("bizmarketing").error(f"Failed to create Customer: {e}")
+                frappe.logger("bizmarketing").error(f"Failed to create Customer: {e}"); _trace(f"ERR-CUSTOMER {e}")
         role_profile, module_profile = _get_industry_profiles(doc.industry, settings)
         if not frappe.db.exists("User", doc.email):
             try:
@@ -128,7 +138,7 @@ def setup_trial_tenant(doc, method=None):
                 frappe.defaults.set_user_default("company", company_name, user.name)
                 frappe.logger("bizmarketing").info(f"User {doc.email} provisioned with {role_profile}/{module_profile}, FY={fy}")
             except Exception as e:
-                frappe.logger("bizmarketing").error(f"Failed to create User: {e}")
+                frappe.logger("bizmarketing").error(f"Failed to create User: {e}"); _trace(f"ERR-USER {e}")
                 doc.db_set("status", "Failed")
                 return
         trial_plan = frappe.get_all("DOBiz SaaS Plan", filters={"is_trial_plan": 1, "enabled": 1}, limit=1)
@@ -200,3 +210,4 @@ def _get_industry_profiles(industry, settings=None):
             if mapping.industry == industry:
                 return mapping.role_profile, mapping.module_profile
     return settings.default_role_profile_fallback or "Kistet DGM", settings.default_module_profile_fallback or "Biz Service"
+
