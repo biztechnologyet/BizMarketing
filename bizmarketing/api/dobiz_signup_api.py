@@ -110,8 +110,13 @@ def _norm_bank(bank_name):
     return "Other"
 
 @frappe.whitelist(allow_guest=True)
-def submit_dobiz_signup(full_name, email, phone, company_name, industry, package_tier, billing_term="3", selected_module="Accounts", payment_receipt=None, payment_ref=None, bank_name=None):
+def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=None, industry=None, package_tier=None, billing_term="3", selected_module="Accounts", payment_receipt=None, payment_ref=None, bank_name=None):
     """Zero-touch registration for DOBiz Smart ERP with tenant provisioning."""
+    # Guard BEFORE any positional access: missing payload fields must yield
+    # HTTP 417 (frappe.ValidationError) instead of TypeError 500.
+    if not all([full_name, email, phone, company_name, industry]):
+        frappe.throw(_("Full Name, Email, Phone, Company Name and Industry are required."),
+                     exc=frappe.ValidationError)
     prev_user = frappe.session.user
     frappe.set_user("Administrator")
     try:
