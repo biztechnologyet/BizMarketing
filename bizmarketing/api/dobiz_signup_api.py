@@ -218,12 +218,14 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             role_profile = rp if frappe.db.exists("Role Profile", rp) else "DOBiz Growth Enterprise"
             module_profile = mp if frappe.db.exists("Module Profile", mp) else "DOBiz Growth - Standard"
 
-        # 5. User Account (Enabled immediately or pending settlement)
+        # 5. User Account (NEVER self-activated — Bismillah)
         _trace("5-user-begin")
-        # /dobiz-signup is the PAID registration funnel: every signup through this
-        # endpoint is Active for the settled amount. The /trial web form (hook path)
-        # remains the 7-day trial entry point.
-        is_paid_upfront = True
+        # ANFRG-26-00063 P0: /dobiz-signup is the PAID registration funnel, but a
+        # claimed bank transfer is NOT verified money. Accounts stay DISABLED and
+        # payment claims go to the manual review queue until an admin confirms
+        # funds received (bizmarketing.api.dobiz_manual_activation).
+        from bizmarketing.api.dobiz_manual_activation import manual_review_required
+        manual_review = manual_review_required()
         if not frappe.db.exists("User", email):
             user = frappe.get_doc({
                 "doctype": "User",
@@ -233,7 +235,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                 "send_welcome_email": 0,
                 "role_profile_name": role_profile,
                 "module_profile": module_profile,
-                "enabled": 1,
+                "enabled": 0 if manual_review else 1,
                 "user_type": "System User",
                 "company": company_name,
                 "custom_company": company_name
@@ -268,7 +270,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "company_name": company_name,
             "industry": norm_ind,
             "preferred_plan": plan_link,
-            "status": "Converted" if is_paid_upfront else "Trial Active",
+            "status": "Pending" if manual_review else "Trial Active",
             "trial_start_date": today(),
             "user_linked": email,
             "company_linked": company_name
@@ -285,7 +287,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                 plan_for_sub = None
                 if frappe.db.exists("Subscription Plan", package_tier):
                     plan_for_sub = package_tier
-                elif not is_paid_upfront:
+                elif not manual_review:
                     trial_plan = frappe.get_all("DOBiz SaaS Plan",
                         filters={"is_trial_plan": 1, "enabled": 1},
                         limit=1, pluck="linked_erpnext_plan")
@@ -301,28 +303,29 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     "party_type": "Customer",
                     "party": company_name,
                     "company": parent_company,
-                    "status": "Active" if is_paid_upfront else "Trialling",
+                    # Manual review: Trialling WITHOUT trial_period_end so the
+                    # expiry cron ignores it and the user hook keeps login off.
+                    # Admin approval flips it to Active (enables the user).
+                    "status": "Trialling" if manual_review else "Active",
                     "current_invoice_start": today(),
                     "current_invoice_end": add_months(today(), billing_term_int)
                 })
-                if not is_paid_upfront:
+                if manual_review:
                     sub_doc.trial_period_start = today()
-                    trial_days = frappe.db.get_single_value(
-                        "DOBiz SaaS Settings", "default_trial_duration_days") or 7
-                    sub_doc.trial_period_end = add_days(today(), trial_days)
                 if plan_for_sub:
                     sub_doc.append("plans", {"plan": plan_for_sub, "qty": 1})
                 sub_doc.insert(ignore_permissions=True)
                 _trace("7-sub-inserted")
                 sub_name = sub_doc.name
-                if is_paid_upfront:
+                if not manual_review:
                     # Client rule: prepaid term length wins over plan interval.
                     frappe.db.set_value("Subscription", sub_name, "current_invoice_end",
                                         add_months(today(), billing_term_int))
             else:
                 sub_name = frappe.db.get_value("Subscription", {"party": company_name}, "name")
 
-            if is_paid_upfront and sub_name:
+            # Payment claim is ALWAYS recorded for admin review — never pre-approved.
+            if sub_name:
                 frappe.get_doc({
                     "doctype": "DOBiz Payment Transaction",
                     "subscription": sub_name,
@@ -332,8 +335,8 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     "bank_name": _norm_bank(bank_name),
                     "reference_no": payment_ref or f"ONLINE-{signup_ref}",
                     "amount": total_amount,
-                    "status": "Completed",
-                    "payment_status": "Approved",
+                    "status": "Pending",
+                    "payment_status": "Pending" if manual_review else "Approved",
                     "payment_date": today(),
                     "linked_signup": signup_ref,
                     "notes": f"Bank: {bank_name or 'Bank Transfer'} | Ref: {payment_ref or ''}"
@@ -344,23 +347,30 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
 
         # 8. Dispatch Welcome & Setup Credentials
         _trace("8-resetpw-begin")
-        password_link = user.reset_password(send_email=False)
-        _trace("8-resetpw-done")
         more_info_url = "https://biztechnology.et/dobiz-erp"
         guide_url = "https://ethiobiz.et/lms/courses/dobiz-smart-erp-system-user-guide"
-        
-        # Email notification
-        subject = f"Welcome to DOBiz Smart ERP - {company_name} [{package_tier}]"
-        message = f"""
+
+        # Email notification — credentials ONLY after manual activation.
+        if manual_review:
+            # No reset_password here: the account is disabled and credentials are
+            # emailed by dobiz_manual_activation.activate_account after approval.
+            password_link = None
+            _send_under_review_email(email, full_name, company_name, package_tier,
+                                     billing_term_int, total_amount, payment_ref, bank_name)
+        else:
+            password_link = user.reset_password(send_email=False)
+            _trace("8-resetpw-done")
+            subject = f"Welcome to DOBiz Smart ERP - {company_name} [{package_tier}]"
+            message = f"""
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; color: #0f172a;">
             <div style="background: linear-gradient(135deg, #072a2e 0%, #008080 100%); color: white; padding: 24px; border-radius: 16px; text-align: center; margin-bottom: 20px;">
                 <h1 style="margin: 0; font-size: 24px;">Welcome to DOBiz Smart ERP</h1>
                 <p style="margin: 6px 0 0 0; opacity: 0.9;">Sovereign Cloud ERP for Ethiopian and Global Enterprises</p>
             </div>
-            
+
             <p>Dear <strong>{full_name}</strong>,</p>
             <p>Your enterprise workspace for <strong>{company_name}</strong> has been configured with the <strong>{package_tier}</strong> ({industry} Edition).</p>
-            
+
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin: 20px 0;">
                 <h3 style="margin: 0 0 10px 0; color: #008080;">Your Account Details:</h3>
                 <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
@@ -371,7 +381,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     <li><strong>Total Settled Amount:</strong> {total_amount:,.2f} ETB</li>
                 </ul>
             </div>
-            
+
             <div style="text-align: center; margin: 25px 0;">
                 <a href="{password_link}" style="background: #008080; color: white; padding: 12px 28px; text-decoration: none; border-radius: 24px; font-weight: bold; display: inline-block;">Set Your Password & Login &rarr;</a>
             </div>
@@ -381,21 +391,24 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                 <p style="margin: 0 0 6px 0; font-size: 13.5px;">• <strong>Learn DOBiz SmartERP:</strong> <a href="{guide_url}" style="color: #008080; font-weight: bold;">DOBiz Smart ERP System User Guide</a></p>
                 <p style="margin: 0; font-size: 13.5px;">• <strong>Explore Full Features:</strong> <a href="{more_info_url}" style="color: #008080; font-weight: bold;">DOBiz ERP Product Overview</a></p>
             </div>
-            
+
             <p style="color: #64748b; font-size: 13px; margin-top: 30px;">Managed and Operated Exclusively by <strong>Biz Technology Solutions</strong>.</p>
         </div>
         """
-        try:
-            frappe.sendmail(recipients=[email], subject=subject, message=message, delayed=True)
-            _trace("8-sendmail-queued")
-        except Exception as e:
-            frappe.logger("bizmarketing").warning(f"Email delivery skipped or simulated: {e}")
+            try:
+                frappe.sendmail(recipients=[email], subject=subject, message=message, delayed=True)
+                _trace("8-sendmail-queued")
+            except Exception as e:
+                frappe.logger("bizmarketing").warning(f"Email delivery skipped or simulated: {e}")
 
         frappe.db.commit()
         _trace("9-committed")
-        return {
+        resp = {
             "success": True,
-            "message": "DOBiz Enterprise Tenant provisioned successfully Alhamdulillah!",
+            "message": ("Registration received! Your bank transfer is under manual verification "
+                        "- account activated within 24 hours InSha'Allah." if manual_review
+                        else "DOBiz Enterprise Tenant provisioned successfully Alhamdulillah!"),
+            "pending_review": bool(manual_review),
             "company": company_name,
             "abbr": abbr,
             "email": email,
@@ -403,13 +416,41 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "total_amount": total_amount,
             "discount_applied": f"{discount_pct*100:.0f}%",
             "signup_ref": signup_ref,
-            "password_setup_link": password_link,
             "user_guide_url": guide_url,
             "more_info_url": more_info_url,
             "payment_link": f"https://ethiobiz.et/dobiz-payment?ref={signup_ref}"
         }
+        if password_link:
+            resp["password_setup_link"] = password_link
+        return resp
     finally:
         frappe.set_user(prev_user)
+
+
+def _send_under_review_email(email, full_name, company_name, package_tier,
+                             billing_term_int, total_amount, payment_ref, bank_name):
+    subject = f"DOBiz Registration Received - {company_name} [Under Verification]"
+    message = f"""
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; color: #0f172a;">
+            <div style="background: linear-gradient(135deg, #072a2e 0%, #008080 100%); color: white; padding: 24px; border-radius: 16px; text-align: center; margin-bottom: 20px;">
+                <h1 style="margin: 0; font-size: 22px;">Registration Received &mdash; Under Verification</h1>
+                <p style="margin: 6px 0 0 0; opacity: 0.9;">DOBiz Smart ERP by Biz Technology Solutions</p>
+            </div>
+            <p>Dear <strong>{full_name}</strong>,</p>
+            <p>Your registration for <strong>{company_name}</strong> ({package_tier}, {billing_term_int} months,
+            {total_amount:,.2f} ETB) has been received together with your transfer reference
+            <strong>{payment_ref or ''}</strong> ({bank_name or 'Bank Transfer'}).</p>
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 18px; margin: 20px 0;">
+                <strong>Next step:</strong> our team verifies your bank transfer within 24 hours InSha'Allah.
+                Your account is activated and login credentials are emailed immediately after confirmation.
+            </div>
+            <p style="color: #64748b; font-size: 13px;">Questions? Reply to this email or contact Biz Technology Solutions.</p>
+        </div>
+        """
+    try:
+        frappe.sendmail(recipients=[email], subject=subject, message=message, delayed=True)
+    except Exception as e:
+        frappe.logger("bizmarketing").warning(f"Ack email skipped: {e}")
 
 @frappe.whitelist(allow_guest=True)
 def upload_payment_proof(signup_ref, payment_ref, bank_name, receipt_file=None):
@@ -428,10 +469,16 @@ def upload_payment_proof(signup_ref, payment_ref, bank_name, receipt_file=None):
         
         if not signup_doc:
             frappe.throw(_("Invalid or expired Signup Reference."))
-        
-        signup_doc.status = "Converted"
+
+        # ANFRG-26-00063 P0: a payment slip is a CLAIM, not verified money.
+        # Signup goes to Pending; the transaction is created Pending for the
+        # admin review queue. Nothing is auto-activated here.
+        from bizmarketing.api.dobiz_manual_activation import manual_review_required
+        manual_review = manual_review_required()
+
+        signup_doc.status = "Pending" if manual_review else "Converted"
         signup_doc.save(ignore_permissions=True)
-        
+
         # Record Subscription and Payment Transaction safely
         try:
             sub_name = frappe.db.get_value("Subscription", {"party": signup_doc.company_name}, "name")
@@ -443,11 +490,14 @@ def upload_payment_proof(signup_ref, payment_ref, bank_name, receipt_file=None):
                     "party_type": "Customer",
                     "party": signup_doc.company_name,
                     "company": "Biz Technology Solutions",
-                    "status": "Active",
+                    "status": "Trialling" if manual_review else "Active",
                     "plans": plans_data,
                     "current_invoice_start": today(),
                     "current_invoice_end": add_months(today(), 3)
                 }).insert(ignore_permissions=True)
+                if manual_review:
+                    # No trial_period_end: expiry cron must ignore review-pending subs.
+                    sub_doc.db_set("trial_period_start", today())
                 sub_name = sub_doc.name
 
             if sub_name:
@@ -460,8 +510,8 @@ def upload_payment_proof(signup_ref, payment_ref, bank_name, receipt_file=None):
                     "bank_name": _norm_bank(bank_name),
                     "reference_no": payment_ref or f"PROOF-{signup_ref}",
                     "amount": 0.0,
-                    "status": "Completed",
-                    "payment_status": "Approved",
+                    "status": "Pending" if manual_review else "Completed",
+                    "payment_status": "Pending" if manual_review else "Approved",
                     "payment_date": today(),
                     "linked_signup": signup_ref,
                     "notes": f"Bank: {bank_name or 'Bank Transfer'} | Ref: {payment_ref or ''}"
@@ -469,7 +519,18 @@ def upload_payment_proof(signup_ref, payment_ref, bank_name, receipt_file=None):
         except Exception as pe:
             frappe.logger("bizmarketing").warning(f"Payment proof transaction link warning: {pe}")
 
+        if manual_review:
+            _send_under_review_email(signup_doc.email, signup_doc.full_name,
+                                     signup_doc.company_name, "", 0, 0.0, payment_ref, bank_name)
+
         frappe.db.commit()
-        return {"success": True, "message": "Payment slip submitted and verified successfully Alhamdulillah!"}
+        return {
+            "success": True,
+            "pending_review": bool(manual_review),
+            "message": ("Payment slip received! Our team will verify your bank transfer within "
+                        "24 hours InSha'Allah — you will receive your login credentials by email "
+                        "after confirmation." if manual_review
+                        else "Payment slip submitted and verified successfully Alhamdulillah!"),
+        }
     finally:
         frappe.set_user(prev_user)

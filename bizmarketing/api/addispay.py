@@ -39,6 +39,18 @@ def handle_webhook():
             txn.db_set('status', 'Completed')
             txn.db_set('payment_date', now_datetime())
 
+            # ANFRG-26-00063 P0: online auto-activation is settings-gated.
+            # Default stays ON (signature-verified AddiPay success = real money);
+            # when disabled, the transaction waits in the manual review queue.
+            from bizmarketing.api.dobiz_manual_activation import online_auto_activation_enabled
+            if not online_auto_activation_enabled():
+                txn.db_set('payment_status', 'Pending')
+                frappe.logger('bizmarketing').info(
+                    f'AddiPay success for {transaction_id} queued for MANUAL review '
+                    '(auto_activate_online_payments=0)')
+                frappe.db.commit()
+                return {'status': 'success', 'message': 'Payment received — queued for manual verification'}
+
             sub = frappe.get_doc('Subscription', subscription_name)
             sub.db_set('status', 'Active')
 

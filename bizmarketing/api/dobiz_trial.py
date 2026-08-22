@@ -110,6 +110,12 @@ def setup_trial_tenant(doc, method=None):
             except Exception as e:
                 frappe.logger("bizmarketing").error(f"Failed to create Customer: {e}"); _trace(f"ERR-CUSTOMER {e}")
         role_profile, module_profile = _get_industry_profiles(doc.industry, settings)
+        # ANFRG-26-00063 P0: trial accounts are also provisioned DISABLED when
+        # manual review is enforced. Admin activates via
+        # bizmarketing.api.dobiz_manual_activation.activate_account (or by
+        # approving a payment) — credentials are emailed only at that point.
+        from bizmarketing.api.dobiz_manual_activation import manual_review_required
+        manual_review = manual_review_required()
         if not frappe.db.exists("User", doc.email):
             try:
                 user = frappe.get_doc({
@@ -121,6 +127,7 @@ def setup_trial_tenant(doc, method=None):
                     "send_welcome_email": 0,
                     "role_profile_name": role_profile,
                     "module_profile": module_profile,
+                    "enabled": 0 if manual_review else 1,
                     "company": company_name,
                     "custom_company": company_name
                 })
@@ -165,9 +172,15 @@ def setup_trial_tenant(doc, method=None):
         except Exception as e:
             frappe.logger("bizmarketing").error(f"Failed to generate Subscription: {e}")
         try:
-            from bizmarketing.api.subscription_notifications import send_welcome_email
-            password_link = user.reset_password(send_email=False)
-            send_welcome_email(doc.email, doc.full_name, company_name, password_setup_link=password_link)
+            if manual_review:
+                # Acknowledgment only — credentials emailed after manual activation.
+                from bizmarketing.api.dobiz_signup_api import _send_under_review_email
+                _send_under_review_email(doc.email, doc.full_name, company_name,
+                                         "Trial", 0, 0.0, None, None)
+            else:
+                from bizmarketing.api.subscription_notifications import send_welcome_email
+                password_link = user.reset_password(send_email=False)
+                send_welcome_email(doc.email, doc.full_name, company_name, password_setup_link=password_link)
         except Exception as e:
             frappe.logger("bizmarketing").error(f"Failed to send welcome email: {e}")
     finally:

@@ -59,7 +59,9 @@ def sync_trial_signup_status():
     settings = frappe.get_single("DOBiz SaaS Settings")
     parent_company = settings.parent_company or "Biz Technology Solutions"
     for signup in trial_signups:
-        if signup.status == "Converted":
+        # ANFRG-26-00063 P0: "Pending" = bank-transfer claim awaiting MANUAL
+        # verification. Automation must never touch it.
+        if signup.status in ("Converted", "Pending"):
             continue
         try:
             sub = frappe.db.get_value(
