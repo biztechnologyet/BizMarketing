@@ -18,6 +18,10 @@ frappe.init(site="ethiobiz.et", sites_path="/home/frappe/frappe-bench/sites")
 frappe.set_user("Administrator")
 frappe.connect()
 
+from bizmarketing.monkeypatches import apply as _eb_apply  # noqa: E402
+
+_eb_apply()
+
 BASE = "http://127.0.0.1:8000"
 HOST = {"Host": "ethiobiz.et"}
 TS = int(time.time())
@@ -43,24 +47,25 @@ def make_user():
         "user_type": "Website User",
         "send_welcome_email": 0,
         "enabled": 1,
-        "new_password": PASSWORD,
     })
     doc.flags.ignore_permissions = True
     doc.insert(ignore_permissions=True)
+    from frappe.utils.password import update_password
+
+    update_password(USER_EMAIL, PASSWORD)
     frappe.db.commit()
 
 
 def ensure_topic():
-    now = frappe.utils.now()
     frappe.db.sql("""
-        INSERT INTO `tabWalta Forum Topic`
+        INSERT IGNORE INTO `tabWalta Forum Topic`
         (name, creation, modified, modified_by, owner,
-         title, content, category, author_name, author_handle, author_image,
-         topic_date, likes_count, replies_count)
-        VALUES (%s,%s,%s,'Administrator','Administrator',
-         'P15 CSRF probe topic','probe body','Business',
-         'CSRF Probe','@csrf_probe','',%s,0,0)
-    """, (TOPIC, now, now))
+         title, content, category, author_name, author_handle,
+         likes_count, replies_count)
+        VALUES (%s, NOW(), NOW(), 'Administrator', 'Administrator',
+         'P15 CSRF probe topic', 'probe body', 'Business',
+         'CSRF Probe', '@csrf_probe', 0, 0)
+    """, (TOPIC,))
     frappe.db.commit()
 
 
@@ -91,13 +96,18 @@ def run():
     r = s.post(BASE + "/api/method/login",
                data={"usr": USER_EMAIL, "pwd": PASSWORD},
                headers=HOST, timeout=30)
-    record("TC85-pre login works", r.status_code == 200 and
-           "Logged" in r.text, f"{r.status_code} {r.text[:120]}")
-    token = s.cookies.get("csrf_token")
+    record("TC85-pre login works", r.status_code == 200,
+           f"{r.status_code} {r.text[:120]}")
+    # Token is rendered by base_template_page as frappe.csrf_token = "..."
+    gpage = s.get(BASE + "/forum", headers=HOST, timeout=30)
+    import re as _re
+
+    m = _re.search(r'frappe\.csrf_token = "([^"]+)"', gpage.text)
+    token = m.group(1) if m and m.group(1) != "None" else None
 
     if not token:
-        record("TC85-pre csrf cookie present after login", False,
-               str(dict(s.cookies)))
+        record("TC85-pre csrf token rendered on page", False,
+               "frappe.csrf_token missing/None in HTML")
         return finalize()
 
     # --- TC89 negative: POST without CSRF token must be rejected ---
@@ -105,7 +115,7 @@ def run():
                  data={"topic_id": TOPIC, "reply_text": "no-token"},
                  headers=HOST, timeout=30)
     record("TC89 POST without CSRF token rejected",
-           r89.status_code == 403,
+           r89.status_code in (400, 403),
            f"status={r89.status_code} body={r89.text[:120]}")
 
     # --- TC85 reply WITH token succeeds and persists ---
@@ -133,6 +143,9 @@ def run():
             params={"topic_id": TOPIC}, headers=HOST, timeout=30)
         like_ok = like_ok and rl.status_code == 200
         detail += f"{rl.status_code};"
+    # Release this connection's REPEATABLE-READ snapshot so we observe
+    # commits made by the gunicorn workers over their own connections.
+    frappe.db.rollback()
     cnt = frappe.db.sql(
         "SELECT likes_count FROM `tabWalta Forum Topic` WHERE name=%s",
         (TOPIC,), as_dict=True)

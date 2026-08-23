@@ -75,3 +75,43 @@ ops/sync_frontend_assets.sh [app ...]     # default: bismillah_ethiobiz
 `enable_website_animation`, `website_animation_speed` (Slow .45 / Normal .7 /
 Fast .95). JS caches it in sessionStorage `ethiobizThemeConf` for 10 min.
 Custom fields deployed by `bizmarketing/deploy_theme_settings.py`.
+
+## 7. P15 CSRF + Walta/Afocha privilege model (2026-08-23)
+
+**CSRF mint mechanism:** frappe only enforces CSRF when the session HAS a
+token (`auth.py` skips when falsy). Website sessions never minted one, so
+pages rendered `frappe.csrf_token = "None"` (core `base_template_page.py`
+replaces `<!-- csrf_token -->` from `session.data.csrf_token` directly).
+Fix: `bismillah_ethiobiz.api.ensure_csrf_token()` mints via
+`frappe.sessions.generate_csrf_token()` at page render (called from
+`update_website_context`) AND on `on_session_creation` (hooks list with
+auto_company). It also sets the `csrf_token` cookie for JS readers.
+NEVER mint during `/api/method/login` request itself: fresh token trips
+`validate_csrf_token()` inside that same request -> login 400 CSRFTokenError.
+
+**Privilege matrix (required behaviour, verified by TC85-90):**
+- Guests: read forum topics/detail + social feed (allow_guest=True).
+- Replies/new discussions/comments/likes/poll votes/uploads: login required.
+- `vote_poll` had allow_guest=True -> removed; explicit Guest PermissionError.
+
+**Data fix:** Company "EthioBiz Enterprise" (abbr EBE, ETB) was missing ->
+every `create_social_post` failed 417 LinkValidationError (silent in UI).
+Created idempotently; `afocha_api.get_logged_user_info` hardcodes it as
+default company.
+
+**Code fixes in afocha_api.py:** `_format_poll_data` coerces votes to int
+(poll_votes_json stored strings -> sum() TypeError broke guest feed);
+`vote_poll` now requires login.
+
+**Ops gotchas learned:**
+- Redis cache keys are site-prefixed (`_fe9b2d5bf372f5c7|app_hooks`);
+  `frappe.cache().delete_value("app_hooks")` misses them. Purge raw via
+  scan_iter (`opencode/purge_all.py` pattern) then hit any page to rebuild.
+  Long-lived stale processes may rewrite old pickles after restarts -
+  re-purge if hooks look stale.
+- `docker exec` needs `-i` to receive heredoc stdin (else python runs empty,
+  exits 0 silently).
+- Suite processes reading DB over their own connection must
+  `frappe.db.rollback()` before re-reading rows mutated via HTTP (MariaDB
+  REPEATABLE-READ snapshot).
+- Python output through docker exec is buffered; use `python -u`.
