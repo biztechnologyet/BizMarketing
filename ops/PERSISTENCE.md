@@ -46,10 +46,32 @@ plink 'docker exec -d -u frappe -w /home/frappe/frappe-bench C bash /tmp/suite_i
 (`C = bismallah_ethiobiz_inshaallah-backend-1`; results land in container
 `/tmp/anfrg_phase1_results.json`.)
 
-## 5. Cache-poisoning first-aid (if "Module … not found" or CSS 404s return)
+## 5. Cache-poisoning first-aid (if "Module … not found" or CSS/JS 404s return)
 ```
 ops/full_purge_prewarm.py   # purge ALL global redis keys + rebuild both module maps
 ops/repair_assets.py        # remap assets.json onto existing bundle generations
 then: docker restart backend
 ```
 With A1's monkeypatch live, step 1 is optional belt-and-suspenders.
+
+## 6. Split-volume asset quirk + Task B/C deploy steps (added 2026-08-23)
+
+**QUIRK:** backend and frontend mount DIFFERENT docker volumes at
+`/home/frappe/frappe-bench/sites/assets`. `bench build` in the backend is
+invisible to nginx until synced:
+```
+ops/sync_frontend_assets.sh [app ...]     # default: bismillah_ethiobiz
+```
+
+**After editing theme/particles JS or hooks (Task B/C):**
+1. `bench build --app bismillah_ethiobiz` inside backend (node v20 present).
+2. `ops/sync_frontend_assets.sh`
+3. If page HTML lacks new `<script>` tags: purge redis global key
+   `app_hooks` (+ `assets_json`) then `docker restart backend`.
+4. If a guest-cached page still stale: `bench --site ethiobiz.et clear-website-cache`.
+
+**Settings bridge:** `bizmarketing.api.theme_settings.public_theme_settings`
+(guest-safe) reads EthioBiz Theme Single → `hide_sidebar`,
+`enable_website_animation`, `website_animation_speed` (Slow .45 / Normal .7 /
+Fast .95). JS caches it in sessionStorage `ethiobizThemeConf` for 10 min.
+Custom fields deployed by `bizmarketing/deploy_theme_settings.py`.
