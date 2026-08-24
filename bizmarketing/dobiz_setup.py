@@ -121,6 +121,7 @@ def ensure_schema():
     ensure_custom_field(S, "promo_allowed_packages", "Promo Allowed Packages (comma-separated tiers)",
                         "Small Text")
     ensure_custom_field(S, "promo_show_slots_left", "Show Slots Left On Page", "Check", default=1)
+    ensure_custom_field(S, "promo_offer_ends_on", "Promo Offer Ends On (blank = no deadline)", "Date")
     ensure_custom_field(S, "coupons_enabled", "Coupons Enabled", "Check")
     ensure_custom_field(S, "coupon_throttle_minutes", "Coupon Attempt Window (minutes)", "Int", default=10)
     ensure_custom_field(S, "coupon_throttle_attempts", "Max Coupon Attempts Per IP", "Int", default=15)
@@ -229,6 +230,7 @@ def ensure_seed_data():
     _set_if_empty(sdoc, "promo_free_months", 3)
     _set_if_empty(sdoc, "promo_applies_to_all", 1)
     _set_if_empty(sdoc, "promo_show_slots_left", 1)
+    _set_if_empty(sdoc, "promo_offer_ends_on", "2026-08-25")
     _set_if_empty(sdoc, "coupons_enabled", 1)
 
     sdoc.flags.ignore_permissions = True

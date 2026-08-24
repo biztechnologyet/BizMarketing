@@ -48,7 +48,8 @@ for dt in ["DOBiz Coupon", "DOBiz Promo Claim", "DOBiz Signup Package Item",
 meta = frappe.get_meta("DOBiz SaaS Settings")
 need = ["signup_pricing_mode", "signup_price_list", "signup_package_items",
         "signup_billing_terms", "signup_bank_accounts", "launch_promo_enabled",
-        "promo_max_users", "promo_free_months", "coupons_enabled"]
+        "promo_max_users", "promo_free_months", "coupons_enabled",
+        "promo_offer_ends_on"]
 missing = [f for f in need if f not in [df.fieldname for df in meta.fields]]
 check("SaaS Settings pricing/promo fields present", not missing, f"missing={missing}")
 
@@ -174,7 +175,8 @@ frappe.db.commit()
 # =====================================================================
 section("T6 PAID SIGNUP E2E (promo OFF): manual review path preserved")
 _saved_promo = {
-    "enabled": frappe.db.get_value("DOBiz SaaS Settings", "DOBiz SaaS Settings", "launch_promo_enabled")}
+    "enabled": frappe.db.get_value("DOBiz SaaS Settings", "DOBiz SaaS Settings", "launch_promo_enabled"),
+    "ends_on": frappe.db.get_value("DOBiz SaaS Settings", "DOBiz SaaS Settings", "promo_offer_ends_on")}
 frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings", "launch_promo_enabled", 0)
 cfg.clear_cache()
 
@@ -225,6 +227,8 @@ check("coupon usage counter incremented", int(used_now or 0) == 1, f"used_count=
 section("T8 LAUNCH PROMO E2E: first 5 users FREE, 6th falls back to paid")
 frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
                     "launch_promo_enabled", _saved_promo["enabled"] if _saved_promo["enabled"] is not None else 1)
+frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
+                    "promo_offer_ends_on", "2099-12-31")
 cfg.clear_cache()
 
 promo_free_ok = True
@@ -326,6 +330,8 @@ except Exception:
 frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
                     "launch_promo_enabled",
                     _saved_promo["enabled"] if _saved_promo["enabled"] is not None else 1)
+frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
+                    "promo_offer_ends_on", _saved_promo.get("ends_on") or None)
 cfg.clear_cache()
 frappe.db.commit()
 print(f"cleanup: removed {len(deleted)} docs; promo flag restored", flush=True)

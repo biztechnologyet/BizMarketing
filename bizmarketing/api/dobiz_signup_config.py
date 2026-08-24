@@ -70,6 +70,7 @@ def get_signup_settings():
         "promo_applies_to_all": 1,
         "promo_allowed_packages": "",
         "promo_show_slots_left": 1,
+        "promo_offer_ends_on": None,
         "coupons_enabled": 0,
         "coupon_throttle_minutes": 10,
         "coupon_throttle_attempts": 15,
@@ -121,6 +122,7 @@ def get_signup_settings():
         s["promo_applies_to_all"] = bool(doc.get("promo_applies_to_all"))
         s["promo_allowed_packages"] = doc.get("promo_allowed_packages") or ""
         s["promo_show_slots_left"] = bool(doc.get("promo_show_slots_left"))
+        s["promo_offer_ends_on"] = doc.get("promo_offer_ends_on") or None
         s["coupons_enabled"] = bool(doc.get("coupons_enabled"))
         s["coupon_throttle_minutes"] = int(doc.get("coupon_throttle_minutes") or 10)
         s["coupon_throttle_attempts"] = int(doc.get("coupon_throttle_attempts") or 15)
@@ -218,7 +220,15 @@ def promo_status(settings=None):
     max_users = settings["promo_max_users"]
     free_months = settings["promo_free_months"]
     slots_left = max(0, max_users - used)
-    active = bool(settings["launch_promo_enabled"]) and max_users > 0 and free_months > 0 and slots_left > 0
+    ends_on = settings.get("promo_offer_ends_on")
+    window_open = True
+    if ends_on:
+        try:
+            window_open = getdate(nowdate()) <= getdate(ends_on)
+        except Exception:
+            window_open = True
+    active = (bool(settings["launch_promo_enabled"]) and max_users > 0
+              and free_months > 0 and slots_left > 0 and window_open)
     return {
         "active": active,
         "enabled_flag": bool(settings["launch_promo_enabled"]),
@@ -226,6 +236,8 @@ def promo_status(settings=None):
         "max_users": max_users,
         "free_months": free_months,
         "slots_left": slots_left,
+        "window_open": window_open,
+        "offer_ends_on": str(ends_on) if ends_on else None,
         "title": settings["promo_title"],
         "show_slots_left": settings["promo_show_slots_left"],
         "applies_to_all": settings["promo_applies_to_all"],
