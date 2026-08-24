@@ -248,6 +248,8 @@ def ensure_pricing_system():
             _log(f"applied {len(CREATED)} changes")
         else:
             _log("schema & seeds already up to date")
+        from bizmarketing.dobiz_workspace import ensure_subscription_workspace
+        ensure_subscription_workspace()
     except Exception:
         frappe.log_error("dobiz_setup.ensure_pricing_system failed",
                          "DOBiz Setup Error")
