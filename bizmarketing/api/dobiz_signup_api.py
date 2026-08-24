@@ -3,6 +3,10 @@ from frappe import _
 from frappe.utils import today, add_days, add_months, getdate, now_datetime
 import json
 
+# Bismillah — Dynamic pricing engine (Marketing Settings -> Item Price source of truth)
+from bizmarketing.api import dobiz_signup_config as _cfg
+from bizmarketing.api import dobiz_coupon_api as _coupon_api
+
 PACKAGE_CONFIG = {
     "Starter Module": {
         "price_per_month": 5000,
@@ -69,19 +73,55 @@ DISCOUNT_RATES = {
 
 @frappe.whitelist(allow_guest=True)
 def get_dobiz_packages():
-    """Return live package catalog, pricing rules, and bank accounts."""
+    """Return live package catalog, pricing rules, and bank accounts.
+
+    v2 — prices come from Marketing Settings -> mapped Items -> Item Price
+    (validity-aware). Legacy keys kept for backward compatibility."""
+    settings = _cfg.get_signup_settings()
+    packages_list = []
+    packages_map = {}
+    for row in _cfg.get_package_items(settings):
+        rate = _cfg.get_live_monthly_rate(row["package_tier"], settings)
+        entry = {
+            "package_tier": row["package_tier"],
+            "item_code": row["item_code"],
+            "display_label": row["display_label"],
+            "description": row["card_description"]
+                            or PACKAGE_CONFIG.get(row["package_tier"], {}).get("description", ""),
+            "badge": row["badge_text"],
+            "price_per_month": rate,
+            "currency": settings["currency"],
+        }
+        packages_list.append(entry)
+        packages_map[row["package_tier"]] = dict(
+            PACKAGE_CONFIG.get(row["package_tier"], {}), price_per_month=rate)
+
+    terms_list = [
+        {"months": t["months"], "discount_percent": t["pct"],
+         "label": t["label"], "is_default": bool(t["is_default"])}
+        for t in _cfg.get_active_terms(settings)
+    ]
+    discounts_map = {str(t["months"]): t["pct"] / 100.0 for t in _cfg.get_active_terms(settings)}
+
+    promo = _cfg.promo_status(settings)
+
     return {
-        "packages": PACKAGE_CONFIG,
-        "discounts": DISCOUNT_RATES,
+        # ---- legacy-compatible keys ----
+        "packages": packages_map,
+        "discounts": discounts_map,
         "industries": list(INDUSTRY_FULL_PROFILES.keys()),
-        "bank_accounts": [
-            {"bank": "Commercial Bank of Ethiopia (CBE)", "account_name": "Hadi Awad", "account_no": "1000236131606"},
-            {"bank": "Telebirr SuperApp", "account_name": "Hadi Awad", "account_no": "+251986767576 / 0986767576"},
-            {"bank": "Bank of Abyssinia (BoA)", "account_name": "Hadi Awad", "account_no": "94784891"}
-        ],
-        "more_info_url": "https://biztechnology.et/dobiz-erp",
-        "user_guide_url": "https://ethiobiz.et/lms/courses/dobiz-smart-erp-system-user-guide",
-        "service_url": "https://ethiobiz.et/dobiz-saas-service-e9vyb"
+        "bank_accounts": _cfg.get_bank_accounts(settings),
+        "more_info_url": settings["more_info_url"],
+        "user_guide_url": settings["user_guide_url"],
+        "service_url": "https://ethiobiz.et/dobiz-saas-service-e9vyb",
+        # ---- v2 keys ----
+        "packages_list": packages_list,
+        "terms_list": terms_list,
+        "default_term": (_cfg.get_default_term(settings) or {}).get("months"),
+        "currency": settings["currency"],
+        "pricing_mode": settings["pricing_mode"],
+        "coupons_enabled": settings["coupons_enabled"],
+        "promo": promo,
     }
 
 def _trace(tag):
@@ -110,7 +150,7 @@ def _norm_bank(bank_name):
     return "Other"
 
 @frappe.whitelist(allow_guest=True)
-def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=None, industry=None, package_tier=None, billing_term="3", selected_module="Accounts", payment_receipt=None, payment_ref=None, bank_name=None):
+def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=None, industry=None, package_tier=None, billing_term="3", selected_module="Accounts", payment_receipt=None, payment_ref=None, bank_name=None, coupon_code=None):
     """Zero-touch registration for DOBiz Smart ERP with tenant provisioning."""
     # Guard BEFORE any positional access: missing payload fields must yield
     # HTTP 417 (frappe.ValidationError) instead of TypeError 500.
@@ -134,16 +174,73 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         email = email.strip().lower()
         company_name = company_name.strip()
         
-        if package_tier not in PACKAGE_CONFIG:
+        valid_tiers = set(_cfg.get_package_tiers()) | set(PACKAGE_CONFIG.keys())
+        if package_tier not in valid_tiers:
             package_tier = "Business Growth"
-        
-        billing_term_int = int(billing_term) if str(billing_term).isdigit() else 3
-        if billing_term_int not in [3, 6, 12]:
-            billing_term_int = 3
-            
-        base_monthly = PACKAGE_CONFIG[package_tier]["price_per_month"]
-        discount_pct = DISCOUNT_RATES.get(str(billing_term_int), 0.0)
-        total_amount = (base_monthly * billing_term_int) * (1.0 - discount_pct)
+
+        billing_term_int = int(billing_term) if str(billing_term).isdigit() else 0
+        signup_settings = _cfg.get_signup_settings()
+        term_row = _cfg.resolve_term(billing_term_int, signup_settings)
+        billing_term_int = term_row["months"]
+
+        base_monthly = _cfg.get_live_monthly_rate(package_tier, signup_settings)
+        discount_pct = term_row["pct"] / 100.0
+        term_total = round(base_monthly * billing_term_int, 2)
+        term_discount_amt = round(term_total * discount_pct, 2)
+        subtotal_after_term = round(term_total - term_discount_amt, 2)
+
+        # Launch Promo (first-N signups free). Slot reservation happens HERE via
+        # the unique email constraint on DOBiz Promo Claim; losing a concurrent
+        # race simply falls back to the normal paid flow. No funds are claimed
+        # for a 0 ETB promo signup, so manual bank review does NOT apply to it.
+        promo = _cfg.promo_status(signup_settings)
+        promo_applied = bool(promo["active"] and _cfg.promo_covers_package(promo, package_tier))
+        promo_claim_name = None
+        promo_free_until = None
+        if promo_applied:
+            try:
+                _claim = frappe.get_doc({
+                    "doctype": "DOBiz Promo Claim",
+                    "email": email,
+                    "claimed_on": now_datetime(),
+                    "free_months": promo["free_months"],
+                    "free_until": add_months(today(), promo["free_months"])
+                })
+                _claim.flags.ignore_permissions = True
+                _claim.insert(ignore_permissions=True)
+                promo_claim_name = _claim.name
+                promo_free_until = _claim.free_until
+            except Exception as _pe:
+                frappe.db.rollback()
+                promo_applied = False
+                frappe.logger("bizmarketing").info(f"Launch promo slot missed (race/dupe): {_pe}")
+
+        # Coupons stack AFTER the term discount and never alongside the promo.
+        coupon_rec_name = None
+        coupon_amount = 0.0
+        coupon_display = None
+        coupon_code_norm = None
+        if coupon_code and not promo_applied:
+            cev = _coupon_api.evaluate(coupon_code, package_tier, billing_term_int, subtotal_after_term)
+            if not cev["valid"]:
+                frappe.throw(_("Coupon error: {0}").format(cev["message"]), exc=frappe.ValidationError)
+            coupon_amount = cev["discount_amount"]
+            coupon_display = cev.get("display")
+            coupon_rec_name = cev["coupon_name"]
+            coupon_code_norm = str(coupon_code).strip().upper()
+
+        total_amount = 0.0 if promo_applied else round(max(0.0, subtotal_after_term - coupon_amount), 2)
+        amount_breakdown = {
+            "base_monthly": base_monthly,
+            "months": billing_term_int,
+            "term_discount_percent": discount_pct * 100,
+            "subtotal": subtotal_after_term,
+            "coupon_code": coupon_code_norm,
+            "coupon_discount": coupon_amount,
+            "total": total_amount
+        }
+        from bizmarketing.api.dobiz_manual_activation import manual_review_required
+        manual_review = manual_review_required() and total_amount > 0
         _trace("1-validated")
 
         # 2. Company creation
@@ -224,8 +321,8 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         # claimed bank transfer is NOT verified money. Accounts stay DISABLED and
         # payment claims go to the manual review queue until an admin confirms
         # funds received (bizmarketing.api.dobiz_manual_activation).
-        from bizmarketing.api.dobiz_manual_activation import manual_review_required
-        manual_review = manual_review_required()
+        # NOTE: manual_review was already computed during validation — a 0 ETB
+        # launch-promo signup claims no funds, so it bypasses review entirely.
         if not frappe.db.exists("User", email):
             user = frappe.get_doc({
                 "doctype": "User",
@@ -273,11 +370,24 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "status": "Pending" if manual_review else "Trial Active",
             "trial_start_date": today(),
             "user_linked": email,
-            "company_linked": company_name
+            "company_linked": company_name,
+            "custom_original_amount": subtotal_after_term,
+            "custom_term_discount": term_discount_amt,
+            "custom_coupon_code": coupon_code_norm,
+            "custom_coupon_discount": coupon_amount,
+            "custom_final_amount": total_amount,
+            "custom_promo_claimed": 1 if promo_applied else 0,
+            "custom_promo_free_until": promo_free_until
         })
         signup_doc.flags.dobiz_skip_provisioning = 1
         signup_doc.insert(ignore_permissions=True)
         signup_ref = signup_doc.name
+
+        if promo_claim_name:
+            try:
+                frappe.db.set_value("DOBiz Promo Claim", promo_claim_name, "signup_link", signup_ref)
+            except Exception as _le:
+                frappe.logger("bizmarketing").warning(f"Promo claim link-back warning: {_le}")
 
         # 7. Record Subscription and Payment Transaction
         _trace("7-sub-begin")
@@ -313,7 +423,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     "trial_period_start": today() if manual_review else None,
                     "trial_period_end": add_days(today(), 30) if manual_review else None,
                     "current_invoice_start": today(),
-                    "current_invoice_end": add_months(today(), billing_term_int)
+                    "current_invoice_end": add_months(today(), promo["free_months"] if promo_applied else billing_term_int)
                 })
                 if plan_for_sub:
                     sub_doc.append("plans", {"plan": plan_for_sub, "qty": 1})
@@ -328,22 +438,48 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                 sub_name = frappe.db.get_value("Subscription", {"party": company_name}, "name")
 
             # Payment claim is ALWAYS recorded for admin review — never pre-approved.
+            # Launch-promo (0 ETB) signups instead get an Approved/Completed audit
+            # row so the finance trail stays complete without touching real money.
             if sub_name:
-                frappe.get_doc({
-                    "doctype": "DOBiz Payment Transaction",
-                    "subscription": sub_name,
-                    "customer": company_name,
-                    "email": email,
-                    "paid_by": full_name,
-                    "bank_name": _norm_bank(bank_name),
-                    "reference_no": payment_ref or f"ONLINE-{signup_ref}",
-                    "amount": total_amount,
-                    "status": "Pending",
-                    "payment_status": "Pending" if manual_review else "Approved",
-                    "payment_date": today(),
-                    "linked_signup": signup_ref,
-                    "notes": f"Bank: {bank_name or 'Bank Transfer'} | Ref: {payment_ref or ''}"
-                }).insert(ignore_permissions=True)
+                if promo_applied:
+                    frappe.get_doc({
+                        "doctype": "DOBiz Payment Transaction",
+                        "subscription": sub_name,
+                        "customer": company_name,
+                        "email": email,
+                        "paid_by": full_name,
+                        "bank_name": "Other",
+                        "reference_no": f"PROMO-{signup_ref}",
+                        "amount": 0,
+                        "status": "Completed",
+                        "payment_status": "Approved",
+                        "payment_date": today(),
+                        "linked_signup": signup_ref,
+                        "notes": f"LAUNCH PROMO: {promo['free_months']} months free until {promo_free_until} | Package: {package_tier}",
+                        "custom_final_amount": 0
+                    }).insert(ignore_permissions=True)
+                    _trace("7-paytxn-promo")
+                else:
+                    frappe.get_doc({
+                        "doctype": "DOBiz Payment Transaction",
+                        "subscription": sub_name,
+                        "customer": company_name,
+                        "email": email,
+                        "paid_by": full_name,
+                        "bank_name": _norm_bank(bank_name),
+                        "reference_no": payment_ref or f"ONLINE-{signup_ref}",
+                        "amount": total_amount,
+                        "status": "Pending",
+                        "payment_status": "Pending" if manual_review else "Approved",
+                        "payment_date": today(),
+                        "linked_signup": signup_ref,
+                        "notes": f"Bank: {bank_name or 'Bank Transfer'} | Ref: {payment_ref or ''}"
+                                 + (f" | Coupon: {coupon_code_norm} (-{coupon_amount:,.2f} ETB)" if coupon_code_norm else ""),
+                        "custom_coupon_code": coupon_code_norm,
+                        "custom_final_amount": total_amount
+                    }).insert(ignore_permissions=True)
+                    if coupon_rec_name:
+                        _coupon_api.consume(coupon_rec_name)
                 _trace("7-paytxn-inserted")
         except Exception as pe:
             frappe.logger("bizmarketing").warning(f"Subscription / Payment transaction record warning: {pe}")
@@ -364,6 +500,10 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             password_link = user.reset_password(send_email=False)
             _trace("8-resetpw-done")
             subject = f"Welcome to DOBiz Smart ERP - {company_name} [{package_tier}]"
+            promo_line = (f"<li><strong>Launch Offer Applied:</strong> {promo['free_months']} months FREE "
+                          f"— billing begins after {promo_free_until}</li>") if promo_applied else ""
+            coupon_line = (f"<li><strong>Coupon Applied:</strong> {coupon_code_norm} "
+                           f"(-{coupon_amount:,.2f} ETB)</li>") if coupon_code_norm else ""
             message = f"""
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; color: #0f172a;">
             <div style="background: linear-gradient(135deg, #072a2e 0%, #008080 100%); color: white; padding: 24px; border-radius: 16px; text-align: center; margin-bottom: 20px;">
@@ -382,6 +522,8 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     <li><strong>Package Tier:</strong> {package_tier}</li>
                     <li><strong>Billing Term:</strong> {billing_term_int} Months ({discount_pct*100:.0f}% Discount)</li>
                     <li><strong>Total Settled Amount:</strong> {total_amount:,.2f} ETB</li>
+                    {promo_line}
+                    {coupon_line}
                 </ul>
             </div>
 
@@ -418,6 +560,11 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "package_tier": package_tier,
             "total_amount": total_amount,
             "discount_applied": f"{discount_pct*100:.0f}%",
+            "coupon_applied": bool(coupon_code_norm),
+            "amount_breakdown": amount_breakdown,
+            "promo": ({"applied": True, "free_months": promo["free_months"],
+                       "free_until": str(promo_free_until)} if promo_applied
+                      else {"applied": False}),
             "signup_ref": signup_ref,
             "user_guide_url": guide_url,
             "more_info_url": more_info_url,

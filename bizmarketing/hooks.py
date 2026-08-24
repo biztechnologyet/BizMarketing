@@ -16,6 +16,10 @@ _ethiobiz_monkeypatches.apply()
 # required_apps = []
 required_apps = ["frappe", "erpnext"]
 
+# DOBiz dynamic pricing / coupons / launch promo: self-healing installer.
+# Runs on every bench migrate + fresh-server install (Git-persistent).
+after_migrate = "bizmarketing.dobiz_setup.ensure_pricing_system"
+
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
 # 	{
