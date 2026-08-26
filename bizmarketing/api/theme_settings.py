@@ -39,7 +39,7 @@ def public_theme_settings():
 
     return {
         "hide_sidebar": _flag(hide_sidebar, True),
-        "enable_website_animation": _flag(enable_anim, True),
+        "enable_website_animation": _flag(enable_anim, False),
         "animation_speed_factor": SPEED_FACTORS.get(speed, SPEED_FACTORS["Normal"]),
         "reduced_motion_respect": True,
     }
