@@ -201,9 +201,7 @@ def _default_receipt_html(full_name, plan_name, amount):
         <div style="background:#ffffff;padding:30px;border:1px solid #e0e0e0;">
             <p>Assalamu Alaikum <strong>{full_name}</strong>,</p>
             <p>Your payment of <strong>ETB {amount}</strong> for <strong>{plan_name}</strong> has been received.</p>
-            <p style="text-align:center;margin:25px 0;">
-                <a href="{LOGIN_URL}" style="background:#1565c0;color:white;padding:12px 30px;border-radius:6px;text-decoration:none;font-weight:bold;">Access DOBiz</a>
-            </p>
+            {_dual_button(LOGIN_URL, PAYMENT_URL, "Access DOBiz", "Manage Subscription")}
         </div>
         <div style="background:#f5f5f5;padding:15px;border-radius:0 0 12px 12px;text-align:center;font-size:12px;color:#999;">
             <p>Biz Technology Solutions · Addis Ababa, Ethiopia</p>
