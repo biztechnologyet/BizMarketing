@@ -1,10 +1,12 @@
 import frappe
-from frappe.utils import today, add_days
+from frappe.utils import today, add_days, date_diff
 from bizmarketing.api.subscription_notifications import (
     send_welcome_email,
     send_expiry_warning_email,
     send_expired_email,
 )
+
+WARNING_INTERVALS = [7, 5, 3, 1]
 
 def check_trial_expirations():
     frappe.logger("bizmarketing").info("Bismillah. Checking trial expirations...")
@@ -31,23 +33,35 @@ def check_trial_expirations():
 
 def send_expiry_warnings():
     frappe.logger("bizmarketing").info("Checking for upcoming trial expirations...")
-    for days_ahead in [3, 1]:
+    settings = frappe.get_single("DOBiz SaaS Settings")
+    parent_company = settings.parent_company or "Biz Technology Solutions"
+    warned_key = "dobiz_expiry_warned"
+    warned_cache = frappe.cache().get_value(warned_key) or {}
+    for days_ahead in WARNING_INTERVALS:
         target_date = add_days(today(), days_ahead)
-        settings = frappe.get_single("DOBiz SaaS Settings")
-        parent_company = settings.parent_company or "Biz Technology Solutions"
         expiring_subs = frappe.db.sql("""
-            SELECT name, party, trial_period_end
+            SELECT name, party, trial_period_end, trial_period_start
             FROM `tabSubscription`
             WHERE company = %s
               AND trial_period_end = %s
               AND status IN ('Trialing', 'Active')
         """, (parent_company, target_date), as_dict=True)
         for sub in expiring_subs:
+            cache_key = f"{sub.name}_{days_ahead}_{target_date}"
+            if cache_key in warned_cache:
+                frappe.logger("bizmarketing").info(f"Skipping duplicate {days_ahead}-day warning for {sub.party}")
+                continue
+            days_active = date_diff(today(), sub.trial_period_start or today())
+            if days_active < 1:
+                frappe.logger("bizmarketing").info(f"Skipping {sub.party}: trial just started today")
+                continue
             try:
                 _notify_trial_expiring(sub.party, days_ahead, sub.trial_period_end)
+                warned_cache[cache_key] = today()
                 frappe.logger("bizmarketing").info(f"Sent {days_ahead}-day warning for {sub.party}")
             except Exception as e:
                 frappe.logger("bizmarketing").error(f"Error sending warning for {sub.party}: {e}")
+    frappe.cache().set_value(warned_key, warned_cache, expires_in=86400)
     frappe.db.commit()
 
 def sync_trial_signup_status():

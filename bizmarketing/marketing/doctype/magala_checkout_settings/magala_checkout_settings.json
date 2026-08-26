@@ -1,0 +1,302 @@
+{
+ "actions": [],
+ "creation": "2026-08-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "storefront_section",
+  "enable_addispay",
+  "enable_bank_transfer",
+  "enable_cod",
+  "column_break_store",
+  "show_payment_badges",
+  "default_payment_method",
+  "currency",
+  "labels_section",
+  "addispay_label",
+  "addispay_description",
+  "column_break_labels",
+  "bank_label",
+  "bank_description",
+  "cod_label",
+  "cod_description",
+  "cod_section",
+  "cod_item_groups",
+  "job_item_groups",
+  "addispay_section",
+  "use_dobiz_addispay_credentials",
+  "addispay_sandbox_mode",
+  "addispay_api_key",
+  "addispay_webhook_secret",
+  "column_break_ap",
+  "addispay_uat_base_url",
+  "addispay_prod_base_url",
+  "addispay_create_order_path",
+  "addispay_session_expired",
+  "addispay_checkout_message",
+  "addispay_default_phone",
+  "urls_section",
+  "success_url",
+  "error_url",
+  "cancel_url",
+  "redirect_url",
+  "bank_section",
+  "bank_accounts"
+ ],
+ "fields": [
+  {
+   "fieldname": "storefront_section",
+   "fieldtype": "Section Break",
+   "label": "Storefront Payment Methods"
+  },
+  {
+   "default": "1",
+   "description": "Show Pay with AddisPay (hosted: cards, Telebirr, CBE Birr, banks)",
+   "fieldname": "enable_addispay",
+   "fieldtype": "Check",
+   "label": "Enable AddisPay"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_bank_transfer",
+   "fieldtype": "Check",
+   "label": "Enable Bank Transfer"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_cod",
+   "fieldtype": "Check",
+   "label": "Enable Cash upon Delivery"
+  },
+  {
+   "fieldname": "column_break_store",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_payment_badges",
+   "fieldtype": "Check",
+   "label": "Show Payment Badges on Shop Cards"
+  },
+  {
+   "default": "AddisPay",
+   "fieldname": "default_payment_method",
+   "fieldtype": "Select",
+   "label": "Default Method on Cart",
+   "options": "AddisPay\nBank Transfer\nCash upon Delivery"
+  },
+  {
+   "default": "ETB",
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency"
+  },
+  {
+   "fieldname": "labels_section",
+   "fieldtype": "Section Break",
+   "label": "Buyer-Facing Labels (customizable)"
+  },
+  {
+   "default": "AddisPay Payment",
+   "fieldname": "addispay_label",
+   "fieldtype": "Data",
+   "label": "AddisPay Label"
+  },
+  {
+   "default": "Cards, Telebirr, CBE Birr, and bank apps on a secure AddisPay page.",
+   "fieldname": "addispay_description",
+   "fieldtype": "Small Text",
+   "label": "AddisPay Description"
+  },
+  {
+   "fieldname": "column_break_labels",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Bank Transfer",
+   "fieldname": "bank_label",
+   "fieldtype": "Data",
+   "label": "Bank Transfer Label"
+  },
+  {
+   "default": "Pay to the accounts below, then submit your bank reference.",
+   "fieldname": "bank_description",
+   "fieldtype": "Small Text",
+   "label": "Bank Transfer Description"
+  },
+  {
+   "default": "Cash upon Delivery",
+   "fieldname": "cod_label",
+   "fieldtype": "Data",
+   "label": "COD Label"
+  },
+  {
+   "default": "Pay the courier in cash when your order arrives.",
+   "fieldname": "cod_description",
+   "fieldtype": "Small Text",
+   "label": "COD Description"
+  },
+  {
+   "fieldname": "cod_section",
+   "fieldtype": "Section Break",
+   "label": "COD Eligibility (customizable item groups)"
+  },
+  {
+   "default": "Products, Food & Dining, Goods",
+   "description": "Comma-separated item group name fragments. COD is offered when the cart item group contains any of these.",
+   "fieldname": "cod_item_groups",
+   "fieldtype": "Small Text",
+   "label": "COD Item Groups"
+  },
+  {
+   "default": "Jobs, Careers",
+   "description": "Comma-separated fragments that must never go to cart (Apply Now only).",
+   "fieldname": "job_item_groups",
+   "fieldtype": "Small Text",
+   "label": "Job Item Groups (no cart)"
+  },
+  {
+   "fieldname": "addispay_section",
+   "fieldtype": "Section Break",
+   "label": "AddisPay Gateway (customizable)"
+  },
+  {
+   "default": "1",
+   "description": "When checked, Magala uses API key / sandbox from DOBiz SaaS Settings. Uncheck to set Magala-only credentials below.",
+   "fieldname": "use_dobiz_addispay_credentials",
+   "fieldtype": "Check",
+   "label": "Use DOBiz SaaS AddisPay Credentials"
+  },
+  {
+   "default": "1",
+   "fieldname": "addispay_sandbox_mode",
+   "fieldtype": "Check",
+   "label": "Sandbox / UAT Mode"
+  },
+  {
+   "fieldname": "addispay_api_key",
+   "fieldtype": "Password",
+   "label": "AddisPay API Key (override)"
+  },
+  {
+   "fieldname": "addispay_webhook_secret",
+   "fieldtype": "Password",
+   "label": "Webhook Secret (override)"
+  },
+  {
+   "fieldname": "column_break_ap",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "https://uat.api.addispay.et",
+   "fieldname": "addispay_uat_base_url",
+   "fieldtype": "Data",
+   "label": "UAT Base URL"
+  },
+  {
+   "default": "https://api.addispay.et",
+   "fieldname": "addispay_prod_base_url",
+   "fieldtype": "Data",
+   "label": "Production Base URL"
+  },
+  {
+   "default": "/checkout-api/v1/create-order",
+   "fieldname": "addispay_create_order_path",
+   "fieldtype": "Data",
+   "label": "Create Order Path"
+  },
+  {
+   "default": "5000",
+   "fieldname": "addispay_session_expired",
+   "fieldtype": "Data",
+   "label": "Session Expiry (AddisPay)"
+  },
+  {
+   "default": "Magala marketplace payment",
+   "fieldname": "addispay_checkout_message",
+   "fieldtype": "Data",
+   "label": "Checkout Message"
+  },
+  {
+   "default": "251911000000",
+   "fieldname": "addispay_default_phone",
+   "fieldtype": "Data",
+   "label": "Fallback Phone (if buyer omits)"
+  },
+  {
+   "fieldname": "urls_section",
+   "fieldtype": "Section Break",
+   "label": "Return URLs (leave blank for Magala defaults). Use {tx_ref} placeholder."
+  },
+  {
+   "fieldname": "success_url",
+   "fieldtype": "Data",
+   "label": "Success URL"
+  },
+  {
+   "fieldname": "error_url",
+   "fieldtype": "Data",
+   "label": "Error URL"
+  },
+  {
+   "fieldname": "cancel_url",
+   "fieldtype": "Data",
+   "label": "Cancel URL"
+  },
+  {
+   "fieldname": "redirect_url",
+   "fieldtype": "Data",
+   "label": "Redirect URL"
+  },
+  {
+   "fieldname": "bank_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Transfer Accounts (customizable)"
+  },
+  {
+   "fieldname": "bank_accounts",
+   "fieldtype": "Table",
+   "label": "Bank Accounts",
+   "options": "Magala Bank Account"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-08-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Magala Checkout Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Accounts Manager",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Sales Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

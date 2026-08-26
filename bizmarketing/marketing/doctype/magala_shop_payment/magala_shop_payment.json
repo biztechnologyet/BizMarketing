@@ -1,0 +1,255 @@
+{
+ "actions": [],
+ "autoname": "format:MSP-{YYYY}-{#####}",
+ "creation": "2026-08-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "payment_method",
+  "status",
+  "payment_status",
+  "column_break_meta",
+  "tx_ref",
+  "addispay_uuid",
+  "addispay_nonce",
+  "section_customer",
+  "customer",
+  "customer_name",
+  "email",
+  "column_break_cust",
+  "phone",
+  "delivery_address",
+  "section_amount",
+  "amount",
+  "currency",
+  "column_break_amt",
+  "company",
+  "mode_of_payment",
+  "section_bank",
+  "bank_name",
+  "reference_no",
+  "paid_by",
+  "section_admin",
+  "approved_by",
+  "approved_on",
+  "admin_remarks",
+  "section_orders",
+  "sales_orders",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "payment_method",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Payment Method",
+   "options": "Cash upon Delivery\nBank Transfer\nAddisPay",
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Gateway Status",
+   "options": "Pending\nCompleted\nFailed\nRefunded"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Payment Status",
+   "options": "Pending\nApproved\nRejected"
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tx_ref",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Transaction Ref",
+   "unique": 1
+  },
+  {
+   "fieldname": "addispay_uuid",
+   "fieldtype": "Data",
+   "label": "AddisPay UUID"
+  },
+  {
+   "fieldname": "addispay_nonce",
+   "fieldtype": "Data",
+   "label": "AddisPay Nonce"
+  },
+  {
+   "fieldname": "section_customer",
+   "fieldtype": "Section Break",
+   "label": "Customer"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "column_break_cust",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "delivery_address",
+   "fieldtype": "Small Text",
+   "label": "Delivery Address"
+  },
+  {
+   "fieldname": "section_amount",
+   "fieldtype": "Section Break",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount (ETB)",
+   "reqd": 1
+  },
+  {
+   "default": "ETB",
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency"
+  },
+  {
+   "fieldname": "column_break_amt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Platform Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "mode_of_payment",
+   "fieldtype": "Link",
+   "label": "Mode of Payment",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "section_bank",
+   "fieldtype": "Section Break",
+   "label": "Bank Transfer"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Select",
+   "label": "Bank Name",
+   "options": "Commercial Bank of Ethiopia\nTelebirr\nBank of Abyssinia\nOther"
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Data",
+   "label": "Bank Reference No"
+  },
+  {
+   "fieldname": "paid_by",
+   "fieldtype": "Data",
+   "label": "Paid By"
+  },
+  {
+   "fieldname": "section_admin",
+   "fieldtype": "Section Break",
+   "label": "Admin Review"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User"
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On"
+  },
+  {
+   "fieldname": "admin_remarks",
+   "fieldtype": "Small Text",
+   "label": "Admin Remarks"
+  },
+  {
+   "fieldname": "section_orders",
+   "fieldtype": "Section Break",
+   "label": "Sales Orders"
+  },
+  {
+   "fieldname": "sales_orders",
+   "fieldtype": "Table",
+   "label": "Sales Orders",
+   "options": "Magala Shop Payment Order"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Marketing",
+ "name": "Magala Shop Payment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 0,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "tx_ref",
+ "track_changes": 1
+}

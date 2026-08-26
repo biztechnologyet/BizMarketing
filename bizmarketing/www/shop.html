@@ -111,10 +111,27 @@
     {% if items %}
     <div class="shop-grid">
         {% for item in items %}
-        <div class="shop-card">
+        <div class="shop-card" data-item-code="{{ item.item_code or item.name }}">
             <h3>{{ item.item_name }}</h3>
             <div class="company">{{ item.company or "" }}</div>
-            <a href="/{{ item.route }}">View Details</a>
+            {% if item.formatted_price %}<div class="company" style="color:#5eead4;font-weight:700;margin-top:6px;">{{ item.formatted_price }}</div>{% endif %}
+            <div class="magala-pay-badges">
+                {% if item.is_job %}
+                <span class="magala-pay-badge">Apply Now</span>
+                {% else %}
+                {% if item.cod_eligible %}<span class="magala-pay-badge cod">COD</span>{% endif %}
+                <span class="magala-pay-badge">Bank</span>
+                <span class="magala-pay-badge">AddisPay</span>
+                {% endif %}
+            </div>
+            <div class="magala-card-cta">
+                {% if item.is_job %}
+                <a class="magala-btn-ghost" href="/{{ item.route }}">Apply / View</a>
+                {% else %}
+                <button type="button" class="magala-btn-cart" data-item-code="{{ item.item_code or item.name }}">Add to Cart</button>
+                <a class="magala-btn-ghost" href="/{{ item.route }}">View</a>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>

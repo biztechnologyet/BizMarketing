@@ -5,6 +5,14 @@ SENDER = "onboard@ethiobiz.et"
 SENDER_NAME = "DOBiz by EthioBiz"
 
 LOGIN_URL = get_url() + "/app"
+PAYMENT_URL = "https://ethiobiz.et/dobiz-payment"
+
+def _dual_button(app_url, payment_url, app_label="Go to DOBiz Dashboard", pay_label="Subscribe / Renew"):
+    return f"""
+    <p style="text-align:center;margin:25px 0;">
+        <a href="{app_url}" style="background:#1a73e8;color:white;padding:12px 28px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;margin:0 6px;">{app_label}</a>
+        <a href="{payment_url}" style="background:#e65100;color:white;padding:12px 28px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;margin:0 6px;">{pay_label}</a>
+    </p>"""
 
 def _load_template(template_type, context):
     templates = frappe.get_all("DOBiz Email Template", filters={"template_type": template_type}, limit=1)
@@ -33,7 +41,8 @@ def _send_email(email, subject, message, sender=None, sender_name=None):
 def send_welcome_email(email, full_name, company_name, password_setup_link=None):
     context = {"full_name": full_name, "company_name": company_name, "login_url": LOGIN_URL,
                "password_setup_link": password_setup_link or LOGIN_URL,
-               "password_setup_url": password_setup_link or LOGIN_URL}
+               "password_setup_url": password_setup_link or LOGIN_URL,
+               "payment_url": PAYMENT_URL}
     sender, sender_name, subject, message = _load_template("Welcome", context)
     if not subject:
         subject = f"Bismillah! Welcome to DOBiz, {full_name}! Your 7-Day Trial is Active"
@@ -61,10 +70,11 @@ def send_expiry_warning_email(email, company_name, days_remaining, expiry_date):
         "days_remaining": days_remaining,
         "expiry_date": expiry_date,
         "login_url": LOGIN_URL,
+        "payment_url": PAYMENT_URL,
     }
     sender, sender_name, subject, message = _load_template("Expiry Warning", context)
     if not subject:
-        urgency = "⚠️" if days_remaining == 3 else "🚨"
+        urgency = "⚠️" if days_remaining >= 3 else "🚨"
         subject = f"{urgency} Your DOBiz Trial Expires in {days_remaining} Day{'s' if days_remaining > 1 else ''}!"
         message = _default_expiry_warning_html(company_name, days_remaining, expiry_date)
     _send_email(email, subject, message, sender, sender_name)
@@ -76,6 +86,7 @@ def send_expired_email(email, company_name):
         "full_name": full_name or company_name,
         "company_name": company_name,
         "login_url": LOGIN_URL,
+        "payment_url": PAYMENT_URL,
     }
     sender, sender_name, subject, message = _load_template("Expired", context)
     if not subject:
@@ -85,7 +96,7 @@ def send_expired_email(email, company_name):
     frappe.logger("bizmarketing").info(f"Expired email sent to {email}")
 
 def send_conversion_email(email, full_name, plan_name):
-    context = {"full_name": full_name, "plan_name": plan_name, "login_url": LOGIN_URL}
+    context = {"full_name": full_name, "plan_name": plan_name, "login_url": LOGIN_URL, "payment_url": PAYMENT_URL}
     sender, sender_name, subject, message = _load_template("Conversion", context)
     if not subject:
         subject = f"Alhamdulillah! Welcome to {plan_name}, {full_name}!"
@@ -94,7 +105,7 @@ def send_conversion_email(email, full_name, plan_name):
     frappe.logger("bizmarketing").info(f"Conversion email sent to {email}")
 
 def send_payment_receipt_email(email, full_name, plan_name, amount):
-    context = {"full_name": full_name, "plan_name": plan_name, "amount": amount, "login_url": LOGIN_URL}
+    context = {"full_name": full_name, "plan_name": plan_name, "amount": amount, "login_url": LOGIN_URL, "payment_url": PAYMENT_URL}
     sender, sender_name, subject, message = _load_template("Payment Receipt", context)
     if not subject:
         subject = f"Payment Receipt - {plan_name} - ETB {amount}"
@@ -123,9 +134,7 @@ def _default_welcome_html(full_name, company_name, password_setup_link=None):
                     <li>Standard Email Support</li>
                 </ul>
             </div>
-            <p style="text-align:center;margin:25px 0;">
-                <a href="{LOGIN_URL}" style="background:#1a73e8;color:white;padding:12px 30px;border-radius:6px;text-decoration:none;font-weight:bold;">Go to DOBiz Dashboard</a>
-            </p>
+            {_dual_button(LOGIN_URL, PAYMENT_URL, "Go to Dashboard", "Subscribe / Renew")}
         </div>
         <div style="background:#f5f5f5;padding:15px;border-radius:0 0 12px 12px;text-align:center;font-size:12px;color:#999;">
             <p>Biz Technology Solutions · Addis Ababa, Ethiopia</p>
@@ -142,9 +151,7 @@ def _default_expiry_warning_html(company_name, days_remaining, expiry_date):
         <div style="background:#ffffff;padding:30px;border:1px solid #e0e0e0;">
             <p>Your DOBiz trial for <strong>{company_name}</strong> will expire on <strong>{expiry_date}</strong>.</p>
             <p>Upgrade now to continue using DOBiz without interruption:</p>
-            <p style="text-align:center;margin:25px 0;">
-                <a href="{LOGIN_URL}" style="background:#e65100;color:white;padding:12px 30px;border-radius:6px;text-decoration:none;font-weight:bold;">Upgrade Now</a>
-            </p>
+            {_dual_button(LOGIN_URL, PAYMENT_URL, "Continue Using DOBiz", "Subscribe Now")}
         </div>
         <div style="background:#f5f5f5;padding:15px;border-radius:0 0 12px 12px;text-align:center;font-size:12px;color:#999;">
             <p>Biz Technology Solutions · Addis Ababa, Ethiopia</p>
@@ -161,9 +168,7 @@ def _default_expired_html(company_name):
         <div style="background:#ffffff;padding:30px;border:1px solid #e0e0e0;">
             <p>Your DOBiz trial for <strong>{company_name}</strong> has ended.</p>
             <p>Your data is safe and preserved. Subscribe to restore full access:</p>
-            <p style="text-align:center;margin:25px 0;">
-                <a href="{LOGIN_URL}" style="background:#1a73e8;color:white;padding:14px 35px;border-radius:6px;text-decoration:none;font-weight:bold;">Subscribe Now</a>
-            </p>
+            {_dual_button(LOGIN_URL, PAYMENT_URL, "View Your Data", "Subscribe Now")}
         </div>
         <div style="background:#f5f5f5;padding:15px;border-radius:0 0 12px 12px;text-align:center;font-size:12px;color:#999;">
             <p>Biz Technology Solutions · Addis Ababa, Ethiopia</p>
@@ -180,9 +185,7 @@ def _default_conversion_html(full_name, plan_name):
         <div style="background:#ffffff;padding:30px;border:1px solid #e0e0e0;">
             <p>Assalamu Alaikum <strong>{full_name}</strong>,</p>
             <p>Your <strong>{plan_name}</strong> subscription is now active. Full access has been restored.</p>
-            <p style="text-align:center;margin:25px 0;">
-                <a href="{LOGIN_URL}" style="background:#2e7d32;color:white;padding:12px 30px;border-radius:6px;text-decoration:none;font-weight:bold;">Go to DOBiz Dashboard</a>
-            </p>
+            {_dual_button(LOGIN_URL, PAYMENT_URL, "Go to Dashboard", "Manage Subscription")}
         </div>
         <div style="background:#f5f5f5;padding:15px;border-radius:0 0 12px 12px;text-align:center;font-size:12px;color:#999;">
             <p>Biz Technology Solutions · Addis Ababa, Ethiopia</p>

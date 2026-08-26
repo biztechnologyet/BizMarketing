@@ -18,7 +18,12 @@ required_apps = ["frappe", "erpnext"]
 
 # DOBiz dynamic pricing / coupons / launch promo: self-healing installer.
 # Runs on every bench migrate + fresh-server install (Git-persistent).
-after_migrate = "bizmarketing.dobiz_setup.ensure_pricing_system"
+# Magala checkout: Mode of Payment + AddisPay UAT key seed.
+after_migrate = [
+    "bizmarketing.dobiz_setup.ensure_pricing_system",
+    "bizmarketing.setup.create_web_forms",
+    "bizmarketing.magala_setup.ensure_magala_checkout",
+]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -74,7 +79,6 @@ after_migrate = "bizmarketing.dobiz_setup.ensure_pricing_system"
 
 # before_install = "bizmarketing.install.before_install"
 # after_install = "bizmarketing.install.after_install"
-after_migrate = "bizmarketing.setup.create_web_forms"
 
 # Uninstallation
 # ------------
@@ -184,5 +188,6 @@ fixtures = [
 	{"dt": "Client Script", "filters": [["dt", "=", "Brand"]]},
 	{"dt": "Client Script", "filters": [["name", "=", "DOBiz Payment Transaction Admin Approval"]]},
 	{"dt": "Client Script", "filters": [["name", "=", "DOBiz Trial Signup Admin Provision"]]},
+	{"dt": "Client Script", "filters": [["name", "=", "Magala Shop Payment Admin Approval"]]},
 	{"dt": "Workspace", "filters": [["label", "=", "DOBiz Subscription Management"]]}
 ]
