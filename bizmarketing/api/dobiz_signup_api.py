@@ -1,6 +1,6 @@
 import frappe
 from frappe import _
-from frappe.utils import today, add_days, add_months, getdate, now_datetime
+from frappe.utils import today, add_days, add_months, getdate, now_datetime, get_url
 import json
 
 # Bismillah — Dynamic pricing engine (Marketing Settings -> Item Price source of truth)
@@ -150,8 +150,10 @@ def _norm_bank(bank_name):
     return "Other"
 
 @frappe.whitelist(allow_guest=True)
-def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=None, industry=None, package_tier=None, billing_term="3", selected_module="Accounts", payment_receipt=None, payment_ref=None, bank_name=None, coupon_code=None):
-    """Zero-touch registration for DOBiz Smart ERP with tenant provisioning."""
+def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=None, industry=None, package_tier=None, billing_term="3", selected_module="Accounts", payment_receipt=None, payment_ref=None, bank_name=None, coupon_code=None, payment_method="bank_transfer"):
+    """Zero-touch registration for DOBiz Smart ERP with tenant provisioning.
+    payment_method: "bank_transfer" (default) or "addipay" — when "addipay",
+    the response includes a checkout_url to redirect the user to AddisPay."""
     # Guard BEFORE any positional access: missing payload fields must yield
     # HTTP 417 (frappe.ValidationError) instead of TypeError 500.
     if not all([full_name, email, phone, company_name, industry]):
@@ -548,6 +550,46 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
 
         frappe.db.commit()
         _trace("9-committed")
+
+        # --- AddisPay Online Payment ---
+        addipay_checkout_url = None
+        addipay_uuid = None
+        if payment_method == "addipay" and total_amount > 0 and not promo_applied:
+            try:
+                from bizmarketing.api.addispay import create_hosted_order, get_addispay_config
+                cfg = get_addispay_config()
+                if cfg.get("api_key"):
+                    site = get_url()
+                    ap_tx_ref = f"DOBIZ-{signup_ref}-{frappe.generate_hash(length=6)}"
+                    ap_result = create_hosted_order(
+                        amount=total_amount,
+                        tx_ref=ap_tx_ref,
+                        customer_email=email,
+                        customer_name=full_name,
+                        phone_number=phone,
+                        description=f"DOBiz {package_tier} — {company_name} ({billing_term_int}mo)",
+                        success_url=f"{site}/dobiz-payment?ref={signup_ref}&status=success",
+                        error_url=f"{site}/dobiz-payment?ref={signup_ref}&status=failed",
+                        message=f"DOBiz Smart ERP — {company_name}",
+                    )
+                    addipay_checkout_url = ap_result.get("redirect") or ap_result.get("checkout_url")
+                    addipay_uuid = ap_result.get("uuid") or ap_tx_ref
+                    # Persist the AddisPay reference on the payment transaction
+                    try:
+                        frappe.db.set_value("DOBiz Payment Transaction",
+                                            {"subscription": sub_name, "customer": company_name},
+                                            {"addispay_transaction_id": addipay_uuid,
+                                             "reference_no": ap_tx_ref,
+                                             "notes": f"AddisPay online | tx_ref={ap_tx_ref} | uuid={addipay_uuid}"})
+                        frappe.db.commit()
+                    except Exception as _ue:
+                        frappe.logger("bizmarketing").warning(f"AddisPay tx_ref write-back warning: {_ue}")
+                    _trace("9-addipay-order-created")
+                else:
+                    frappe.logger("bizmarketing").warning("AddisPay not configured — falling back to bank transfer")
+            except Exception as ae:
+                frappe.logger("bizmarketing").warning(f"AddisPay initiation failed (falling back to bank transfer): {ae}")
+
         resp = {
             "success": True,
             "message": ("Registration received! Your bank transfer is under manual verification "
@@ -570,6 +612,12 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "more_info_url": more_info_url,
             "payment_link": f"https://ethiobiz.et/dobiz-payment?ref={signup_ref}"
         }
+        if addipay_checkout_url:
+            resp["checkout_url"] = addipay_checkout_url
+            resp["addipay_uuid"] = addipay_uuid
+            resp["payment_method"] = "addipay"
+        else:
+            resp["payment_method"] = "bank_transfer"
         if password_link:
             resp["password_setup_link"] = password_link
         return resp
