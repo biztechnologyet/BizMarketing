@@ -304,13 +304,15 @@ def _payload_uuid(data):
 
 def _verify_signature(secret):
     if not secret:
+        frappe.logger("bizmarketing").warning("AddisPay webhook secret not configured — signature check skipped")
         return True
     received = frappe.get_request_header("X-AddisPay-Signature") or frappe.get_request_header("Auth")
     if not received:
         frappe.throw("Missing AddisPay signature header")
     payload_str = frappe.request.get_data(as_text=True) or ""
     expected = frappe.utils.sha256_hash(payload_str + secret)
-    if received != expected and received != secret:
+    if received != expected:
+        frappe.logger("bizmarketing").error(f"AddisPay signature mismatch: received={received[:20]}... expected={expected[:20]}...")
         frappe.throw("Invalid AddisPay signature")
     return True
 
@@ -351,16 +353,15 @@ def _handle_magala_webhook(tx_ref, transaction_id, status):
 
     success_states = ("completed", "success", "successful", "paid", "complete")
     failed_states = ("failed", "fail", "cancelled", "canceled", "error")
-    if status in success_states or not status:
-        if status in failed_states:
-            mark_addispay_failed(tx_ref, transaction_id)
-            return {"status": "failed", "message": "Payment failed"}
-        if status in success_states:
-            mark_addispay_success(tx_ref, transaction_id)
-            return {"status": "success", "message": "Magala payment processed"}
+    if not status:
+        frappe.logger("bizmarketing").warning(f"AddisPay webhook for {tx_ref} has empty status — ignoring (never auto-approve)")
+        return {"status": "ignored", "message": "Empty status in webhook — awaiting verified callback"}
     if status in failed_states:
         mark_addispay_failed(tx_ref, transaction_id)
         return {"status": "failed", "message": "Payment failed"}
+    if status in success_states:
+        mark_addispay_success(tx_ref, transaction_id)
+        return {"status": "success", "message": "Magala payment processed"}
     return {"status": "ignored", "message": f"Unknown status: {status}"}
 
 

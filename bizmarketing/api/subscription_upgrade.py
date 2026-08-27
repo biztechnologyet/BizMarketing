@@ -1,6 +1,5 @@
 import frappe
 from frappe.utils import today
-from bizmarketing.api.subscription_notifications import send_conversion_email
 from bizmarketing.api.addispay import initiate_payment
 
 @frappe.whitelist()
@@ -65,13 +64,15 @@ def upgrade_subscription(subscription_name, plan_name="DOBiz Standard Plan"):
                     "checkout_url": payment_response.get("checkout_url", ""),
                 }
             except Exception as pay_e:
-                frappe.logger("bizmarketing").error(f"Payment initiation failed, subscription active: {pay_e}")
-                send_conversion_email(signup.email, signup.full_name, erpnext_plan_name)
+                frappe.logger("bizmarketing").error(f"Payment initiation failed for {subscription_name}: {pay_e}")
+                frappe.db.set_value("DOBiz Payment Transaction", txn.name, "status", "Failed")
+                frappe.db.set_value("DOBiz Trial Signup", signup.name, "status", "Trial Active")
                 frappe.db.commit()
                 return {
-                    "status": "success",
-                    "message": f"Subscription upgraded to {erpnext_plan_name}. Payment link will be sent separately.",
+                    "status": "payment_failed",
+                    "message": f"Payment initiation failed. Your subscription has NOT been activated. Please try again or contact support.",
                     "subscription": subscription_name,
+                    "error": str(pay_e)[:200],
                 }
         frappe.db.commit()
         return {
