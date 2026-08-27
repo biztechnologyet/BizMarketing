@@ -1,0 +1,8 @@
+{
+ "name": "Magala Shop Payment Admin Approval",
+ "doctype": "Client Script",
+ "dt": "Magala Shop Payment",
+ "view": "Form",
+ "enabled": 1,
+ "script": "frappe.ui.form.on('Magala Shop Payment', {\n  refresh(frm) {\n    if (frm.doc.payment_status !== 'Pending') return;\n    if (frm.doc.payment_method !== 'Bank Transfer' && frm.doc.payment_method !== 'AddisPay') return;\n    frm.add_custom_button(__('Approve Payment'), () => {\n      frappe.confirm(__('Confirm funds received and mark this Magala payment Approved?'), () => {\n        frappe.call({\n          method: 'bismillah_ethiobiz.magala_checkout.approve_bank_payment',\n          args: { payment_name: frm.doc.name, confirmed: 1 },\n          callback(r) {\n            frm.reload_doc();\n            frappe.show_alert({ message: __('Payment approved'), indicator: 'green' });\n          }\n        });\n      });\n    }, __('Actions'));\n    frm.add_custom_button(__('Reject Payment'), () => {\n      frappe.prompt({ fieldname: 'reason', fieldtype: 'Small Text', label: __('Reason'), reqd: 1 }, (values) => {\n        frappe.call({\n          method: 'bismillah_ethiobiz.magala_checkout.reject_bank_payment',\n          args: { payment_name: frm.doc.name, reason: values.reason },\n          callback() { frm.reload_doc(); }\n        });\n      }, __('Reject Payment'));\n    }, __('Actions'));\n  }\n});"
+}
