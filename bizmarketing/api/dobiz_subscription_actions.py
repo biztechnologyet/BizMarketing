@@ -391,30 +391,20 @@ def _reprovision_owner(signup, target):
         return
     try:
         from bizmarketing.api.dobiz_signup_config import get_industry_role_profiles
-        from bizmarketing.api.dobiz_signup_api import INDUSTRY_FULL_PROFILES
-        module = signup.get("selected_module") or "Accounts"
-        db_rp, db_mp = get_industry_role_profiles(signup.industry)
-        if db_rp:
-            role_profile, module_profile = db_rp, db_mp
-        elif (target or "").lower().startswith("starter") or target == "Starter Module":
-            role_profile = "DOBiz Starter User"
-            module_profile = (f"DOBiz Starter - {module}"
-                              if frappe.db.exists("Module Profile", f"DOBiz Starter - {module}")
-                              else "DOBiz Starter - Accounts")
-        elif "Growth" in (target or ""):
-            role_profile = "DOBiz Growth Enterprise"
-            module_profile = "DOBiz Growth - Standard"
-        else:
-            rp, mp = INDUSTRY_FULL_PROFILES.get(
-                signup.industry, ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"))
-            role_profile = rp if frappe.db.exists("Role Profile", rp) else "DOBiz Growth Enterprise"
-            module_profile = mp if frappe.db.exists("Module Profile", mp) else "DOBiz Growth - Standard"
+        role_profile, module_profile = get_industry_role_profiles(
+            signup.industry, target)
+        if not (role_profile and module_profile):
+            return
         user_doc = frappe.get_doc("User", owner_email)
         user_doc.role_profile_name = role_profile
         if module_profile:
             user_doc.module_profile = module_profile
         user_doc.flags.ignore_permissions = True
         user_doc.save(ignore_permissions=True)
+        signup.custom_role_profile = role_profile
+        signup.custom_module_profile = module_profile
+        signup.flags.ignore_permissions = True
+        signup.save(ignore_permissions=True)
     except Exception as e:
         _log(f"Owner profile reprovision skipped for {target}: {e}")
 

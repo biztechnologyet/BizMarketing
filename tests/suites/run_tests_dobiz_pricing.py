@@ -183,7 +183,7 @@ cfg.clear_cache()
 paid_email = TEST_EMAILS[5]
 resp_paid = sapi.submit_dobiz_signup(
     full_name="Paid Tester", email=paid_email, phone="+251900000006",
-    company_name=f"DynPric Test Co Six", industry="Healthcare",
+    company_name=f"DynPric Test Co Six", industry="Education & Schools",
     package_tier="Business Growth", billing_term="6", bank_name="CBE",
     payment_ref="TESTPAY-006")
 check("paid signup success", resp_paid["success"])
@@ -204,11 +204,36 @@ check("audit fields stored", sdoc.custom_final_amount and
       not int(sdoc.custom_promo_claimed or 0))
 
 # =====================================================================
+section("T6B COMMISSION PLAN E2E: commissioned industry = free desk + per-order commission")
+comm_email = "dynpricetest6b@example.com"
+resp_comm = sapi.submit_dobiz_signup(
+    full_name="Commission Tester", email=comm_email, phone="+251900000060",
+    company_name="DynPric Comm Co", industry="Healthcare & Clinics",
+    package_tier="Business Growth", billing_term="6", bank_name="CBE",
+    payment_ref="TESTPAY-006B")
+check("commission signup success", resp_comm["success"])
+check("commission total = 0 (no monthly fee)",
+      resp_comm["total_amount"] == 0 and resp_comm.get("promo", {}).get("applied") is False,
+      f"total={resp_comm['total_amount']},promo={resp_comm.get('promo', {}).get('applied')}")
+check("commission signup auto-active (no review)", resp_comm["pending_review"] is False)
+u_c = frappe.get_doc("User", comm_email)
+check("commission user ENABLED immediately", int(u_c.enabled or 0) == 1)
+sd_c = frappe.get_doc("DOBiz Trial Signup",
+                      frappe.db.get_value("DOBiz Trial Signup", {"email": comm_email}, "name"))
+check("commission audit flags set",
+      int(sd_c.custom_is_commission or 0) == 1
+      and sd_c.custom_commission_mode == "Commission"
+      and float(sd_c.custom_final_amount or 0) == 0,
+      f"is_comm={sd_c.custom_is_commission},mode={sd_c.custom_commission_mode},final={sd_c.custom_final_amount}")
+stl = frappe.db.get_value("DOBiz Commission Settlement", {"linked_signup": sd_c.name}, "name")
+check("commission settlement seeded for linked signup", bool(stl), f"settlement={stl}")
+
+# =====================================================================
 section("T7 COUPON E2E IN PAID FLOW")
 coup_email = TEST_EMAILS[6]
 resp_coup = sapi.submit_dobiz_signup(
     full_name="Coupon Tester", email=coup_email, phone="+251900000007",
-    company_name="DynPric Test Co Seven", industry="Retail",
+    company_name="DynPric Test Co Seven", industry="Non-Profit & NGOs",
     package_tier="Full Industry ERP Package", billing_term="12",
     bank_name="Telebirr SuperApp", payment_ref="TESTPAY-007",
     coupon_code=COUPON_CODE)
@@ -226,19 +251,25 @@ check("coupon usage counter incremented", int(used_now or 0) == 1, f"used_count=
 # =====================================================================
 section("T8 LAUNCH PROMO E2E: first 5 users FREE, 6th falls back to paid")
 frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
-                    "launch_promo_enabled", _saved_promo["enabled"] if _saved_promo["enabled"] is not None else 1)
+                    "launch_promo_enabled", 1)
 frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
                     "promo_offer_ends_on", "2099-12-31")
+frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
+                    "promo_max_users", 5)
+frappe.db.set_value("DOBiz SaaS Settings", "DOBiz SaaS Settings",
+                    "promo_free_months", 3)
 cfg.clear_cache()
 
 promo_free_ok = True
 promo_detail = []
+_PROMO_IND = ["Education & Schools", "Manufacturing & Assembly",
+              "Agriculture & Agribusiness", "Non-Profit & NGOs",
+              "Government & Public-Interest"]
 for i in range(1, 6):
     em = TEST_EMAILS[i - 1]
     r = sapi.submit_dobiz_signup(
         full_name=f"Promo Tester {i}", email=em, phone=f"+25190000000{i}",
-        company_name=f"DynPric Test Co {i}", industry=["Healthcare", "Retail", "Education",
-        "Manufacturing", "Agriculture"][i - 1],
+        company_name=f"DynPric Test Co {i}", industry=_PROMO_IND[i - 1],
         package_tier="Starter Module", billing_term="3", bank_name="Other")
     ok_i = r["success"] and not r["pending_review"] and r["total_amount"] == 0 \
            and r.get("promo", {}).get("applied") is True
@@ -273,7 +304,7 @@ check("signup audit: promo claimed + final 0",
 
 resp_6th = sapi.submit_dobiz_signup(
     full_name="Late Tester", email=TEST_EMAILS[6] + ".late", phone="+251900000099",
-    company_name="DynPric Test Co Late", industry="Retail",
+    company_name="DynPric Test Co Late", industry="Government & Public-Interest",
     package_tier="Business Growth", billing_term="3", bank_name="BoA")
 check("6th signup NOT free (slots exhausted)", resp_6th["success"]
       and resp_6th.get("promo", {}).get("applied") in (False, None))
@@ -306,24 +337,24 @@ def del_if_exists(doctype, filters):
     except Exception as e:
         print(f"  cleanup warn {doctype}: {e}", flush=True)
 
-del_if_exists("DOBiz Promo Claim", {"email": ["like", "%dynprictest%@example.com%"]})
-del_if_exists("DOBiz Payment Transaction", {"email": ["like", "%dynprictest%"]})
-all_test_emails = TEST_EMAILS + [TEST_EMAILS[6] + ".late"]
+del_if_exists("DOBiz Promo Claim", {"email": ["like", "%dynpricetest%@example.com%"]})
+del_if_exists("DOBiz Payment Transaction", {"email": ["like", "%dynpricetest%"]})
+all_test_emails = TEST_EMAILS + [TEST_EMAILS[6] + ".late"] + ["dynpricetest6b@example.com"]
 for em in all_test_emails:
     del_if_exists("User Permission", {"user": em})
     del_if_exists("User", {"name": em})
-for co in [f"DynPric Test Co {i}" for i in range(1, 8)] + ["DynPric Test Co Late"]:
+for co in [f"DynPric Test Co {i}" for i in range(1, 8)] + ["DynPric Test Co Late", "DynPric Comm Co"]:
     del_if_exists("Subscription", {"party": co})
     del_if_exists("Customer", {"customer_name": co})
     del_if_exists("Company", {"company_name": co})
-del_if_exists("DOBiz Trial Signup", {"company_name": ["like", "DynPric Test Co%"]})
+del_if_exists("DOBiz Trial Signup", {"company_name": ["like", "DynPric%"]})
 for cc in ["DYNPRIC-TEST-50", "DYNPRIC-EXP", "DYNPRIC-CAP", "DYNPRIC-LIM"]:
     if frappe.db.exists("DOBiz Coupon", {"coupon_code": cc}):
         frappe.delete_doc("DOBiz Coupon", cc, force=1, ignore_permissions=True)
         deleted.append(f"Coupon:{cc}")
 try:
-    frappe.db.sql("""DELETE FROM `tabEmail Queue` WHERE recipient LIKE '%dynprictest%'""")
-    frappe.db.sql("""DELETE FROM `tabEmail Queue Recipient` WHERE recipient LIKE '%dynprictest%'""")
+    frappe.db.sql("""DELETE FROM `tabEmail Queue` WHERE recipient LIKE '%dynpricetest%'""")
+    frappe.db.sql("""DELETE FROM `tabEmail Queue Recipient` WHERE recipient LIKE '%dynpricetest%'""")
 except Exception:
     pass
 

@@ -60,19 +60,23 @@ def get_company_signup(company):
 
 
 def _first_value(settings_rows, package_tier, industry, field):
-    """Find package row for tier+industry (industry match or global default)."""
+    """Find package row for tier+industry (exact industry match wins,
+    then global blank-industry default row)."""
     ind = (industry or "").strip()
     for r in settings_rows or []:
         if r.get("package_tier") != package_tier:
             continue
-        rind = (r.get("industry") or "").strip()
-        if rind and ind and rind != ind:
+        if r.get("enabled") is False or r.get("enabled") == 0:
+            continue
+        if (r.get("industry") or "").strip() == ind and r.get(field) is not None:
+            return r.get(field)
+    for r in settings_rows or []:
+        if r.get("package_tier") != package_tier:
             continue
         if r.get("enabled") is False or r.get("enabled") == 0:
             continue
-        v = r.get(field)
-        if v is not None:
-            return v
+        if not (r.get("industry") or "").strip() and r.get(field) is not None:
+            return r.get(field)
     return None
 
 

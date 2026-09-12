@@ -25,6 +25,54 @@ def _clean_orphaned_company_data():
         frappe.db.sql(f"""DELETE FROM `{t}` WHERE company IS NOT NULL
             AND company != '' AND company NOT IN (SELECT name FROM `tabCompany`)""")
 
+def _create_company_fast(company_name, abbr, industry=None):
+    """Create a tenant Company WITHOUT chart-of-accounts side effects.
+
+    on_update() checks the GLOBAL frappe.local.flags.ignore_chart_of_accounts
+    (a doc-level flag is ignored there), so ERPNext runs
+    create_default_tax_template() against a bank-less chart and raises
+    `IndexError: list index out of range`. Set the global flag for the insert,
+    and fall back to a bare row if any hook still complains (mirrors the
+    proven paid-signup path). Returns True when the Company exists.
+    """
+    if frappe.db.exists("Company", company_name):
+        return True
+    had_flag = getattr(frappe.local.flags, "ignore_chart_of_accounts", None)
+    frappe.local.flags.ignore_chart_of_accounts = True
+    try:
+        domain = "Retail" if "Retail" in (industry or "") else "Services"
+        company_doc = frappe.get_doc({
+            "doctype": "Company",
+            "company_name": company_name,
+            "abbr": abbr,
+            "default_currency": "ETB",
+            "domain": domain,
+            "country": "Ethiopia"
+        })
+        company_doc.flags.ignore_permissions = True
+        company_doc.flags.ignore_setup_wizard = True
+        company_doc.flags.ignore_chart_of_accounts = True
+        company_doc.flags.ignore_validate = True
+        company_doc.insert(ignore_permissions=True)
+    except Exception as ce:
+        frappe.logger("bizmarketing").warning(f"Company setup hook warning (non-fatal): {ce}")
+        if not frappe.db.exists("Company", company_name):
+            try:
+                frappe.db.sql("""
+                    INSERT IGNORE INTO `tabCompany`
+                    (name, company_name, abbr, default_currency, country, creation, modified, modified_by, owner)
+                    VALUES (%s, %s, %s, 'ETB', 'Ethiopia', NOW(), NOW(), 'Administrator', 'Administrator')
+                """, (company_name, company_name, abbr))
+            except Exception:
+                pass
+    finally:
+        if had_flag is not None:
+            frappe.local.flags.ignore_chart_of_accounts = had_flag
+        elif hasattr(frappe.local.flags, "ignore_chart_of_accounts"):
+            del frappe.local.flags.ignore_chart_of_accounts
+    return frappe.db.exists("Company", company_name) is not None
+
+
 def validate_trial_signup(doc, method=None):
     mandatory_fields = {"full_name": "Full Name", "email": "Email", "phone": "Phone", "company_name": "Company Name"}
     missing = []
@@ -73,33 +121,19 @@ def setup_trial_tenant(doc, method=None):
     prev_user = frappe.session.user
     frappe.set_user("Administrator")
     try:
+        _create_company_fast(company_name, abbr, doc.get("industry"))
         if not frappe.db.exists("Company", company_name):
-            try:
-                company_doc = frappe.get_doc({
-                    "doctype": "Company",
-                    "company_name": company_name,
-                    "abbr": abbr,
-                    "default_currency": "ETB",
-                    "domain": "Services"
-                })
-                company_doc.flags.ignore_permissions = True
-                company_doc.flags.ignore_setup_wizard = True
-                company_doc.flags.ignore_chart_of_accounts = True
-                company_doc.flags.ignore_validate = True
-                company_doc.insert(ignore_permissions=True)
-                fy_name = _get_fiscal_year()
-                if frappe.db.exists("Fiscal Year", fy_name):
-                    fy_doc = frappe.get_doc("Fiscal Year", fy_name)
-                    if not any(c.company == company_name for c in fy_doc.companies):
-                        fy_doc.append("companies", {"company": company_name})
-                        fy_doc.save(ignore_permissions=True)
-                        frappe.logger("bizmarketing").info(f"Company {company_name} linked to Fiscal Year {fy_name}")
-                frappe.logger("bizmarketing").info(f"Created Tenant Company: {company_name} ({abbr})")
-            except Exception as e:
-                frappe.logger("bizmarketing").error(f"Failed to create Company: {e}"); _trace(f"ERR-COMPANY {e}")
-                doc.db_set("status", "Failed")
-                frappe.logger("bizmarketing").error(f"Trial provisioning FAILED for {doc.email}: Company creation error")
-                return
+            frappe.logger("bizmarketing").error(
+                f"Trial provisioning FAILED for {doc.email}: Company creation error"); _trace("ERR-COMPANY create failed")
+            doc.db_set("status", "Failed")
+            return
+        frappe.logger("bizmarketing").info(f"Created Tenant Company: {company_name} ({abbr})")
+        try:
+            from bizmarketing.api.dobiz_fiscal_year import ensure_company_fiscal_year
+            fy_name = ensure_company_fiscal_year(company_name)
+            frappe.logger("bizmarketing").info(f"Company {company_name} wired to Fiscal Year {fy_name}")
+        except Exception as e:
+            frappe.logger("bizmarketing").warning(f"Fiscal Year link warning (non-fatal): {e}")
         customer_name = company_name
         if not frappe.db.exists("Customer", customer_name):
             try:
@@ -153,6 +187,11 @@ def setup_trial_tenant(doc, method=None):
                 fy = _get_fiscal_year()
                 frappe.defaults.set_user_default("fiscal_year", fy, user.name)
                 frappe.defaults.set_user_default("company", company_name, user.name)
+                try:
+                    from bizmarketing.api.dobiz_fiscal_year import ensure_company_fiscal_year
+                    ensure_company_fiscal_year(company_name, email=user.name)
+                except Exception as e:
+                    frappe.logger("bizmarketing").warning(f"Fiscal Year default warning (non-fatal): {e}")
                 frappe.logger("bizmarketing").info(f"User {doc.email} provisioned with {role_profile}/{module_profile}, FY={fy}")
             except Exception as e:
                 frappe.logger("bizmarketing").error(f"Failed to create User: {e}"); _trace(f"ERR-USER {e}")
@@ -248,8 +287,32 @@ def process_subscription_access(doc, method=None):
         frappe.logger("bizmarketing").error(f"Error toggling access for {target_email}: {e}")
 
 def _get_industry_profiles(industry, settings=None):
+    ind = (industry or "").strip()
     if not settings:
         settings = frappe.get_single("DOBiz SaaS Settings")
+    tbl = getattr(settings, "trial_industry_profiles", None)
+    if tbl:
+        for mapping in tbl:
+            enabled = getattr(mapping, "enabled", 1)
+            if not enabled:
+                continue
+            if (getattr(mapping, "industry", "") or "").strip() != ind:
+                continue
+            rp = getattr(mapping, "role_profile", None)
+            mp = getattr(mapping, "module_profile", None)
+            if rp and frappe.db.exists("Role Profile", rp):
+                if mp and not frappe.db.exists("Module Profile", mp):
+                    mp = None
+                return rp, mp
+    try:
+        from bizmarketing.api.dobiz_signup_config import get_industry_role_profiles
+        rp, mp = get_industry_role_profiles(industry, "Full Industry ERP Package", settings)
+        if rp and frappe.db.exists("Role Profile", rp):
+            if mp and frappe.db.exists("Module Profile", mp):
+                return rp, mp
+            return rp, "DOBiz Growth - Standard"
+    except Exception as e:
+        frappe.logger("bizmarketing").warning(f"Trial profile resolution warning: {e}")
     if settings and settings.industry_role_mappings:
         for mapping in settings.industry_role_mappings:
             if mapping.industry == industry:

@@ -343,37 +343,9 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             abbr = (base_abbr[:5 - len(suffix)] + suffix)
             
         if not frappe.db.exists("Company", company_name):
-            for attempt in (1, 2):
-                try:
-                    comp_doc = frappe.get_doc({
-                        "doctype": "Company",
-                        "company_name": company_name,
-                        "abbr": abbr,
-                        "default_currency": "ETB",
-                        "domain": "Retail" if "Retail" in industry else "Services",
-                        "country": "Ethiopia"
-                    })
-                    comp_doc.flags.ignore_permissions = True
-                    comp_doc.flags.ignore_setup_wizard = True
-                    comp_doc.flags.ignore_chart_of_accounts = True
-                    comp_doc.flags.ignore_validate = True
-                    comp_doc.insert(ignore_permissions=True)
-                    break
-                except Exception as ce:
-                    if "1205" in str(ce) and attempt == 1:
-                        import time
-                        time.sleep(20)
-                        continue
-                    frappe.logger("bizmarketing").warning(f"Company setup hook warning (non-fatal): {ce}")
-                    if not frappe.db.exists("Company", company_name):
-                        try:
-                            frappe.db.sql("""
-                                INSERT IGNORE INTO `tabCompany` 
-                                (name, company_name, abbr, default_currency, country, creation, modified, modified_by, owner)
-                                VALUES (%s, %s, %s, 'ETB', 'Ethiopia', NOW(), NOW(), 'Administrator', 'Administrator')
-                            """, (company_name, company_name, abbr))
-                        except Exception:
-                            pass
+            from bizmarketing.api.dobiz_trial import _create_company_fast
+            if not _create_company_fast(company_name, abbr, industry):
+                _trace("ERR-COMPANY create failed (fast path + raw fallback)")
             
         # 3. Customer under Biz Technology Solutions
         _trace("3-customer-begin")
@@ -389,28 +361,15 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             }).insert(ignore_permissions=True)
 
         # 4. Determine Role & Module Profiles (DB-driven first, then fallback).
+        #    Single authority: get_industry_role_profiles(industry, package_tier)
+        #    consults the industry x package matrix (per-industry cells), then
+        #    the industry mapping, then tier defaults.
         _trace("4-profiles-begin")
-        db_rp, db_mp = _cfg.get_industry_role_profiles(norm_ind, signup_settings)
-        if package_tier == "Starter Module":
-            role_profile = "DOBiz Starter User"
-            module_profile = f"DOBiz Starter - {selected_module}" if frappe.db.exists("Module Profile", f"DOBiz Starter - {selected_module}") else "DOBiz Starter - Accounts"
-        elif package_tier == "Business Growth":
+        role_profile, module_profile = _cfg.get_industry_role_profiles(
+            norm_ind, package_tier, signup_settings)
+        if not (role_profile and module_profile):
             role_profile = "DOBiz Growth Enterprise"
             module_profile = "DOBiz Growth - Standard"
-        else:
-            # Full Industry ERP
-            rp, mp = INDUSTRY_FULL_PROFILES.get(norm_ind, ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"))
-            role_profile = rp if frappe.db.exists("Role Profile", rp) else "DOBiz Growth Enterprise"
-            module_profile = mp if frappe.db.exists("Module Profile", mp) else "DOBiz Growth - Standard"
-        # Industry mapping in Desk overrides the built-in tier fallback for the
-        # Full Industry ERP package (industry-specialized menus). Starter and
-        # Business Growth keep their tier defaults; per-package overrides on the
-        # package_items rows apply to any tier (handled below).
-        if package_tier == "Full Industry ERP Package":
-            if db_rp and frappe.db.exists("Role Profile", db_rp):
-                role_profile = db_rp
-            if db_mp and frappe.db.exists("Module Profile", db_mp):
-                module_profile = db_mp
 
         # Package metadata from the dynamic table rows (industry-scoped or
         # global) — max_users feeds the print-time quota engine, and the
@@ -495,6 +454,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "custom_package_tier": package_tier,
             "custom_max_users": package_max_users,
             "custom_module_profile": module_profile,
+            "custom_role_profile": role_profile,
         })
         signup_doc.flags.dobiz_skip_provisioning = 1
         signup_doc.insert(ignore_permissions=True)
@@ -505,6 +465,14 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                 frappe.db.set_value("DOBiz Promo Claim", promo_claim_name, "signup_link", signup_ref)
             except Exception as _le:
                 frappe.logger("bizmarketing").warning(f"Promo claim link-back warning: {_le}")
+
+        # Fiscal Year is set properly for the tenant (Company.default_fiscal_year,
+        # FY companies link, user fiscal_year/company defaults) — verified by suites.
+        try:
+            from bizmarketing.api.dobiz_fiscal_year import ensure_company_fiscal_year
+            ensure_company_fiscal_year(company_name, email=email)
+        except Exception as _fe:
+            frappe.logger("bizmarketing").warning(f"Fiscal Year setup warning (non-fatal): {_fe}")
 
         # 7. Record Subscription and Payment Transaction
         _trace("7-sub-begin")

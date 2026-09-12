@@ -331,13 +331,58 @@ def get_industries(settings=None):
             for c in INDUSTRY_CATALOG]
 
 
-def get_industry_role_profiles(industry, settings=None):
-    """Resolve (role_profile, module_profile) from DOBiz SaaS Settings mappings."""
-    settings = settings or get_signup_settings()
+TIER_DEFAULT_PROFILES = {
+    "Starter Module": ("DOBiz Starter User", "DOBiz Starter - Accounts"),
+    "Business Growth": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
+    "Full Industry ERP Package": ("DOBiz Full - Services Admin", "DOBiz Full - Services"),
+}
+
+
+def _matrix_settings(settings):
+    if settings is None:
+        return get_signup_settings()
+    if isinstance(settings, dict) and isinstance(settings.get("package_items"), list):
+        return settings
+    return get_signup_settings()
+
+
+def get_industry_role_profiles(industry, package_tier=None, settings=None):
+    """Resolve (role_profile, module_profile) from the industry x package
+    matrix. Priority: (1) package row matched on industry + tier carrying
+    populated profiles; (2) industry mapping (Full-tier baseline); (3) tier
+    default profiles. Read-only; never auto-creates profiles."""
+    settings = _matrix_settings(settings)
     ind = (industry or "").strip()
+    if package_tier:
+        rp = mp = None
+        for r in settings.get("package_items", []):
+            if (r.get("industry") or "").strip() == ind and r.get("package_tier") == package_tier:
+                rp = r.get("role_profile") or None
+                mp = r.get("module_profile") or None
+                break
+        if rp and frappe.db.exists("Role Profile", rp):
+            if not (mp and frappe.db.exists("Module Profile", mp)):
+                mp = None
+                for m in settings.get("industry_role_mappings", []):
+                    if (m.get("industry") or "").strip() == ind and m.get("module_profile"):
+                        mm = m.get("module_profile")
+                        if mm and frappe.db.exists("Module Profile", mm):
+                            mp = mm
+                            break
+            if not (mp and frappe.db.exists("Module Profile", mp)):
+                tier_mp = TIER_DEFAULT_PROFILES.get(package_tier, ("", ""))[1]
+                if tier_mp and frappe.db.exists("Module Profile", tier_mp):
+                    mp = tier_mp
+            return rp, mp
     for m in settings.get("industry_role_mappings", []):
         if (m.get("industry") or "").strip() == ind:
             return m.get("role_profile"), m.get("module_profile")
+    if package_tier and package_tier in TIER_DEFAULT_PROFILES:
+        rp, mp = TIER_DEFAULT_PROFILES[package_tier]
+        if frappe.db.exists("Role Profile", rp):
+            if mp and not frappe.db.exists("Module Profile", mp):
+                mp = None
+            return rp, mp
     return None, None
 
 
@@ -374,7 +419,7 @@ def get_commission_plan(industry, settings=None):
         "min": float(match.get("min") or 0),
         "max": float(match.get("max") or 0),
         "free_months": int(match.get("free_months") or 0),
-        "is_commission": (match.get("mode") or "Fixed Monthly") in ("Free Desk + Commission", "Hybrid"),
+        "is_commission": (match.get("mode") or "Fixed Monthly") in ("Commission", "Hybrid"),
     })
     return plan
 

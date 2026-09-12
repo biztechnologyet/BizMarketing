@@ -134,10 +134,14 @@ after_migrate = [
 
 doc_events = {
 	"DOBiz Trial Signup": {
+		"validate": ["bizmarketing.api.dobiz_trial.validate_trial_signup"],
 		"after_insert": ["bizmarketing.api.dobiz_trial.setup_trial_tenant"]
 	},
 	"Subscription": {
 		"on_update": ["bizmarketing.api.dobiz_trial.process_subscription_access"]
+	},
+	"Magala Shop Payment": {
+		"on_update": ["bizmarketing.api.dobiz_commission.on_payment_update"]
 	},
 	"User": {
 		"validate": ["bizmarketing.api.dobiz_user_quota.validate_user_cap"]

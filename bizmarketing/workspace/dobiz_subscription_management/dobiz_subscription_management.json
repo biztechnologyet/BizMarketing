@@ -9,9 +9,59 @@
    "chart_name": "Subscriptions by Plan",
    "label": "Subscriptions by Plan",
    "type": "Chart"
+  },
+  {
+   "chart_name": "DOBiz Signups Trend (Daily)",
+   "label": "Signups Trend",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "DOBiz Signups by Status",
+   "label": "Signups by Status",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "DOBiz Signups by Industry",
+   "label": "Signups by Industry",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "DOBiz Package Distribution",
+   "label": "Package Distribution",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "DOBiz Completed Payments (Daily)",
+   "label": "Completed Payments",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "DOBiz Promo Claims Trend (Daily)",
+   "label": "Promo Claims",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "DOBiz Collected Revenue (Monthly)",
+   "label": "Collected Revenue",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "Revenue by Package",
+   "label": "Revenue by Package",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "Signups by Package",
+   "label": "Signups by Package",
+   "type": "Chart"
+  },
+  {
+   "chart_name": "Signups by Industry",
+   "label": "Signups by Industry",
+   "type": "Chart"
   }
  ],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"🎯 Subscriber Operations & Lifecycle\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Pending Signups\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Active Paid Tenants\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expiring Subscriptions\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expired Subscribers\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"💳 Payments & Settlement Approvals\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pending Payment Proofs\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Transactions Ledger\",\"col\":4}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoices\",\"col\":4}},{\"type\":\"header\",\"data\":{\"text\":\"⚙️ SaaS Configuration & Packages\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Settings\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz SaaS Plan\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Module Profile\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"📖 Tutorials & Self-Help Portal\",\"level\":3,\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz User Guide Tutorials\",\"col\":6}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DOBiz Product Overview\",\"col\":6}}]",
+ "content": "[{\"type\": \"header\", \"data\": {\"text\": \"📊 Live Command Center\", \"level\": 3, \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz Subscription Dashboard\", \"col\": 12}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"DOBiz Total Signups\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"DOBiz Pending Verification\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"DOBiz Active Paid Tenants\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"DOBiz Expired Subscribers\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"DOBiz Active Subscriptions\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"DOBiz Launch Promo Claims\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"DOBiz Coupons Created\", \"col\": 3}}, {\"type\": \"header\", \"data\": {\"text\": \"📈 Trends & Analytics\", \"level\": 3, \"col\": 12}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"DOBiz Signups Trend (Daily)\", \"col\": 4}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"DOBiz Signups by Status\", \"col\": 4}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"DOBiz Signups by Industry\", \"col\": 4}}, {\"type\": \"header\", \"data\": {\"text\": \"🎟️ Growth Tools (Coupons & Launch Promo)\", \"level\": 3, \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Launch Promo Claims\", \"col\": 4}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Coupon Manager\", \"col\": 4}}, {\"type\": \"header\", \"data\": {\"text\": \"🗂️ Industry × Package Matrix\", \"level\": 3, \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz Package Matrix\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz Signups by Package\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz Signups by Industry\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz Revenue by Package\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Companies at/over User Cap\", \"col\": 3}}, {\"type\": \"header\", \"data\": {\"text\": \"📊 Package Metrics\", \"level\": 3, \"col\": 12}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"Revenue by Package\", \"col\": 4}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"Signups by Package\", \"col\": 4}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"Signups by Industry\", \"col\": 4}}, {\"type\": \"header\", \"data\": {\"text\": \"🎯 Subscriber Operations & Lifecycle\", \"level\": 3, \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Pending Signups\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Active Paid Tenants\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Expiring Subscriptions\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Expired Subscribers\", \"col\": 3}}, {\"type\": \"header\", \"data\": {\"text\": \"💳 Payments & Settlement Approvals\", \"level\": 3, \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Pending Payment Proofs\", \"col\": 4}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payment Transactions Ledger\", \"col\": 4}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Invoices\", \"col\": 4}}, {\"type\": \"header\", \"data\": {\"text\": \"⚙️ SaaS Configuration & Packages\", \"level\": 3, \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz SaaS Settings\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz SaaS Plan\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Role Profile\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Module Profile\", \"col\": 3}}, {\"type\": \"header\", \"data\": {\"text\": \"📖 Tutorials & Self-Help Portal\", \"level\": 3, \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz User Guide Tutorials\", \"col\": 6}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"DOBiz Product Overview\", \"col\": 6}}]",
  "creation": "2026-06-13 18:00:00.000000",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -95,7 +145,7 @@
    "type": "Link"
   },
   {
-   "label": "DOBiz SaaS Packages & Pricing",
+   "label": "DOBiz SaaS Packages & Pricing (Industry × Tier)",
    "link_to": "DOBiz SaaS Plan",
    "link_type": "DocType",
    "type": "Link"
@@ -139,9 +189,77 @@
    "link_to": "Payment Request",
    "link_type": "DocType",
    "type": "Link"
+  },
+  {
+   "label": "Industry × Package Matrix",
+   "type": "Card Break"
+  },
+  {
+   "label": "DOBiz Package Matrix",
+   "link_to": "dobiz_package_matrix",
+   "link_type": "Report",
+   "type": "Link",
+   "is_query_report": 1,
+   "report_ref_doctype": "DOBiz Signup Package Item"
+  },
+  {
+   "label": "DOBiz Signups by Package",
+   "link_to": "dobiz_signups_by_package",
+   "link_type": "Report",
+   "type": "Link",
+   "is_query_report": 1,
+   "report_ref_doctype": "DOBiz Signup Package Item"
+  },
+  {
+   "label": "DOBiz Signups by Industry",
+   "link_to": "dobiz_signups_by_industry",
+   "link_type": "Report",
+   "type": "Link",
+   "is_query_report": 1,
+   "report_ref_doctype": "DOBiz Signup Package Item"
+  },
+  {
+   "label": "DOBiz Revenue by Package",
+   "link_to": "dobiz_revenue_by_package",
+   "link_type": "Report",
+   "type": "Link",
+   "is_query_report": 1,
+   "report_ref_doctype": "DOBiz Signup Package Item"
+  },
+  {
+   "label": "Companies at/over User Cap",
+   "link_to": "dobiz_companies_at_cap",
+   "link_type": "Report",
+   "type": "Link",
+   "is_query_report": 1,
+   "report_ref_doctype": "DOBiz Signup Package Item"
+  },
+  {
+   "label": "User Cap & Quotas",
+   "link_to": "dobiz_companies_at_cap",
+   "link_type": "Report",
+   "type": "Link",
+   "is_query_report": 1,
+   "report_ref_doctype": "DOBiz Trial Signup"
+  },
+  {
+   "label": "Growth Tools: Coupons & Launch Promo",
+   "type": "Card Break"
+  },
+  {
+   "label": "Coupon Manager",
+   "link_to": "DOBiz Coupon",
+   "link_type": "DocType",
+   "type": "Link"
+  },
+  {
+   "label": "Launch Promo Claims",
+   "link_to": "DOBiz Promo Claim",
+   "link_type": "DocType",
+   "type": "Link"
   }
  ],
- "modified": "2026-08-21 21:00:00.000000",
+ "modified": "2026-09-12 13:05:00.000000",
  "modified_by": "Administrator",
  "module": "Marketing",
  "name": "DOBiz Subscription Management",
@@ -151,37 +269,42 @@
   {
    "document_type": "DOBiz Trial Signup",
    "label": "New Pending Signups",
-   "filters": [
-    ["status", "=", "Pending"]
-   ]
+   "quick_list_filter": "[[\"DOBiz Trial Signup\",\"status\",\"=\",\"Pending\"]]"
   },
   {
    "document_type": "DOBiz Trial Signup",
    "label": "Converted Paid Subscribers",
-   "filters": [
-    ["status", "=", "Converted"]
-   ]
+   "quick_list_filter": "[[\"DOBiz Trial Signup\",\"status\",\"=\",\"Converted\"]]"
   },
   {
    "document_type": "DOBiz Payment Transaction",
    "label": "Pending Payment Slips",
-   "filters": [
-    ["status", "=", "Submitted"]
-   ]
+   "quick_list_filter": "[[\"DOBiz Payment Transaction\",\"status\",\"=\",\"Submitted\"]]"
   },
   {
    "document_type": "Subscription",
    "label": "Active Paid Subscriptions",
-   "filters": [
-    ["status", "=", "Active"]
-   ]
+   "quick_list_filter": "[[\"Subscription\",\"status\",\"=\",\"Active\"]]"
   },
   {
    "document_type": "DOBiz Trial Signup",
    "label": "Expired Subscribers",
-   "filters": [
-    ["status", "=", "Expired"]
-   ]
+   "quick_list_filter": "[[\"DOBiz Trial Signup\",\"status\",\"=\",\"Expired\"]]"
+  },
+  {
+   "document_type": "DOBiz Trial Signup",
+   "label": "Starter Signups",
+   "quick_list_filter": "[[\"DOBiz Trial Signup\",\"custom_package_tier\",\"=\",\"Starter Module\"]]"
+  },
+  {
+   "document_type": "DOBiz Trial Signup",
+   "label": "Growth Signups",
+   "quick_list_filter": "[[\"DOBiz Trial Signup\",\"custom_package_tier\",\"=\",\"Business Growth\"]]"
+  },
+  {
+   "document_type": "DOBiz Trial Signup",
+   "label": "Full Signups",
+   "quick_list_filter": "[[\"DOBiz Trial Signup\",\"custom_package_tier\",\"=\",\"Full Industry ERP Package\"]]"
   }
  ],
  "roles": [
@@ -252,6 +375,20 @@
    "type": "DocType"
   },
   {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "DOBiz Industry",
+   "link_to": "DOBiz Industry",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Item Prices",
+   "link_to": "Item Price",
+   "type": "DocType"
+  },
+  {
    "color": "Grey",
    "doc_view": "List",
    "label": "DOBiz SaaS Plan",
@@ -270,6 +407,68 @@
    "doc_view": "List",
    "label": "Module Profile",
    "link_to": "Module Profile",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "DOBiz Email Template",
+   "link_to": "DOBiz Email Template",
+   "type": "DocType"
+  },
+  {
+   "color": "Teal",
+   "doc_view": "List",
+   "label": "DOBiz Package Matrix",
+   "link_to": "dobiz_package_matrix",
+   "type": "Report"
+  },
+  {
+   "color": "Teal",
+   "doc_view": "List",
+   "label": "DOBiz Signups by Package",
+   "link_to": "dobiz_signups_by_package",
+   "type": "Report"
+  },
+  {
+   "color": "Teal",
+   "doc_view": "List",
+   "label": "DOBiz Signups by Industry",
+   "link_to": "dobiz_signups_by_industry",
+   "type": "Report"
+  },
+  {
+   "color": "Teal",
+   "doc_view": "List",
+   "label": "DOBiz Revenue by Package",
+   "link_to": "dobiz_revenue_by_package",
+   "type": "Report"
+  },
+  {
+   "color": "Teal",
+   "doc_view": "List",
+   "label": "Companies at/over User Cap",
+   "link_to": "dobiz_companies_at_cap",
+   "type": "Report"
+  },
+  {
+   "color": "Blue",
+   "label": "DOBiz Subscription Dashboard",
+   "type": "URL",
+   "url": "/app/dashboard-view/DOBiz%20Subscription%20Management"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "Launch Promo Claims",
+   "link_to": "DOBiz Promo Claim",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "Coupon Manager",
+   "link_to": "DOBiz Coupon",
    "type": "DocType"
   },
   {

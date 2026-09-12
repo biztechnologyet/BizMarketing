@@ -25,6 +25,7 @@ INDUSTRY_OPTIONS = (
     "Construction & Engineering\n"
     "Logistics & Warehouse\n"
     "Government & Public-Interest\n"
+    "Maintenance & Repair\n"
     "Other"
 )
 
@@ -44,10 +45,11 @@ INDUSTRY_CATALOG = [
     {"label": "Construction & Engineering", "icon": "\U0001f3d7\ufe0f", "vertical": "/bizhome"},
     {"label": "Logistics & Warehouse", "icon": "\U0001f69a", "vertical": "/bizride"},
     {"label": "Government & Public-Interest", "icon": "\U0001f3f0", "vertical": ""},
+    {"label": "Maintenance & Repair", "icon": "\U0001f527", "vertical": "/bizfix"},
     {"label": "Other", "icon": "\U0001f310", "vertical": ""},
 ]
 
-COMMISSION_MODES = "Fixed Monthly\nFree Desk + Commission\nHybrid"
+COMMISSION_MODES = "Fixed Monthly\nCommission\nHybrid"
 COMMISSION_BASIS = "Order Value\nGross Revenue"
 
 # Commission model seed: which industries are marketplace/commission-friendly
@@ -61,6 +63,63 @@ COMMISSION_CATALOG = [
     {"industry": "Real Estate & Property", "rate": 5.0, "free_months": 3},
     {"industry": "Healthcare & Clinics", "rate": 6.0, "free_months": 6},
     {"industry": "Construction & Engineering", "rate": 5.0, "free_months": 3},
+    {"industry": "Hotels & Hospitality", "rate": 6.0, "free_months": 3},
+    {"industry": "Maintenance & Repair", "rate": 7.5, "free_months": 3},
+]
+
+# Source value (Company Industry Type / Business Category) -> DOBiz industry.
+WEBSHOP_MAPPING_SEED = [
+    ("Clinic & Healthcare", "Healthcare & Clinics"),
+    ("Healthcare", "Healthcare & Clinics"),
+    ("Medical", "Healthcare & Clinics"),
+    ("Hotel & Lodging", "Hotels & Hospitality"),
+    ("Hospitality", "Hotels & Hospitality"),
+    ("Restaurant & Cafe", "Restaurants & Food Service"),
+    ("Food, Beverage & Tobacco", "Restaurants & Food Service"),
+    ("Retail & Supermarket", "Retail & Wholesale"),
+    ("Retail & Wholesale", "Retail & Wholesale"),
+    ("Real Estate & Property", "Real Estate & Property"),
+    ("IT & Professional Services", "Professional Services"),
+    ("Software", "Professional Services"),
+    ("Information Technology", "Professional Services"),
+    ("Salon & Beauty", "Professional Services"),
+    ("Transportation", "Transportation & Fleet"),
+    ("Logistics", "Logistics & Warehouse"),
+    ("Manufacturing", "Manufacturing & Assembly"),
+    ("Education", "Education & Schools"),
+    ("Not for Profit", "Non-Profit & NGOs"),
+    ("Government", "Government & Public-Interest"),
+    ("Agriculture", "Agriculture & Agribusiness"),
+    ("Construction", "Construction & Engineering"),
+    ("Automotive", "Maintenance & Repair"),
+    ("Repair & Maintenance", "Maintenance & Repair"),
+    ("Other", "Other"),
+]
+
+CG = "General"; CP = "Packages & Industries"; CT = "Trial & Signup"
+CB = "Billing & Payments"; CC = "Commissions & Webshop"; CPROMO = "Promotions & Coupons"
+
+# Approved six-tab layout for DOBiz SaaS Settings. Each entry lists the fieldname
+# members that belong in that tab; Tab + Section Break Custom Fields are created
+# on demand and the whole Single is re-indexed into the order below.
+SETTINGS_TABS = [
+    (CG, ["signup_currency", "signup_price_list", "signup_pricing_mode",
+          "default_price_etb"]),
+    (CP, ["signup_package_items"]),
+    (CT, ["allow_self_serve_trial", "trial_max_users", "trial_role_profile",
+          "trial_module_profile", "trial_industry_profiles",
+          "signup_min_months", "signup_max_months", "manual_review_section"]),
+    (CB, ["payment_settings_section", "payment_mode", "require_manual_bank_review",
+          "column_break_manual_review", "auto_activate_online_payments",
+          "signup_bank_accounts", "signup_billing_terms", "signup_term_schedules"]),
+    (CC, ["signup_commission_enabled", "commission_rates", "commission_company",
+          "commission_income_account", "commission_expense_account",
+          "auto_post_commission_je", "webshop_industry_mapping"]),
+    (CPROMO, ["coupons_enabled", "launch_promo_enabled", "promo_title",
+              "promo_offer_ends_on", "promo_applies_to_all",
+              "promo_allowed_packages", "promo_max_users", "promo_free_months",
+              "promo_show_slots_left", "more_info_url", "user_guide_url",
+              "coupon_throttle_minutes", "coupon_throttle_attempts"]),
 ]
 
 CREATED = []
@@ -104,6 +163,18 @@ def ensure_custom_field(doctype, fieldname, label, fieldtype, options=None,
     frappe.get_doc(payload).insert(ignore_permissions=True)
     CREATED.append(f"CF {doctype}.{fieldname}")
     _log(f"created Custom Field {doctype}.{fieldname}")
+
+
+def ensure_field(doctype, fieldname, label, fieldtype, options=None,
+                 insert_after=None, default=None):
+    """Create a Custom Field only when the doctype meta lacks the field
+    (guards against forgiving-... a doc-declared but never-synced field)."""
+    meta = frappe.get_meta(doctype)
+    if meta and meta.get_field(fieldname):
+        _log(f"field already present {doctype}.{fieldname}")
+        return
+    ensure_custom_field(doctype, fieldname, label, fieldtype, options=options,
+                        insert_after=insert_after, default=default)
 
 
 def ensure_schema():
@@ -153,6 +224,18 @@ def ensure_schema():
                             options=spec[3] if len(spec) > 3 else None)
     ensure_custom_field(PKG, "features", "Package Features", "Table",
                         options="DOBiz Signup Package Feature")
+    ensure_field(PKG, "industry", "Industry (blank = default)", "Select",
+                 options=INDUSTRY_OPTIONS, insert_after="package_tier")
+
+    ensure_doctype("DOBiz Trial Industry Profile", [
+        {"fieldname": "industry", "fieldtype": "Select", "label": "Industry",
+         "options": INDUSTRY_OPTIONS, "reqd": 1, "in_list_view": 1},
+        {"fieldname": "role_profile", "fieldtype": "Link", "label": "Trial Role Profile",
+         "options": "Role Profile", "in_list_view": 1},
+        {"fieldname": "module_profile", "fieldtype": "Link", "label": "Trial Module Profile",
+         "options": "Module Profile", "in_list_view": 1},
+        {"fieldname": "enabled", "fieldtype": "Check", "label": "Enabled", "default": 1, "in_list_view": 1},
+    ], istable=1)
 
     S = SETTINGS_DOCTYPE
     ensure_custom_field(S, "allow_self_serve_trial",
@@ -163,6 +246,10 @@ def ensure_schema():
                         "Trial Module Profile", "Link", options="Module Profile")
     ensure_custom_field(S, "trial_max_users",
                         "Trial Max Users", "Int", default=1)
+    ensure_custom_field(S, "trial_industry_profiles",
+                        "Trial Industry Role & Module Profiles (per industry)",
+                        "Table", options="DOBiz Trial Industry Profile",
+                        insert_after="trial_max_users")
 
     TS = "DOBiz Trial Signup"
     ensure_custom_field(TS, "custom_package_tier", "Package Tier", "Data",
@@ -173,6 +260,8 @@ def ensure_schema():
                         options="Module Profile", insert_after="custom_package_item")
     ensure_custom_field(TS, "custom_max_users", "Package Max Users", "Int",
                         insert_after="custom_module_profile")
+    ensure_custom_field(TS, "custom_role_profile", "Role Profile", "Link",
+                        options="Role Profile", insert_after="custom_max_users")
 
     ensure_doctype("DOBiz Signup Term Schedule", [
         {"fieldname": "term_months", "fieldtype": "Int", "label": "Term (Months, up to)", "reqd": 1, "in_list_view": 1},
@@ -219,6 +308,45 @@ def ensure_schema():
         {"fieldname": "linked_signup", "fieldtype": "Link", "label": "Signup", "options": "DOBiz Trial Signup"},
         {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"},
     ], autoname="format:COMM-{YY}{MM}-{#####}")
+
+    ensure_doctype("DOBiz Commission Party", [
+        {"fieldname": "role", "fieldtype": "Select", "label": "Role",
+         "options": "Provider\nEthioBiz", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "party", "fieldtype": "Link", "label": "Party (Company)", "options": "Company",
+         "reqd": 1, "in_list_view": 1},
+        {"fieldname": "side", "fieldtype": "Select", "label": "Side",
+         "options": "Debit\nCredit", "default": "Debit", "in_list_view": 1},
+        {"fieldname": "account", "fieldtype": "Link", "label": "Account", "options": "Account", "in_list_view": 1},
+        {"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "reqd": 1, "in_list_view": 1},
+    ], istable=1)
+
+    ensure_doctype("DOBiz Commission Transaction", [
+        {"fieldname": "posting_date", "fieldtype": "Date", "label": "Posting Date", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "magala_payment", "fieldtype": "Link", "label": "Webshop Payment",
+         "options": "Magala Shop Payment", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "sales_order", "fieldtype": "Link", "label": "Sales Order", "options": "Sales Order", "in_list_view": 1},
+        {"fieldname": "company", "fieldtype": "Link", "label": "Provider Company", "options": "Company",
+         "reqd": 1, "in_list_view": 1},
+        {"fieldname": "customer", "fieldtype": "Link", "label": "Customer", "options": "Customer", "in_list_view": 1},
+        {"fieldname": "industry", "fieldtype": "Link", "label": "Industry", "options": "DOBiz Industry", "in_list_view": 1},
+        {"fieldname": "order_value", "fieldtype": "Currency", "label": "Order Value (ETB)", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "order_count", "fieldtype": "Int", "label": "Order Count", "default": 1},
+        {"fieldname": "commission_rate", "fieldtype": "Percent", "label": "Commission Rate %", "in_list_view": 1},
+        {"fieldname": "commission_basis", "fieldtype": "Data", "label": "Commission Basis", "default": "Order Value", "in_list_view": 1},
+        {"fieldname": "commission_amount", "fieldtype": "Currency", "label": "Commission Amount (ETB)", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "ethiobiz_company", "fieldtype": "Link", "label": "EthioBiz Company", "options": "Company", "in_list_view": 1},
+        {"fieldname": "parties", "fieldtype": "Table", "label": "Commission Parties", "options": "DOBiz Commission Party"},
+        {"fieldname": "status", "fieldtype": "Select", "label": "Status",
+         "options": "Registered\nReversed", "default": "Registered", "in_list_view": 1},
+        {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"},
+    ], autoname="format:COMMTX-{YY}{MM}{DD}-{#####}")
+
+    ensure_doctype("DOBiz Webshop Industry Mapping", [
+        {"fieldname": "industry_type", "fieldtype": "Data", "label": "Source Value (Industry Type / Business Category)",
+         "reqd": 1, "in_list_view": 1},
+        {"fieldname": "dobiz_industry", "fieldtype": "Link", "label": "DOBiz Industry",
+         "options": "DOBiz Industry", "reqd": 1, "in_list_view": 1},
+    ], istable=1)
 
     ensure_doctype("DOBiz Signup Billing Term", [
         {"fieldname": "term_months", "fieldtype": "Int", "label": "Term (Months)", "reqd": 1, "in_list_view": 1},
@@ -274,6 +402,15 @@ def ensure_schema():
     ensure_custom_field(S, "signup_commission_enabled", "Enable Commission-Based Plans", "Check", default=1)
     ensure_custom_field(S, "commission_rates", "Commission Rates (per Industry)", "Table",
                         options="DOBiz Commission Rate")
+    ensure_custom_field(S, "commission_company", "EthioBiz Commission Company", "Link",
+                        options="Company", default="Biz Technology Solutions")
+    ensure_custom_field(S, "commission_income_account", "EthioBiz Commission Income Account", "Link",
+                        options="Account")
+    ensure_custom_field(S, "commission_expense_account", "Provider Commission Expense Account", "Link",
+                        options="Account")
+    ensure_custom_field(S, "auto_post_commission_je", "Auto-Post Commission Journal Entry (per sale)", "Check")
+    ensure_custom_field(S, "webshop_industry_mapping", "Webshop Industry Mapping (Source -> DOBiz)", "Table",
+                        options="DOBiz Webshop Industry Mapping")
     ensure_custom_field(S, "signup_bank_accounts", "Signup Payment Accounts", "Table",
                         options="DOBiz Signup Bank Account")
     ensure_custom_field(S, "more_info_url", "More Info URL", "Data")
@@ -314,6 +451,9 @@ def ensure_schema():
     ensure_custom_field(PT, "custom_target_tier", "Target Package Tier", "Data",
                         insert_after="custom_renewal_months")
 
+    ensure_custom_field("Magala Shop Payment", "dobiz_industry", "DOBiz Industry (Commission)",
+                        "Link", options="DOBiz Industry")
+
 
 def _ensure_item(item_code, item_name):
     if frappe.db.exists("Item", item_code):
@@ -351,6 +491,22 @@ def _set_if_empty(doc, fieldname, value):
     return True
 
 
+def _ensure_industry_master():
+    for cat in INDUSTRY_CATALOG:
+        if frappe.db.exists("DOBiz Industry", cat["label"]):
+            continue
+        frappe.get_doc({
+            "doctype": "DOBiz Industry",
+            "label": cat["label"],
+            "icon": cat["icon"],
+            "vertical": cat["vertical"],
+            "sort_order": INDUSTRY_CATALOG.index(cat),
+            "enabled": 1,
+        }).insert(ignore_permissions=True)
+        CREATED.append(f"Industry {cat['label']}")
+        _log(f"seeded DOBiz Industry {cat['label']}")
+
+
 def ensure_seed_data():
     _ensure_item("DOBIZ-STARTER", "DOBiz Smart ERP - Starter Module (Monthly)")
     _ensure_item("DOBIZ-GROWTH", "DOBiz Smart ERP - Business Growth (Monthly)")
@@ -358,6 +514,9 @@ def ensure_seed_data():
     _ensure_price("DOBIZ-STARTER", 5000)
     _ensure_price("DOBIZ-GROWTH", 9500)
     _ensure_price("DOBIZ-FULL", 15000)
+
+    # Industry master must exist before anything links to it (mapping/matrix).
+    _ensure_industry_master()
 
     if not frappe.db.exists(SETTINGS_DOCTYPE, SETTINGS_DOCTYPE):
         frappe.get_doc({"doctype": SETTINGS_DOCTYPE}).insert(ignore_permissions=True)
@@ -367,6 +526,7 @@ def ensure_seed_data():
     _set_if_empty(sdoc, "signup_pricing_mode", "Item Price")
     _set_if_empty(sdoc, "signup_price_list", "Standard Selling")
     _set_if_empty(sdoc, "signup_currency", "ETB")
+    _set_if_empty(sdoc, "signup_commission_enabled", 1)
     _set_if_empty(sdoc, "more_info_url", "https://biztechnology.et/dobiz-erp")
     _set_if_empty(sdoc, "user_guide_url",
                   "https://ethiobiz.et/lms/courses/dobiz-smart-erp-system-user-guide")
@@ -412,7 +572,7 @@ def ensure_seed_data():
         if not row:
             sdoc.append("commission_rates", {
                 "industry": cc["industry"],
-                "commission_mode": "Free Desk + Commission",
+                "commission_mode": "Commission",
                 "commission_rate": cc["rate"],
                 "commission_basis": "Order Value",
                 "free_months": cc["free_months"],
@@ -423,23 +583,35 @@ def ensure_seed_data():
     if _seeded_comm_any:
         CREATED.append("CommissionRates")
 
+    # EthioBiz commission company is Desk-settable (default Biz Technology Solutions).
+    if not sdoc.get("commission_company"):
+        _cc_name = "Biz Technology Solutions"
+        if not frappe.db.exists("Company", _cc_name):
+            _first_cc = frappe.get_all("Company", fields=["name"], limit=1)
+            _cc_name = _first_cc[0]["name"] if _first_cc else None
+        if _cc_name:
+            sdoc.commission_company = _cc_name
+            CREATED.append("Settings.commission_company")
+            _log(f"seeded Settings.commission_company={_cc_name}")
+
+    # Webshop industry mappings (Industry Type / Business Category -> DOBiz).
+    _existing_map = {}
+    for row in (sdoc.get("webshop_industry_mapping") or []):
+        src = (getattr(row, "industry_type", None) or "").strip()
+        if src:
+            _existing_map[src] = row
+    _map_added = 0
+    for src, dst in WEBSHOP_MAPPING_SEED:
+        if src in _existing_map:
+            continue
+        sdoc.append("webshop_industry_mapping", {"industry_type": src, "dobiz_industry": dst})
+        _map_added += 1
+    if _map_added:
+        CREATED.append(f"WebshopMappings ({_map_added})")
+        _log(f"seeded {_map_added} webshop industry mappings")
+
     sdoc.flags.ignore_permissions = True
     sdoc.save(ignore_permissions=True)
-
-    # DOBiz Industry master: single source of truth for the signup industry grid.
-    for cat in INDUSTRY_CATALOG:
-        if frappe.db.exists("DOBiz Industry", cat["label"]):
-            continue
-        frappe.get_doc({
-            "doctype": "DOBiz Industry",
-            "label": cat["label"],
-            "icon": cat["icon"],
-            "vertical": cat["vertical"],
-            "sort_order": INDUSTRY_CATALOG.index(cat),
-            "enabled": 1,
-        }).insert(ignore_permissions=True)
-        CREATED.append(f"Industry {cat['label']}")
-        _log(f"seeded DOBiz Industry {cat['label']}")
 
     # Launch promo target state: first 5 users get 3 months free at 0 ETB.
     _set_if_empty(sdoc, "launch_promo_enabled", 1)
@@ -455,13 +627,150 @@ def ensure_seed_data():
     sdoc.save(ignore_permissions=True)
 
 
+def ensure_industry_options_sync():
+    """Push INDUSTRY_OPTIONS onto every DOBiz Select field that still carries the
+    previous industry list (idempotent; keeps matrix/trial/commission pick lists
+    in sync when an industry is added)."""
+    frappe.db.sql(
+        "UPDATE `tabDocField` SET options=%s WHERE fieldname='industry' "
+        "AND options LIKE '%%Healthcare & Clinics%%' "
+        "AND options NOT LIKE '%%Maintenance & Repair%%'",
+        INDUSTRY_OPTIONS)
+    frappe.db.sql(
+        "UPDATE `tabCustom Field` SET options=%s WHERE fieldname='industry' "
+        "AND options LIKE '%%Healthcare & Clinics%%' "
+        "AND options NOT LIKE '%%Maintenance & Repair%%'",
+        INDUSTRY_OPTIONS)
+    frappe.db.sql(
+        "UPDATE `tabDocField` SET options=%s WHERE parent='DOBiz Commission Rate' "
+        "AND fieldname='commission_mode'",
+        COMMISSION_MODES)
+    frappe.db.sql(
+        "UPDATE `tabDOBiz Commission Rate` SET commission_mode='Commission' "
+        "WHERE commission_mode='Free Desk + Commission'")
+    frappe.db.commit()
+    frappe.clear_cache()
+
+
+def organize_settings_sections():
+    """Reorganize DOBiz SaaS Settings into the six approved tabs (General |
+    Packages & Industries | Trial & Signup | Billing & Payments | Commissions &
+    Webshop | Promotions & Coupons). Idempotent: creates the Tab/Section Break
+    Custom Fields once, then re-indexes every field of the Single via idx."""
+    existing = frappe.db.sql(
+        "SELECT fieldname FROM `tabCustom Field` WHERE dt=%s", SETTINGS_DOCTYPE,
+        as_list=True)
+    have = {r[0] for r in existing}
+
+    def _slug(label):
+        return label.lower().replace(" & ", "_").replace(" ", "_")
+
+    def _grouper(fieldname, label, fieldtype):
+        if fieldname in have:
+            return
+        frappe.get_doc({
+            "doctype": "Custom Field",
+            "dt": SETTINGS_DOCTYPE,
+            "fieldname": fieldname,
+            "label": label,
+            "fieldtype": fieldtype,
+        }).insert(ignore_permissions=True)
+        have.add(fieldname)
+
+    seq = []
+    for tab_label, members in SETTINGS_TABS:
+        t = "dt_tab_" + _slug(tab_label)
+        s = "dt_sec_" + _slug(tab_label)
+        _grouper(t, tab_label, "Tab Break")
+        _grouper(s, tab_label, "Section Break")
+        seq.extend([t, s])
+        seq.extend(members)
+    _grouper("dt_end_section", "", "Section Break")
+    seq.append("dt_end_section")
+
+    for i, fn in enumerate(seq):
+        cname = frappe.db.get_value("Custom Field", {"dt": SETTINGS_DOCTYPE,
+                                                     "fieldname": fn}, "name")
+        if not cname:
+            _log(f"settings tab: {fn} not found (skipped)")
+            continue
+        frappe.db.sql("UPDATE `tabCustom Field` SET idx=%s WHERE name=%s", (i, cname))
+    frappe.db.commit()
+    frappe.clear_cache()
+    _log("settings reorganized into six tabs")
+
+
+def ensure_matrix_grid_layout():
+    """Make the Industry x Package child grid readable in Desk.
+
+    Re-orders + marks in_list_view on "DOBiz Signup Package Item" so the
+    Settings grid shows: Industry | Package Tier | Item | Display Label |
+    Included Users | Module Profile | Role Profile | Sort | Enabled. Idempotent."""
+    child = "DOBiz Signup Package Item"
+    order = ["industry", "package_tier", "item_code", "display_label", "max_users",
+             "module_profile", "role_profile", "sort_order", "enabled"]
+    n_industries = len(INDUSTRY_OPTIONS.split("\n"))
+    n_rows = n_industries * 3 + 3
+    try:
+        cur = frappe.db.sql(
+            "SELECT fieldname FROM `tabDocField` WHERE parent=%s", child, as_dict=True)
+        present = {r["fieldname"] for r in cur}
+        for i, fn in enumerate(order, start=1):
+            if fn not in present:
+                continue
+            frappe.db.sql(
+                "UPDATE `tabDocField` SET idx=%s, in_list_view=1 WHERE parent=%s AND fieldname=%s",
+                (i, child, fn))
+        # The live instance added several matrix fields as CUSTOM FIELDS on the
+        # child doctype (industry, max_users, module_profile, role_profile).
+        for fn in order:
+            frappe.db.sql(
+                "UPDATE `tabCustom Field` SET in_list_view=1 WHERE dt=%s AND fieldname=%s",
+                (child, fn))
+        # Give custom fields a coherent combined index so they sit in the grid
+        # right after the core DocFields.
+        frappe.db.sql(
+            "UPDATE `tabCustom Field` SET idx=%s WHERE dt=%s AND fieldname=%s",
+            (2, child, "industry"))
+        frappe.db.sql(
+            "UPDATE `tabCustom Field` SET idx=%s WHERE dt=%s AND fieldname=%s",
+            (5, child, "max_users"))
+        frappe.db.sql(
+            "UPDATE `tabCustom Field` SET idx=%s WHERE dt=%s AND fieldname=%s",
+            (6, child, "module_profile"))
+        frappe.db.sql(
+            "UPDATE `tabCustom Field` SET idx=%s WHERE dt=%s AND fieldname=%s",
+            (7, child, "role_profile"))
+        frappe.db.sql(
+            "UPDATE `tabCustom Field` SET label=%s, description=%s WHERE dt=%s AND fieldname=%s",
+            ("Industry (blank = global)",
+             f"3 blank-industry rows are the global/default packages; "
+             f"{n_industries * 3} rows map each of the {n_industries} industries to all 3 "
+             f"tiers (users, module & role profiles per industry x package).",
+             child, "industry"))
+        frappe.db.sql(
+            "UPDATE `tabCustom Field` SET label=%s, description=%s"
+            " WHERE dt=%s AND fieldname=%s",
+            (f"Industry x Package Matrix ({n_industries} industries x 3 tiers = {n_rows} rows)",
+             "Row per (industry, package). Blank industry = global default package. "
+             "max_users 0 = unlimited. See Industry Role Mapping for trial/other profiles.",
+             SETTINGS_DOCTYPE, "signup_package_items"))
+        frappe.db.commit()
+        frappe.clear_cache()
+    except Exception as _me:
+        frappe.log_error("DOBiz matrix grid layout failed", "dobiz_setup")
+
+
 def ensure_pricing_system():
     """hooks.after_migrate entrypoint -- never raises (migration must survive)."""
     global CREATED
     CREATED = []
     try:
         ensure_schema()
+        ensure_industry_options_sync()
         ensure_seed_data()
+        organize_settings_sections()
+        ensure_matrix_grid_layout()
         frappe.db.commit()
         frappe.cache().delete_value(_CACHE_KEY)
         if CREATED:
