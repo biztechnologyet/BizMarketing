@@ -130,6 +130,110 @@ DISCOUNT_RATES = {
     "12": 0.20
 }
 
+# Fallback package presentation (used only when no mapped DOBiz SaaS Plan exists).
+PACKAGE_DETAIL_FALLBACK = {
+    "Starter Module": {
+        "max_users": 3, "max_modules": 1, "color_theme": "#0e7490",
+        "features": [
+            "1 Selected Core Module (Finance OR Inventory OR HR)",
+            "Up to 3 Active User Accounts",
+            "Amharic & English Interface",
+            "Local Tax & Billing Compliance",
+            "EthioBiz Shop Product Publishing",
+            "Standard Email & Phone Support",
+        ],
+        "modules": [
+            {"name": "Finance & Accounting", "icon": "\U0001f4b0", "group": "Core"},
+            {"name": "Inventory & Point of Sale", "icon": "\U0001f4e6", "group": "Core"},
+            {"name": "HR & Payroll", "icon": "\U0001f465", "group": "Core"},
+            {"name": "Sales & CRM", "icon": "\U0001f4bc", "group": "Core"},
+        ],
+    },
+    "Business Growth": {
+        "max_users": 10, "max_modules": 3, "color_theme": "#01796f",
+        "features": [
+            "3 Selected DOBiz ERP Modules",
+            "Up to 10 Active User Accounts",
+            "Full Financials & Inventory Control",
+            "EthioBiz Shop + Jobs Integration",
+            "Offline-Capable Local Sync",
+            "Hadeeda AI Assistant Compatible",
+            "Priority Customer Support",
+        ],
+        "modules": [
+            {"name": "Finance & Accounting", "icon": "\U0001f4b0", "group": "Core"},
+            {"name": "Inventory & Point of Sale", "icon": "\U0001f4e6", "group": "Core"},
+            {"name": "HR & Payroll", "icon": "\U0001f465", "group": "Core"},
+            {"name": "Industry Module of Your Choice", "icon": "\U0001f3ed", "group": "Industry"},
+        ],
+    },
+    "Full Industry ERP Package": {
+        "max_users": 0, "max_modules": 999, "color_theme": "#7c2d12",
+        "features": [
+            "ALL DOBiz Core & Industry Modules",
+            "Unlimited Active User Accounts",
+            "Multi-Branch & Multi-Company Support",
+            "EthioBiz Marketplace & Jobs Integration",
+            "Custom Workflow Sync & API Access",
+            "Dedicated Account Manager & Training",
+            "99.9% Uptime Guarantee & Daily Backups",
+        ],
+        "modules": [
+            {"name": "Finance & Accounting", "icon": "\U0001f4b0", "group": "Core"},
+            {"name": "Inventory & Point of Sale", "icon": "\U0001f4e6", "group": "Core"},
+            {"name": "HR & Payroll", "icon": "\U0001f465", "group": "Core"},
+            {"name": "Sales & CRM", "icon": "\U0001f4bc", "group": "Core"},
+            {"name": "All 12 Industry Modules", "icon": "\U0001f3ed", "group": "Industry"},
+        ],
+    },
+}
+
+
+def _package_presentational(row, settings):
+    """Per-package dynamic display payload (users, modules, features, color)
+    resolved from the mapped DOBiz SaaS Plan (package_tier), else fallback."""
+    tier = row["package_tier"]
+    max_users = None
+    modules = []
+    features = []
+    color_theme = None
+    try:
+        plan = None
+        pname = frappe.db.get_value("DOBiz SaaS Plan", {"package_tier": tier}, "name")
+        if pname:
+            plan = frappe.get_cached_doc("DOBiz SaaS Plan", pname)
+        if plan:
+            max_users = plan.max_users
+            color_theme = plan.color_theme
+            for ft in (plan.get("features") or []):
+                features.append({"text": ft.feature_description,
+                                 "highlight": 1 if ft.is_highlight else 0})
+            for md in (plan.get("modules") or []):
+                modules.append({"name": md.module_name, "icon": md.module_icon or "",
+                                "group": md.module_group or "",
+                                "core": 1 if md.is_core else 0})
+    except Exception:
+        frappe.logger("bizmarketing").debug(
+            "dobiz_signup_api: plan enrichment failed", exc_info=True)
+
+    fallback = PACKAGE_DETAIL_FALLBACK.get(tier, {})
+    if max_users is None:
+        max_users = fallback.get("max_users", 0)
+    if color_theme is None:
+        color_theme = fallback.get("color_theme", "#008080")
+    if not features:
+        features = [{"text": f, "highlight": 0} for f in fallback.get("features", [])]
+    if not modules:
+        modules = fallback.get("modules", [])
+    return {
+        "max_users": max_users,
+        "max_modules": fallback.get("max_modules", 0),
+        "color_theme": color_theme,
+        "features": features,
+        "modules": modules,
+    }
+
+
 @frappe.whitelist(allow_guest=True)
 def get_dobiz_packages(industry=None, months=None):
     """Return live package catalog, pricing rules, and bank accounts.
@@ -145,6 +249,7 @@ def get_dobiz_packages(industry=None, months=None):
     packages_map = {}
     for row in _cfg.get_package_items(settings, ind):
         rate = _cfg.get_live_monthly_rate(row["package_tier"], settings, ind)
+        present = _package_presentational(row, settings)
         entry = {
             "package_tier": row["package_tier"],
             "item_code": row["item_code"],
@@ -154,10 +259,18 @@ def get_dobiz_packages(industry=None, months=None):
             "badge": row["badge_text"],
             "price_per_month": rate,
             "currency": settings["currency"],
+            "max_users": present["max_users"],
+            "max_modules": present["max_modules"],
+            "color_theme": present["color_theme"],
+            "features": present["features"],
+            "modules": present["modules"],
         }
         packages_list.append(entry)
         packages_map[row["package_tier"]] = dict(
-            PACKAGE_CONFIG.get(row["package_tier"], {}), price_per_month=rate)
+            PACKAGE_CONFIG.get(row["package_tier"], {}), price_per_month=rate,
+            max_users=present["max_users"], max_modules=present["max_modules"],
+            color_theme=present["color_theme"],
+            features=present["features"], modules=present["modules"])
 
     terms_list = [
         {"months": t["months"], "discount_percent": t["pct"],

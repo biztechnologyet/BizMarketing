@@ -29,17 +29,27 @@
   "linked_erpnext_plan",
   "color_theme",
   "plan_features_section",
-  "features"
+  "features",
+  "modules_section",
+  "max_modules",
+  "modules"
  ],
  "fields": [
-  {
-   "fieldname": "plan_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Plan Name",
-   "reqd": 1,
-   "unique": 1
-  },
+{
+  "fieldname": "plan_name",
+  "fieldtype": "Data",
+  "in_list_view": 1,
+  "label": "Plan Name",
+  "reqd": 1,
+  "unique": 1
+ },
+ {
+  "fieldname": "package_tier",
+  "fieldtype": "Select",
+  "label": "Signup Package Tier",
+  "options": "\nStarter Module\nBusiness Growth\nFull Industry ERP Package",
+  "description": "Maps this plan to a /dobiz-signup package card. Details (modules, users, features) are shown dynamically on the signup page."
+ },
   {
    "fieldname": "enabled",
    "fieldtype": "Check",
@@ -177,6 +187,23 @@
    "fieldtype": "Table",
    "label": "Features",
    "options": "DOBiz SaaS Plan Feature"
+  },
+  {
+   "fieldname": "modules_section",
+   "fieldtype": "Section Break",
+   "label": "Included Modules"
+  },
+  {
+   "fieldname": "max_modules",
+   "fieldtype": "Int",
+   "label": "Max Modules Included",
+   "default": 0
+  },
+  {
+   "fieldname": "modules",
+   "fieldtype": "Table",
+   "label": "Modules",
+   "options": "DOBiz SaaS Plan Module"
   }
  ],
  "index_web_pages_for_search": 1,

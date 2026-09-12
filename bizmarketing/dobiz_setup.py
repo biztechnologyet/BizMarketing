@@ -204,6 +204,24 @@ def ensure_schema():
         {"fieldname": "sort_order", "fieldtype": "Int", "label": "Sort Order", "in_list_view": 1},
     ], istable=1)
 
+    # --- DOBiz SaaS Plan Module (child: dynamic package module catalog) ---
+    ensure_doctype("DOBiz SaaS Plan Module", [
+        {"fieldname": "sort_order", "fieldtype": "Int", "label": "Sort Order", "default": 0, "in_list_view": 1},
+        {"fieldname": "module_name", "fieldtype": "Data", "label": "Module Name", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "module_icon", "fieldtype": "Data", "label": "Module Icon (emoji)", "in_list_view": 1},
+        {"fieldname": "module_group", "fieldtype": "Data", "label": "Module Group"},
+        {"fieldname": "is_core", "fieldtype": "Check", "label": "Core Module", "default": 0},
+    ], istable=1)
+
+    # Dynamic package presentation fields on the plan (doc-or-custom-field safe).
+    ensure_field("DOBiz SaaS Plan", "package_tier", "Signup Package Tier", "Select",
+                 options="\nStarter Module\nBusiness Growth\nFull Industry ERP Package",
+                 insert_after="plan_name")
+    ensure_field("DOBiz SaaS Plan", "max_modules", "Max Modules Included", "Int",
+                 insert_after="max_users")
+    ensure_field("DOBiz SaaS Plan", "modules", "Included Modules", "Table",
+                 options="DOBiz SaaS Plan Module", insert_after="max_modules")
+
     # --- Subscription-aware USER QUOTA schema (upgrade-safe Custom Fields) ---
     # Fresh installs get these IN the DocType def above; existing instances get
     # them as Custom Fields (idempotent). All fields are optional so grid data
@@ -627,6 +645,178 @@ def ensure_seed_data():
     sdoc.save(ignore_permissions=True)
 
 
+# Canonical, fully-typed package detail catalog: modules, users, features,
+# colors. Seeded into DOBiz SaaS Plan (matched by package_tier) so everything
+# on /dobiz-signup is driven live from Desk settings. Edit here OR in Desk.
+PACKAGE_CATALOG = {
+    "Starter Module": {
+        "cost": 5000,
+        "max_users": 3,
+        "max_modules": 1,
+        "description": "Single core module tier ideal for micro-businesses starting their digital journey.",
+        "color_theme": "#0e7490",
+        "badge": "",
+        "features": [
+            ("1 Selected Core Module (Finance OR Inventory OR HR)", 1),
+            ("Up to 3 Active User Accounts", 1),
+            ("Amharic & English Interface", 0),
+            ("Local Tax & Billing Compliance", 0),
+            ("EthioBiz Shop Product Publishing", 0),
+            ("Standard Email & Phone Support", 0),
+            ("Mobile & Desktop Access", 0),
+        ],
+        "modules": [
+            ("Finance & Accounting", "\U0001f4b0", "Core"),
+            ("Inventory & Point of Sale", "\U0001f4e6", "Core"),
+            ("HR & Payroll", "\U0001f465", "Core"),
+            ("Sales & CRM", "\U0001f465", "Core"),
+        ],
+    },
+    "Business Growth": {
+        "cost": 9500,
+        "max_users": 10,
+        "max_modules": 3,
+        "description": "Multi-module operational suite for growing enterprises and multi-branch operations.",
+        "color_theme": "#01796f",
+        "badge": "MOST POPULAR",
+        "features": [
+            ("3 Selected DOBiz ERP Modules", 1),
+            ("Up to 10 Active User Accounts", 1),
+            ("Full Financials & Inventory Control", 1),
+            ("EthioBiz Shop + Jobs Integration", 0),
+            ("Offline-Capable Local Sync", 0),
+            ("Hadeeda AI Assistant Compatible", 0),
+            ("Priority Customer Support", 0),
+            ("Advanced Reporting & Analytics", 0),
+        ],
+        "modules": [
+            ("Finance & Accounting", "\U0001f4b0", "Core"),
+            ("Inventory & Point of Sale", "\U0001f4e6", "Core"),
+            ("HR & Payroll", "\U0001f465", "Core"),
+            ("Sales & CRM", "\U0001f465", "Core"),
+            ("Manufacturing & BOM", "\U0001f3ed", "Industry"),
+            ("Restaurant / Cafe Operations", "\U0001f37d\ufe0f", "Industry"),
+            ("Property & Real Estate", "\U0001f3e2", "Industry"),
+            ("Healthcare & Clinic", "\U0001f3e5", "Industry"),
+            ("Education & Dagu LMS", "\U0001f393", "Industry"),
+            ("Maintenance & BizFix", "\U0001f527", "Industry"),
+            ("Logistics & BizRide", "\U0001f69a", "Industry"),
+        ],
+    },
+    "Full Industry ERP Package": {
+        "cost": 15000,
+        "max_users": 0,  # unlimited
+        "max_modules": 999,
+        "description": "Complete all-in-one DOBiz SmartERP suite with full dedicated industry modules.",
+        "color_theme": "#7c2d12",
+        "badge": "BEST VALUE (15K FULL)",
+        "features": [
+            ("ALL DOBiz Core & Industry Modules", 1),
+            ("Unlimited Active User Accounts", 1),
+            ("Multi-Branch & Multi-Company Support", 1),
+            ("EthioBiz Marketplace & Jobs Integration", 1),
+            ("Custom Workflow Sync & API Access", 1),
+            ("Dedicated Account Manager & Training", 1),
+            ("99.9% Uptime Guarantee & Daily Backups", 1),
+            ("Hadeeda AI Assistant + Dagu Learning Included", 0),
+        ],
+        "modules": [
+            ("Finance & Accounting", "\U0001f4b0", "Core"),
+            ("Inventory & Point of Sale", "\U0001f4e6", "Core"),
+            ("HR & Payroll", "\U0001f465", "Core"),
+            ("Sales & CRM", "\U0001f465", "Core"),
+            ("Purchasing & Supplier Mgmt", "\U0001f4e9", "Core"),
+            ("Manufacturing & BOM", "\U0001f3ed", "Industry"),
+            ("Restaurant & Cafe Operations", "\U0001f37d\ufe0f", "Industry"),
+            ("Property, Real Estate & Hotel", "\U0001f3e8", "Industry"),
+            ("Healthcare & Clinic", "\U0001f3e5", "Industry"),
+            ("Education & Dagu LMS", "\U0001f393", "Industry"),
+            ("Transport & BizRide", "\U0001f69a", "Industry"),
+            ("Maintenance & BizFix", "\U0001f527", "Industry"),
+            ("Professional Services Booking", "\U0001f4bc", "Industry"),
+            ("Non-Profit Management", "\U0001f3db\ufe0f", "Industry"),
+            ("Government & Public-Interest", "\U0001f3f0", "Industry"),
+            ("Agriculture & Agribusiness", "\U0001f33e", "Industry"),
+            ("Construction & Engineering", "\U0001f3d7\ufe0f", "Industry"),
+        ],
+    },
+}
+
+
+def _sync_package_plan(tier, plan_name, catalog, settings):
+    """Create or update a DOBiz SaaS Plan matched by package_tier, writing the
+    features + modules child tables from the canonical catalog, and syncing the
+    signup package card description/badge from the settings rows."""
+    if not frappe.db.exists("DocType", "DOBiz SaaS Plan"):
+        _log(f"skip {tier}: DOBiz SaaS Plan doctype missing")
+        return
+
+    name = frappe.db.get_value("DOBiz SaaS Plan", {"package_tier": tier}, "name") \
+        or (plan_name if frappe.db.exists("DOBiz SaaS Plan", plan_name) else None)
+    if name:
+        doc = frappe.get_doc("DOBiz SaaS Plan", name)
+        doc.package_tier = tier
+        doc.enabled = 1
+    else:
+        doc = frappe.new_doc("DOBiz SaaS Plan")
+        doc.plan_name = plan_name
+        doc.package_tier = tier
+        doc.enabled = 1
+        doc.billing_interval = "Month"
+        doc.billing_interval_count = 1
+        doc.currency = "ETB"
+        doc.price_determination = "Fixed Rate"
+
+    doc.max_users = catalog["max_users"]
+    doc.max_modules = catalog.get("max_modules", 0)
+    doc.cost = catalog.get("cost", 0)
+    doc.color_theme = catalog["color_theme"]
+    doc.has_advanced_analytics = 1
+    doc.has_priority_support = 1 if tier == "Full Industry ERP Package" else 0
+
+    doc.set("features", [])
+    for ft in catalog["features"]:
+        doc.append("features", {"feature_description": ft[0], "is_highlight": ft[1]})
+
+    doc.set("modules", [])
+    for i, (mn, mi, grp) in enumerate(catalog["modules"]):
+        doc.append("modules", {
+            "sort_order": i, "module_name": mn, "module_icon": mi,
+            "module_group": grp, "is_core": 1 if grp == "Core" else 0})
+
+    doc.flags.ignore_permissions = True
+    doc.save(ignore_permissions=True)
+    CREATED.append(f"Plan {tier}")
+    _log(f"synced DOBiz SaaS Plan '{plan_name}' (package_tier={tier})")
+
+    # Keep the settings package-card description/badge aligned with the catalog.
+    for row in (settings.get("signup_package_items") or []):
+        if (row.get("package_tier") or "") == tier:
+            if not row.get("card_description"):
+                row.card_description = catalog["description"]
+            if not row.get("badge_text") and catalog.get("badge"):
+                row.badge_text = catalog["badge"]
+    config_doc = frappe.get_doc(SETTINGS_DOCTYPE, SETTINGS_DOCTYPE)
+    config_doc.flags.ignore_permissions = True
+    config_doc.save(ignore_permissions=True)
+
+
+def ensure_tier_plans():
+    """Seed the three canonical DOBiz SaaS Plans (Starter / Growth / Full) with
+    fully-typed modules, feature bullets, user counts and colors, plus the
+    package-card copy on DOBiz SaaS Settings. Idempotent; Desk-editable."""
+    if not frappe.db.exists("DocType", "DOBiz SaaS Plan"):
+        return
+    sdoc = frappe.get_doc(SETTINGS_DOCTYPE, SETTINGS_DOCTYPE)
+    for tier, plan_name in [
+        ("Starter Module", "DOBiz Starter Module Plan"),
+        ("Business Growth", "DOBiz Business Growth Plan"),
+        ("Full Industry ERP Package", "DOBiz Full Industry ERP Plan"),
+    ]:
+        _sync_package_plan(tier, plan_name, PACKAGE_CATALOG[tier], sdoc)
+    frappe.db.commit()
+
+
 def ensure_industry_options_sync():
     """Push INDUSTRY_OPTIONS onto every DOBiz Select field that still carries the
     previous industry list (idempotent; keeps matrix/trial/commission pick lists
@@ -769,6 +959,7 @@ def ensure_pricing_system():
         ensure_schema()
         ensure_industry_options_sync()
         ensure_seed_data()
+        ensure_tier_plans()
         organize_settings_sections()
         ensure_matrix_grid_layout()
         frappe.db.commit()
