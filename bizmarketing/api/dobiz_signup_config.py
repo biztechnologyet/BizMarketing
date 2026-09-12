@@ -60,7 +60,13 @@ def get_signup_settings():
         "currency": "ETB",
         "package_items": [],
         "terms": [],
+        "term_schedules": [],
+        "min_months": 1,
+        "max_months": 12,
         "bank_accounts": [],
+        "industry_role_mappings": [],
+        "commission_enabled": 0,
+        "commission_rates": [],
         "more_info_url": "https://biztechnology.et/dobiz-erp",
         "user_guide_url": "https://ethiobiz.et/lms/courses/dobiz-smart-erp-system-user-guide",
         "launch_promo_enabled": 0,
@@ -83,15 +89,7 @@ def get_signup_settings():
         s["price_list"] = doc.get("signup_price_list") or s["price_list"]
         s["currency"] = doc.get("signup_currency") or s["currency"]
         s["package_items"] = [_row_dict(doc, "signup_package_items")] and [
-            {
-                "package_tier": r.package_tier,
-                "item_code": r.item_code,
-                "display_label": r.display_label or r.package_tier,
-                "card_description": r.card_description or "",
-                "badge_text": r.badge_text or "",
-                "sort_order": r.sort_order or 0,
-                "enabled": r.enabled,
-            }
+            _package_row(r)
             for r in (doc.get("signup_package_items") or [])
         ]
         s["terms"] = [
@@ -103,6 +101,38 @@ def get_signup_settings():
                 "enabled": r.enabled,
             }
             for r in (doc.get("signup_billing_terms") or [])
+        ]
+        s["term_schedules"] = [
+            {
+                "months": int(r.term_months or 0),
+                "pct": float(r.discount_percent or 0),
+                "enabled": r.enabled,
+            }
+            for r in (doc.get("signup_term_schedules") or [])
+        ]
+        s["min_months"] = int(doc.get("signup_min_months") or 1)
+        s["max_months"] = int(doc.get("signup_max_months") or 12)
+        s["industry_role_mappings"] = [
+            {
+                "industry": (r.industry or "").strip(),
+                "role_profile": r.role_profile,
+                "module_profile": r.module_profile,
+            }
+            for r in (doc.get("industry_role_mappings") or [])
+        ]
+        s["commission_enabled"] = bool(doc.get("signup_commission_enabled"))
+        s["commission_rates"] = [
+            {
+                "industry": (getattr(r, "industry", None) or "").strip(),
+                "mode": r.commission_mode or "Fixed Monthly",
+                "rate": float(r.commission_rate or 0),
+                "basis": r.commission_basis or "Order Value",
+                "min": float(r.min_commission or 0),
+                "max": float(r.max_commission or 0),
+                "free_months": int(r.free_months or 0),
+                "enabled": r.enabled,
+            }
+            for r in (doc.get("commission_rates") or [])
         ]
         s["bank_accounts"] = [
             {
@@ -136,25 +166,93 @@ def _row_dict(doc, fieldname):  # pragma: no cover - helper retained for clarity
     return {}
 
 
-def get_package_items(settings=None):
+def _package_row(r):
+    """Full package dict incl. per-package module selection, user cap, limits
+    and features (fields may be absent until the admin schema upgrade runs)."""
+    def _int(field, dflt=0):
+        v = getattr(r, field, None)
+        try:
+            return int(v) if v not in (None, "") else dflt
+        except (TypeError, ValueError):
+            return dflt
+
+    features = getattr(r, "features", None) or []
+    feat = []
+    for f in features:
+        try:
+            feat.append(f.get("feature_description") or f.feature_description)
+        except Exception:
+            try:
+                feat.append(f.get("feature_label") or f.feature_label)
+            except Exception:
+                pass
+    return {
+        "industry": (getattr(r, "industry", None) or "").strip(),
+        "package_tier": r.package_tier,
+        "item_code": r.item_code,
+        "display_label": r.display_label or r.package_tier,
+        "card_description": r.card_description or "",
+        "badge_text": r.badge_text or "",
+        "sort_order": r.sort_order or 0,
+        "enabled": r.enabled,
+        "max_users": _int("max_users"),
+        "module_profile": getattr(r, "module_profile", None) or None,
+        "role_profile": getattr(r, "role_profile", None) or None,
+        "max_social_accounts": _int("max_social_accounts"),
+        "max_ai_queries_per_day": _int("max_ai_queries_per_day"),
+        "max_storage_gb": _int("max_storage_gb"),
+        "has_advanced_analytics": bool(getattr(r, "has_advanced_analytics", 0)),
+        "has_priority_support": bool(getattr(r, "has_priority_support", 0)),
+        "features": feat,
+    }
+
+
+def get_package_items(settings=None, industry=None):
+    """Enabled package->item rows for a given industry (or global default rows).
+
+    Per-industry rows carry a populated `industry`; global/default rows are
+    blank. When `industry` is given and matching rows exist, those win; otherwise
+    the global (blank-industry) rows are returned."""
     settings = settings or get_signup_settings()
-    rows = [r for r in settings["package_items"] if r.get("enabled")]
+    ind = (industry or "").strip()
+    enabled = [r for r in settings["package_items"] if r.get("enabled")]
+    if ind:
+        ind_rows = [r for r in enabled if (r.get("industry") or "") == ind]
+        if ind_rows:
+            rows = ind_rows
+        else:
+            rows = [r for r in enabled if not (r.get("industry") or "")]
+            if not rows:
+                rows = enabled
+    else:
+        rows = [r for r in enabled if not (r.get("industry") or "")] or enabled
     if not rows:
         rows = [dict(r) for r in DEFAULT_PACKAGE_ITEMS]
     rows.sort(key=lambda r: (r.get("sort_order") or 0))
     return rows
 
 
-def get_package_tiers(settings=None):
-    return [r["package_tier"] for r in get_package_items(settings)]
+def get_package_tiers(settings=None, industry=None):
+    return [r["package_tier"] for r in get_package_items(settings, industry)]
 
 
 def get_active_terms(settings=None):
     settings = settings or get_signup_settings()
     rows = [t for t in settings["terms"] if t.get("enabled") and t.get("months")]
     if not rows:
-        rows = [dict(t) for t in DEFAULT_TERMS]
-    rows.sort(key=lambda t: t["months"])
+        rows = [
+            {
+                "months": int(t.get("term_months") or t.get("months") or 0),
+                "pct": float(t.get("discount_percent") or t.get("pct") or 0),
+                "label": t.get("label")
+                         or f"{int(t.get('term_months') or t.get('months') or 0)} Months",
+                "is_default": t.get("is_default", 0),
+                "enabled": t.get("enabled", 1),
+            }
+            for t in DEFAULT_TERMS
+        ]
+        rows = [t for t in rows if t.get("months")]
+    rows.sort(key=lambda t: (t.get("months") or 0))
     return rows
 
 
@@ -166,21 +264,147 @@ def get_default_term(settings=None):
     return rows[0] if rows else {"months": 3, "pct": 0.0, "label": "3 Months"}
 
 
+def get_months_bounds(settings=None):
+    settings = settings or get_signup_settings()
+    return int(settings.get("min_months") or 1), int(settings.get("max_months") or 12)
+
+
 def resolve_term(billing_term_int, settings=None):
-    """Return matching active term row; fall back to default term."""
-    rows = get_active_terms(settings)
+    """Return a term row for the (possibly variable) chosen month count.
+
+    Term = {months, pct, label} where pct comes from the configurable 1-12 month
+    discount schedule (DOBiz Signup Term Schedule). The month count is clamped to
+    [min_months, max_months]."""
+    settings = settings or get_signup_settings()
+    try:
+        wanted = int(billing_term_int)
+    except (TypeError, ValueError):
+        wanted = 0
+    lo, hi = get_months_bounds(settings)
+    months = max(lo, min(hi, wanted)) if wanted else hi
+    return {
+        "months": months,
+        "pct": get_term_discount(months, settings),
+        "label": f"{months} Months",
+        "is_default": months == hi,
+    }
+
+
+def get_term_discount(months, settings=None):
+    """Discount percent (0-100) for a month count via the Desk-driven schedule.
+
+    Sorted schedule rows act as an ascending step function: months <= term_months
+    picks that row's discount; months beyond the largest row use the largest row."""
+    settings = settings or get_signup_settings()
+    rows = [t for t in settings.get("term_schedules", [])
+            if t.get("enabled") and t.get("months")]
+    if not rows:
+        # Fall back to a sensible linear-ish default: 0% <3mo, 5% 3-5, 10% 6-11, 20% 12
+        rows = [{"months": 2, "pct": 0.0}, {"months": 5, "pct": 5.0},
+                {"months": 11, "pct": 10.0}, {"months": 12, "pct": 20.0}]
+    rows = sorted(rows, key=lambda t: t["months"])
+    months = int(months or 0)
+    chosen = rows[0]
     for t in rows:
-        if t["months"] == billing_term_int:
-            return t
-    return get_default_term(settings)
+        if months <= int(t["months"]):
+            chosen = t
+            break
+        chosen = t
+    return float(chosen.get("pct") or 0)
 
 
-def get_live_monthly_rate(package_tier, settings=None):
-    """Monthly rate from Item Price (validity-aware). Falls back to legacy map."""
+def get_industries(settings=None):
+    """Enabled DOBiz Industry master rows as a list of dicts (label/icon/vertical)."""
+    try:
+        names = frappe.get_all("DOBiz Industry",
+                               filters={"enabled": 1},
+                               fields=["label", "icon", "vertical", "sort_order"],
+                               order_by="sort_order asc")
+        out = [{"label": d["label"], "icon": d.get("icon") or "",
+                "vertical": d.get("vertical") or ""} for d in names]
+        if out:
+            return out
+    except Exception:
+        pass
+    from bizmarketing.dobiz_setup import INDUSTRY_CATALOG
+    return [{"label": c["label"], "icon": c["icon"], "vertical": c["vertical"]}
+            for c in INDUSTRY_CATALOG]
+
+
+def get_industry_role_profiles(industry, settings=None):
+    """Resolve (role_profile, module_profile) from DOBiz SaaS Settings mappings."""
+    settings = settings or get_signup_settings()
+    ind = (industry or "").strip()
+    for m in settings.get("industry_role_mappings", []):
+        if (m.get("industry") or "").strip() == ind:
+            return m.get("role_profile"), m.get("module_profile")
+    return None, None
+
+
+def get_commission_plan(industry, settings=None):
+    """Return the commission plan dict for an industry (or None).
+
+    Dict: {enabled, mode, rate, basis, min, max, free_months, is_commission}."""
+    settings = settings or get_signup_settings()
+    ind = (industry or "").strip()
+    plan = {
+        "enabled": bool(settings.get("commission_enabled")),
+        "mode": "Fixed Monthly",
+        "rate": 0.0,
+        "basis": "Order Value",
+        "min": 0.0,
+        "max": 0.0,
+        "free_months": 0,
+        "is_commission": False,
+    }
+    if not plan["enabled"]:
+        # Commission system disabled globally -> all fixed monthly.
+        return plan
+    match = None
+    for r in settings.get("commission_rates", []):
+        if r.get("enabled") and (r.get("industry") or "").strip() == ind:
+            match = r
+            break
+    if not match:
+        return plan
+    plan.update({
+        "mode": match.get("mode") or "Fixed Monthly",
+        "rate": float(match.get("rate") or 0),
+        "basis": match.get("basis") or "Order Value",
+        "min": float(match.get("min") or 0),
+        "max": float(match.get("max") or 0),
+        "free_months": int(match.get("free_months") or 0),
+        "is_commission": (match.get("mode") or "Fixed Monthly") in ("Free Desk + Commission", "Hybrid"),
+    })
+    return plan
+
+
+def compute_commission(plan, order_value, order_count=1):
+    """Compute commission amount for an order value under a plan.
+
+    amount = order_value * rate%, clamped to [min, max] (max 0 = no cap)."""
+    if not plan or not plan.get("is_commission"):
+        return 0.0
+    rate = float(plan.get("rate") or 0) / 100.0
+    amount = float(order_value or 0) * rate
+    mn = float(plan.get("min") or 0)
+    mx = float(plan.get("max") or 0)
+    if mn > 0 and amount < mn:
+        amount = mn
+    if mx > 0 and amount > mx:
+        amount = mx
+    return round(amount, 2)
+
+
+def get_live_monthly_rate(package_tier, settings=None, industry=None):
+    """Monthly rate from Item Price (validity-aware) for a tier + industry.
+
+    The item is resolved from the industry's package rows (falling back to the
+    global/default rows). Falls back to legacy map."""
     settings = settings or get_signup_settings()
     if settings["pricing_mode"] != "Legacy Config":
         item_code = None
-        for r in get_package_items(settings):
+        for r in get_package_items(settings, industry):
             if r["package_tier"] == package_tier:
                 item_code = r["item_code"]
                 break
@@ -255,5 +479,13 @@ def get_bank_accounts(settings=None):
     settings = settings or get_signup_settings()
     rows = [b for b in settings["bank_accounts"] if b.get("enabled")]
     if not rows:
-        rows = [dict(b) for b in DEFAULT_BANK_ACCOUNTS]
+        rows = [
+            {
+                "bank": b.get("bank_name") or b.get("bank") or "",
+                "account_name": b.get("account_holder") or b.get("account_name") or "",
+                "account_no": b.get("account_number") or b.get("account_no") or "",
+                "enabled": b.get("enabled", 1),
+            }
+            for b in DEFAULT_BANK_ACCOUNTS
+        ]
     return rows

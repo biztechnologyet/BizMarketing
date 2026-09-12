@@ -115,3 +115,16 @@ default company.
   `frappe.db.rollback()` before re-reading rows mutated via HTTP (MariaDB
   REPEATABLE-READ snapshot).
 - Python output through docker exec is buffered; use `python -u`.
+
+## 8. Workstreams I (Ads), J (Salon), & K (BizBooking) Test Suite & Persistence (2026-08-27)
+
+**Test Suite Location:** `tests/test_ads_salon_bizbooking.py` (copied to container `/home/frappe/frappe-bench/tests/test_ads_salon_bizbooking.py`).
+**Coverage:**
+- **Workstream I (Ads):** Validates `EthioBiz Ads Settings` Single doctype existence, loading, and enabled status.
+- **Workstream J (Salon):** Validates `Salon Settings`, `Salon Service`, and `Salon Appointment` doctypes, dynamic creation of services and appointments.
+- **Workstream K (BizBooking):** Validates `BizBooking`, `BizBooking Settings`, `BizBooking Resource`, `BizBooking Provider Config`, `BizBooking Industry`, `BizBooking Company Profile`, `BizBooking Blackout`, `BizBooking Availability Rule` doctypes, resource creation, booking entries, and unified booking API (`get_booking_catalog`, `create_unified_booking`).
+**Execution via bench console:**
+```bash
+docker exec -u frappe -w /home/frappe/frappe-bench bismallah_ethiobiz_inshaallah-backend-1 python3 tests/test_ads_salon_bizbooking.py
+```
+**Result:** 20/20 checks passed successfully (100% ALHAMDULILLAH).

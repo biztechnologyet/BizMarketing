@@ -31,38 +31,90 @@ PACKAGE_CONFIG = {
 }
 
 INDUSTRY_FULL_PROFILES = {
-    "Healthcare": ("DOBiz Full - Healthcare Admin", "DOBiz Full - Healthcare"),
-    "Hotel Management": ("DOBiz Full - Hotel Admin", "DOBiz Full - Hotel"),
-    "Restaurant": ("DOBiz Full - Restaurant Admin", "DOBiz Full - Restaurant"),
-    "Property Management": ("DOBiz Full - Property Admin", "DOBiz Full - Property"),
-    "Manufacturing": ("DOBiz Full - Manufacturing Admin", "DOBiz Full - Manufacturing"),
-    "Education": ("DOBiz Full - Education Admin", "DOBiz Full - Education"),
+    "Healthcare & Clinics": ("DOBiz Full - Healthcare Admin", "DOBiz Full - Healthcare"),
+    "Hotels & Hospitality": ("DOBiz Full - Hotel Admin", "DOBiz Full - Hotel"),
+    "Restaurants & Food Service": ("DOBiz Full - Restaurant Admin", "DOBiz Full - Restaurant"),
+    "Real Estate & Property": ("DOBiz Full - Property Admin", "DOBiz Full - Property"),
     "Retail & Wholesale": ("DOBiz Full - Retail Admin", "DOBiz Full - Retail"),
-    "Retail & Trade": ("DOBiz Full - Retail Admin", "DOBiz Full - Retail"),
-    "Non-Profit": ("DOBiz Full - Non-Profit Admin", "DOBiz Full - Non-Profit"),
-    "Non-Profit / NGO": ("DOBiz Full - Non-Profit Admin", "DOBiz Full - Non-Profit"),
+    "Manufacturing & Assembly": ("DOBiz Full - Manufacturing Admin", "DOBiz Full - Manufacturing"),
+    "Education & Schools": ("DOBiz Full - Education Admin", "DOBiz Full - Education"),
+    "Non-Profit & NGOs": ("DOBiz Full - Non-Profit Admin", "DOBiz Full - Non-Profit"),
     "Professional Services": ("DOBiz Full - Services Admin", "DOBiz Full - Services"),
-    "Services": ("DOBiz Full - Services Admin", "DOBiz Full - Services"),
-    "Hospitality & Tourism": ("DOBiz Full - Hotel Admin", "DOBiz Full - Hotel"),
-    "Agriculture": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
-    "Construction": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
-    "Technology & IT": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
-    "Finance & Insurance": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
+    "Transportation & Fleet": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
+    "Agriculture & Agribusiness": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
+    "Construction & Engineering": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
+    "Logistics & Warehouse": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
+    "Government & Public-Interest": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
     "Other": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard")
 }
 
 INDUSTRY_ALIASES = {
-    "Hotel": "Hotel Management",
-    "Hospitality": "Hotel Management",
-    "Hospitality & Tourism": "Hotel Management",
-    "Property": "Property Management",
+    # ---- Healthcare ----
+    "Healthcare": "Healthcare & Clinics",
+    "Health": "Healthcare & Clinics",
+    "Clinic": "Healthcare & Clinics",
+    # ---- Hospitality / Hotels ----
+    "Hotel": "Hotels & Hospitality",
+    "Hotel Management": "Hotels & Hospitality",
+    "Hotels": "Hotels & Hospitality",
+    "Hospitality": "Hotels & Hospitality",
+    "Hospitality & Tourism": "Hotels & Hospitality",
+    "Tourism": "Hotels & Hospitality",
+    # ---- Restaurants ----
+    "Restaurant": "Restaurants & Food Service",
+    "Restaurant Management": "Restaurants & Food Service",
+    "Food Service": "Restaurants & Food Service",
+    # ---- Real Estate ----
+    "Property": "Real Estate & Property",
+    "Property Management": "Real Estate & Property",
+    "Real Estate": "Real Estate & Property",
+    # ---- Retail ----
     "Retail": "Retail & Wholesale",
-    "Wholesale": "Retail & Wholesale",
     "Retail & Trade": "Retail & Wholesale",
-    "NGO": "Non-Profit / NGO",
-    "Non-Profit": "Non-Profit / NGO",
-    "Services": "Services",
-    "Professional Services": "Services"
+    "Wholesale": "Retail & Wholesale",
+    # ---- Manufacturing ----
+    "Manufacturing": "Manufacturing & Assembly",
+    "Assembly": "Manufacturing & Assembly",
+    # ---- Education ----
+    "Education": "Education & Schools",
+    "School": "Education & Schools",
+    "Academy": "Education & Schools",
+    # ---- Non-Profit ----
+    "Non-Profit": "Non-Profit & NGOs",
+    "Non-Profit / NGO": "Non-Profit & NGOs",
+    "NGO": "Non-Profit & NGOs",
+    "Charity": "Non-Profit & NGOs",
+    # ---- Professional Services ----
+    "Services": "Professional Services",
+    "Professional Services": "Professional Services",
+    "Consulting": "Professional Services",
+    # ---- Transport ----
+    "Transportation": "Transportation & Fleet",
+    "Fleet": "Transportation & Fleet",
+    "Ride": "Transportation & Fleet",
+    # ---- Agriculture ----
+    "Agriculture": "Agriculture & Agribusiness",
+    "Agribusiness": "Agriculture & Agribusiness",
+    "Farm": "Agriculture & Agribusiness",
+    # ---- Construction ----
+    "Construction": "Construction & Engineering",
+    "Engineering": "Construction & Engineering",
+    "Home Services": "Construction & Engineering",
+    # ---- Logistics ----
+    "Logistics": "Logistics & Warehouse",
+    "Warehouse": "Logistics & Warehouse",
+    "Dispatch": "Logistics & Warehouse",
+    # ---- Government ----
+    "Government": "Government & Public-Interest",
+    "Public": "Government & Public-Interest",
+    "Gov": "Government & Public-Interest",
+    # ---- Misc -> Other ----
+    "Technology & IT": "Other",
+    "IT": "Other",
+    "Finance & Insurance": "Other",
+    "Finance": "Other",
+    "Insurance": "Other",
+    "Other": "Other",
 }
 
 DISCOUNT_RATES = {
@@ -72,16 +124,20 @@ DISCOUNT_RATES = {
 }
 
 @frappe.whitelist(allow_guest=True)
-def get_dobiz_packages():
+def get_dobiz_packages(industry=None, months=None):
     """Return live package catalog, pricing rules, and bank accounts.
 
     v2 — prices come from Marketing Settings -> mapped Items -> Item Price
-    (validity-aware). Legacy keys kept for backward compatibility."""
+    (validity-aware), scoped to an industry when provided. `industries` returns
+    the full dynamic set from the DOBiz Industry master. `months` (1-12) is
+    accepted for term-discount evaluation; legacy keys kept for backwards
+    compatibility."""
     settings = _cfg.get_signup_settings()
+    ind = (industry or "").strip() or None
     packages_list = []
     packages_map = {}
-    for row in _cfg.get_package_items(settings):
-        rate = _cfg.get_live_monthly_rate(row["package_tier"], settings)
+    for row in _cfg.get_package_items(settings, ind):
+        rate = _cfg.get_live_monthly_rate(row["package_tier"], settings, ind)
         entry = {
             "package_tier": row["package_tier"],
             "item_code": row["item_code"],
@@ -104,12 +160,14 @@ def get_dobiz_packages():
     discounts_map = {str(t["months"]): t["pct"] / 100.0 for t in _cfg.get_active_terms(settings)}
 
     promo = _cfg.promo_status(settings)
+    lo, hi = _cfg.get_months_bounds(settings)
 
     return {
         # ---- legacy-compatible keys ----
         "packages": packages_map,
         "discounts": discounts_map,
-        "industries": list(INDUSTRY_FULL_PROFILES.keys()),
+        "industries": [i["label"] for i in _cfg.get_industries(settings)],
+        "industries_full": _cfg.get_industries(settings),
         "bank_accounts": _cfg.get_bank_accounts(settings),
         "more_info_url": settings["more_info_url"],
         "user_guide_url": settings["user_guide_url"],
@@ -118,10 +176,13 @@ def get_dobiz_packages():
         "packages_list": packages_list,
         "terms_list": terms_list,
         "default_term": (_cfg.get_default_term(settings) or {}).get("months"),
+        "min_months": lo,
+        "max_months": hi,
         "currency": settings["currency"],
         "pricing_mode": settings["pricing_mode"],
         "coupons_enabled": settings["coupons_enabled"],
         "promo": promo,
+        "industry": ind or "",
     }
 
 def _trace(tag):
@@ -175,6 +236,14 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         
         email = email.strip().lower()
         company_name = company_name.strip()
+
+        # Canonicalize the submitted industry (legacy aliases -> canonical label).
+        norm_ind = INDUSTRY_ALIASES.get((industry or "").strip(), (industry or "").strip())
+        # Verify it is one of the canonical values; fall back to Other otherwise.
+        from bizmarketing.api.dobiz_signup_config import get_industries
+        _canon = {i["label"] for i in get_industries()}
+        if norm_ind not in _canon:
+            norm_ind = "Other"
         
         valid_tiers = set(_cfg.get_package_tiers()) | set(PACKAGE_CONFIG.keys())
         if package_tier not in valid_tiers:
@@ -185,7 +254,11 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         term_row = _cfg.resolve_term(billing_term_int, signup_settings)
         billing_term_int = term_row["months"]
 
-        base_monthly = _cfg.get_live_monthly_rate(package_tier, signup_settings)
+        # Commission plan for this industry (Free Desk + % when applicable).
+        commission_plan = _cfg.get_commission_plan(norm_ind, signup_settings)
+        is_commission = bool(commission_plan.get("is_commission"))
+
+        base_monthly = _cfg.get_live_monthly_rate(package_tier, signup_settings, norm_ind)
         discount_pct = term_row["pct"] / 100.0
         term_total = round(base_monthly * billing_term_int, 2)
         term_discount_amt = round(term_total * discount_pct, 2)
@@ -199,7 +272,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         promo_applied = bool(promo["active"] and _cfg.promo_covers_package(promo, package_tier))
         promo_claim_name = None
         promo_free_until = None
-        if promo_applied:
+        if promo_applied and not is_commission:
             try:
                 _claim = frappe.get_doc({
                     "doctype": "DOBiz Promo Claim",
@@ -218,11 +291,12 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                 frappe.logger("bizmarketing").info(f"Launch promo slot missed (race/dupe): {_pe}")
 
         # Coupons stack AFTER the term discount and never alongside the promo.
+        # Commission-based plans have no monthly fee, so coupons/promo do not apply.
         coupon_rec_name = None
         coupon_amount = 0.0
         coupon_display = None
         coupon_code_norm = None
-        if coupon_code and not promo_applied:
+        if coupon_code and not promo_applied and not is_commission:
             cev = _coupon_api.evaluate(coupon_code, package_tier, billing_term_int, subtotal_after_term)
             if not cev["valid"]:
                 frappe.throw(_("Coupon error: {0}").format(cev["message"]), exc=frappe.ValidationError)
@@ -231,7 +305,11 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             coupon_rec_name = cev["coupon_name"]
             coupon_code_norm = str(coupon_code).strip().upper()
 
-        total_amount = 0.0 if promo_applied else round(max(0.0, subtotal_after_term - coupon_amount), 2)
+        if is_commission:
+            # Free Desk + % commission per order: NO monthly subscription fee.
+            total_amount = 0.0
+        else:
+            total_amount = 0.0 if promo_applied else round(max(0.0, subtotal_after_term - coupon_amount), 2)
         amount_breakdown = {
             "base_monthly": base_monthly,
             "months": billing_term_int,
@@ -239,10 +317,17 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "subtotal": subtotal_after_term,
             "coupon_code": coupon_code_norm,
             "coupon_discount": coupon_amount,
-            "total": total_amount
+            "total": total_amount,
+            "commission": {
+                "is_commission": is_commission,
+                "mode": commission_plan.get("mode"),
+                "rate": commission_plan.get("rate"),
+                "basis": commission_plan.get("basis"),
+                "free_months": commission_plan.get("free_months"),
+            } if is_commission else None,
         }
         from bizmarketing.api.dobiz_manual_activation import manual_review_required
-        manual_review = manual_review_required() and total_amount > 0
+        manual_review = (manual_review_required() and total_amount > 0 and not is_commission)
         _trace("1-validated")
 
         # 2. Company creation
@@ -271,6 +356,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     comp_doc.flags.ignore_permissions = True
                     comp_doc.flags.ignore_setup_wizard = True
                     comp_doc.flags.ignore_chart_of_accounts = True
+                    comp_doc.flags.ignore_validate = True
                     comp_doc.insert(ignore_permissions=True)
                     break
                 except Exception as ce:
@@ -302,9 +388,9 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                 "company": parent_company
             }).insert(ignore_permissions=True)
 
-        # 4. Determine Role & Module Profiles
+        # 4. Determine Role & Module Profiles (DB-driven first, then fallback).
         _trace("4-profiles-begin")
-        norm_ind = INDUSTRY_ALIASES.get(industry, industry)
+        db_rp, db_mp = _cfg.get_industry_role_profiles(norm_ind, signup_settings)
         if package_tier == "Starter Module":
             role_profile = "DOBiz Starter User"
             module_profile = f"DOBiz Starter - {selected_module}" if frappe.db.exists("Module Profile", f"DOBiz Starter - {selected_module}") else "DOBiz Starter - Accounts"
@@ -316,6 +402,26 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             rp, mp = INDUSTRY_FULL_PROFILES.get(norm_ind, ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"))
             role_profile = rp if frappe.db.exists("Role Profile", rp) else "DOBiz Growth Enterprise"
             module_profile = mp if frappe.db.exists("Module Profile", mp) else "DOBiz Growth - Standard"
+        # Industry mapping in Desk overrides the built-in tier fallback for the
+        # Full Industry ERP package (industry-specialized menus). Starter and
+        # Business Growth keep their tier defaults; per-package overrides on the
+        # package_items rows apply to any tier (handled below).
+        if package_tier == "Full Industry ERP Package":
+            if db_rp and frappe.db.exists("Role Profile", db_rp):
+                role_profile = db_rp
+            if db_mp and frappe.db.exists("Module Profile", db_mp):
+                module_profile = db_mp
+
+        # Package metadata from the dynamic table rows (industry-scoped or
+        # global) — max_users feeds the print-time quota engine, and the
+        # profile overrides also propagate to the signup audit stamp.
+        _pkg_row = next((r for r in _cfg.get_package_items(signup_settings, norm_ind)
+                         if r.get("package_tier") == package_tier), None)
+        package_max_users = int((_pkg_row or {}).get("max_users") or 0) or 0
+        if _pkg_row and _pkg_row.get("module_profile"):
+            module_profile = _pkg_row["module_profile"]
+        if _pkg_row and _pkg_row.get("role_profile"):
+            role_profile = _pkg_row["role_profile"]
 
         # 5. User Account (NEVER self-activated — Bismillah)
         _trace("5-user-begin")
@@ -361,6 +467,9 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         # 6. Record DOBiz Trial Signup / Subscription Doc
         _trace("6-signup-begin")
         plan_link = package_tier if frappe.db.exists("DOBiz SaaS Plan", package_tier) else None
+        # Commission plans are active immediately (Free Desk). Monthly plans that
+        # are paid go to manual review first.
+        _signup_status = "Active" if is_commission else ("Pending" if manual_review else "Trial Active")
         signup_doc = frappe.get_doc({
             "doctype": "DOBiz Trial Signup",
             "full_name": full_name,
@@ -369,7 +478,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "company_name": company_name,
             "industry": norm_ind,
             "preferred_plan": plan_link,
-            "status": "Pending" if manual_review else "Trial Active",
+            "status": _signup_status,
             "trial_start_date": today(),
             "user_linked": email,
             "company_linked": company_name,
@@ -379,7 +488,13 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             "custom_coupon_discount": coupon_amount,
             "custom_final_amount": total_amount,
             "custom_promo_claimed": 1 if promo_applied else 0,
-            "custom_promo_free_until": promo_free_until
+            "custom_promo_free_until": promo_free_until,
+            "custom_is_commission": 1 if is_commission else 0,
+            "custom_commission_mode": commission_plan.get("mode") if is_commission else None,
+            "custom_commission_rate": commission_plan.get("rate") if is_commission else None,
+            "custom_package_tier": package_tier,
+            "custom_max_users": package_max_users,
+            "custom_module_profile": module_profile,
         })
         signup_doc.flags.dobiz_skip_provisioning = 1
         signup_doc.insert(ignore_permissions=True)
@@ -425,25 +540,48 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
                     "trial_period_start": today() if manual_review else None,
                     "trial_period_end": add_days(today(), 30) if manual_review else None,
                     "current_invoice_start": today(),
-                    "current_invoice_end": add_months(today(), promo["free_months"] if promo_applied else billing_term_int)
+                    "current_invoice_end": add_months(
+                        today(), commission_plan.get("free_months") or 12) if is_commission
+                        else add_months(today(), promo["free_months"] if promo_applied else billing_term_int)
                 })
                 if plan_for_sub:
                     sub_doc.append("plans", {"plan": plan_for_sub, "qty": 1})
                 sub_doc.insert(ignore_permissions=True)
                 _trace("7-sub-inserted")
                 sub_name = sub_doc.name
-                if not manual_review:
+                if not manual_review and not is_commission:
                     # Client rule: prepaid term length wins over plan interval.
                     frappe.db.set_value("Subscription", sub_name, "current_invoice_end",
                                         add_months(today(), billing_term_int))
             else:
                 sub_name = frappe.db.get_value("Subscription", {"party": company_name}, "name")
 
-            # Payment claim is ALWAYS recorded for admin review — never pre-approved.
-            # Launch-promo (0 ETB) signups instead get an Approved/Completed audit
-            # row so the finance trail stays complete without touching real money.
+            # Payment claim / commission tracking.
+            # - Promo (0 ETB): Approved audit row.
+            # - Commission plan: Free Desk, NO monthly settlement; record an Open
+            #   Commission Settlement that is settled from per-order % commissions.
+            # - Paid monthly: manual-review payment transaction.
             if sub_name:
-                if promo_applied:
+                if is_commission:
+                    frappe.get_doc({
+                        "doctype": "DOBiz Commission Settlement",
+                        "provider": company_name,
+                        "provider_company": company_name,
+                        "industry": norm_ind,
+                        "period_start": today(),
+                        "period_end": add_months(today(), 1),
+                        "total_order_value": 0,
+                        "order_count": 0,
+                        "commission_rate": commission_plan.get("rate") or 0,
+                        "commission_basis": commission_plan.get("basis") or "Order Value",
+                        "commission_amount": 0,
+                        "status": "Open",
+                        "linked_signup": signup_ref,
+                        "notes": f"Free Desk + {commission_plan.get('rate') or 0}% commission. "
+                                f"Desk fee: {commission_plan.get('free_months')} months free. Provider pays % of orders.",
+                    }).insert(ignore_permissions=True)
+                    _trace("7-commission-settlement")
+                elif promo_applied:
                     frappe.get_doc({
                         "doctype": "DOBiz Payment Transaction",
                         "subscription": sub_name,
@@ -486,6 +624,11 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         except Exception as pe:
             frappe.logger("bizmarketing").warning(f"Subscription / Payment transaction record warning: {pe}")
 
+        # Link the signup back to its live Subscription so manual activation
+        # (dobiz_manual_activation) can flip the same document to Active.
+        if sub_name and frappe.db.exists("Subscription", sub_name):
+            frappe.db.set_value("DOBiz Trial Signup", signup_ref, "subscription_link", sub_name)
+
         # 8. Dispatch Welcome & Setup Credentials
         _trace("8-resetpw-begin")
         more_info_url = "https://biztechnology.et/dobiz-erp"
@@ -501,12 +644,45 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         else:
             password_link = user.reset_password(send_email=False)
             _trace("8-resetpw-done")
-            subject = f"Welcome to DOBiz Smart ERP - {company_name} [{package_tier}]"
-            promo_line = (f"<li><strong>Launch Offer Applied:</strong> {promo['free_months']} months FREE "
-                          f"— billing begins after {promo_free_until}</li>") if promo_applied else ""
-            coupon_line = (f"<li><strong>Coupon Applied:</strong> {coupon_code_norm} "
-                           f"(-{coupon_amount:,.2f} ETB)</li>") if coupon_code_norm else ""
-            message = f"""
+            if is_commission:
+                subject = f"Your Free DOBiz Desk is Ready - {company_name} [{norm_ind}]"
+                message = f"""
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; color: #0f172a;">
+            <div style="background: linear-gradient(135deg, #065f46 0%, #008080 100%); color: white; padding: 24px; border-radius: 16px; text-align: center; margin-bottom: 20px;">
+                <h1 style="margin: 0; font-size: 24px;">Your Free DOBiz Desk is Ready</h1>
+                <p style="margin: 6px 0 0 0; opacity: 0.9;">Commission-Based Plan - {norm_ind} by EthioBiz</p>
+            </div>
+            <p>Dear <strong>{full_name}</strong>,</p>
+            <p>Your provider workspace for <strong>{company_name}</strong> has been activated on the <strong>Free Desk + {commission_plan.get('rate') or 0}% commission</strong> plan.</p>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin: 20px 0;">
+                <h3 style="margin: 0 0 10px 0; color: #065f46;">Your Account Details:</h3>
+                <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Company:</strong> {company_name} ({abbr})</li>
+                    <li><strong>Login Email:</strong> {email}</li>
+                    <li><strong>Industry:</strong> {norm_ind}</li>
+                    <li><strong>Desk Fee:</strong> {commission_plan.get('free_months') or 12} months FREE</li>
+                    <li><strong>Commission:</strong> {commission_plan.get('rate') or 0}% of {commission_plan.get('basis') or 'Order Value'} per order</li>
+                    <li><strong>Monthly Subscription:</strong> 0 ETB (free Desk)</li>
+                </ul>
+            </div>
+            <div style="text-align: center; margin: 25px 0;">
+                <a href="{password_link}" style="background: #008080; color: white; padding: 12px 28px; text-decoration: none; border-radius: 24px; font-weight: bold; display: inline-block;">Set Your Password & Login &rarr;</a>
+            </div>
+            <div style="background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 12px; padding: 16px; margin: 20px 0;">
+                <h4 style="margin: 0 0 6px 0; color: #0f766e;">📖 DOBiz Tutorials & Resources:</h4>
+                <p style="margin: 0 0 6px 0; font-size: 13.5px;">• <strong>Learn DOBiz SmartERP:</strong> <a href="{guide_url}" style="color: #008080; font-weight: bold;">DOBiz Smart ERP System User Guide</a></p>
+                <p style="margin: 0; font-size: 13.5px;">• <strong>Explore Full Features:</strong> <a href="{more_info_url}" style="color: #008080; font-weight: bold;">DOBiz ERP Product Overview</a></p>
+            </div>
+            <p style="color: #64748b; font-size: 13px; margin-top: 30px;">Managed and Operated Exclusively by <strong>Biz Technology Solutions</strong>.</p>
+        </div>
+        """
+            else:
+                subject = f"Welcome to DOBiz Smart ERP - {company_name} [{package_tier}]"
+                promo_line = (f"<li><strong>Launch Offer Applied:</strong> {promo['free_months']} months FREE "
+                              f"— billing begins after {promo_free_until}</li>") if promo_applied else ""
+                coupon_line = (f"<li><strong>Coupon Applied:</strong> {coupon_code_norm} "
+                               f"(-{coupon_amount:,.2f} ETB)</li>") if coupon_code_norm else ""
+                message = f"""
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; color: #0f172a;">
             <div style="background: linear-gradient(135deg, #072a2e 0%, #008080 100%); color: white; padding: 24px; border-radius: 16px; text-align: center; margin-bottom: 20px;">
                 <h1 style="margin: 0; font-size: 24px;">Welcome to DOBiz Smart ERP</h1>
@@ -514,7 +690,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             </div>
 
             <p>Dear <strong>{full_name}</strong>,</p>
-            <p>Your enterprise workspace for <strong>{company_name}</strong> has been configured with the <strong>{package_tier}</strong> ({industry} Edition).</p>
+            <p>Your enterprise workspace for <strong>{company_name}</strong> has been configured with the <strong>{package_tier}</strong> ({norm_ind} Edition).</p>
 
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin: 20px 0;">
                 <h3 style="margin: 0 0 10px 0; color: #008080;">Your Account Details:</h3>
@@ -554,7 +730,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         # --- AddisPay Online Payment ---
         addipay_checkout_url = None
         addipay_uuid = None
-        if payment_method == "addipay" and total_amount > 0 and not promo_applied:
+        if payment_method == "addipay" and total_amount > 0 and not promo_applied and not is_commission:
             try:
                 from bizmarketing.api.addispay import create_hosted_order, get_addispay_config
                 cfg = get_addispay_config()

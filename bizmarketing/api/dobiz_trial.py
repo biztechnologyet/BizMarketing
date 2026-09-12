@@ -81,7 +81,12 @@ def setup_trial_tenant(doc, method=None):
                     "abbr": abbr,
                     "default_currency": "ETB",
                     "domain": "Services"
-                }).insert(ignore_permissions=True)
+                })
+                company_doc.flags.ignore_permissions = True
+                company_doc.flags.ignore_setup_wizard = True
+                company_doc.flags.ignore_chart_of_accounts = True
+                company_doc.flags.ignore_validate = True
+                company_doc.insert(ignore_permissions=True)
                 fy_name = _get_fiscal_year()
                 if frappe.db.exists("Fiscal Year", fy_name):
                     fy_doc = frappe.get_doc("Fiscal Year", fy_name)
@@ -116,6 +121,11 @@ def setup_trial_tenant(doc, method=None):
         # approving a payment) — credentials are emailed only at that point.
         from bizmarketing.api.dobiz_manual_activation import manual_review_required
         manual_review = manual_review_required()
+        # Self-serve trial (ethiobiz.et/trial): when allow_self_serve_trial is
+        # enabled the trial is usable immediately — no human review gate, even
+        # if bank-payment manual review is enforced for paid signups.
+        self_serve = bool(getattr(settings, "allow_self_serve_trial", False))
+        review_to_apply = manual_review and not self_serve
         if not frappe.db.exists("User", doc.email):
             try:
                 user = frappe.get_doc({
@@ -127,7 +137,7 @@ def setup_trial_tenant(doc, method=None):
                     "send_welcome_email": 0,
                     "role_profile_name": role_profile,
                     "module_profile": module_profile,
-                    "enabled": 0 if manual_review else 1,
+                    "enabled": 0 if review_to_apply else 1,
                     "company": company_name,
                     "custom_company": company_name
                 })
@@ -172,7 +182,7 @@ def setup_trial_tenant(doc, method=None):
         except Exception as e:
             frappe.logger("bizmarketing").error(f"Failed to generate Subscription: {e}")
         try:
-            if manual_review:
+            if review_to_apply:
                 # Acknowledgment only — credentials emailed after manual activation.
                 from bizmarketing.api.dobiz_signup_api import _send_under_review_email
                 _send_under_review_email(doc.email, doc.full_name, company_name,
@@ -183,6 +193,12 @@ def setup_trial_tenant(doc, method=None):
                 send_welcome_email(doc.email, doc.full_name, company_name, password_setup_link=password_link)
         except Exception as e:
             frappe.logger("bizmarketing").error(f"Failed to send welcome email: {e}")
+        try:
+            # Stamp the trial package for the quota/cap engine.
+            doc.db_set("custom_package_tier", "DOBiz Trial Plan")
+            doc.db_set("custom_max_users", 1)
+        except Exception as _se:
+            frappe.logger("bizmarketing").warning(f"Trial package stamp warning: {_se}")
     finally:
         frappe.set_user(prev_user)
     frappe.db.commit()

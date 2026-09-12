@@ -84,7 +84,7 @@
    "fieldname": "industry",
    "fieldtype": "Select",
    "label": "Industry",
-   "options": "Agriculture\nManufacturing\nConstruction\nRetail & Wholesale\nRetail & Trade\nServices\nProfessional Services\nHealthcare\nEducation\nTechnology & IT\nHospitality & Tourism\nHotel Management\nRestaurant\nProperty Management\nFinance & Insurance\nNon-Profit / NGO\nNon-Profit\nOther",
+   "options": "Healthcare & Clinics\nHotels & Hospitality\nRestaurants & Food Service\nReal Estate & Property\nRetail & Wholesale\nManufacturing & Assembly\nEducation & Schools\nNon-Profit & NGOs\nProfessional Services\nTransportation & Fleet\nAgriculture & Agribusiness\nConstruction & Engineering\nLogistics & Warehouse\nGovernment & Public-Interest\nOther",
    "reqd": 1
   },
   {

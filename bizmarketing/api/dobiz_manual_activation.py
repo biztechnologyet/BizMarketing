@@ -144,7 +144,8 @@ def get_pending_review_queue():
         DOCTYPE,
         filters={"payment_status": "Pending"},
         fields=["name", "customer", "email", "paid_by", "bank_name", "reference_no",
-                "amount", "status", "payment_date", "creation", "linked_signup", "subscription"],
+                "amount", "status", "payment_date", "creation", "linked_signup", "subscription",
+                "custom_action"],
         order_by="creation asc",
     )
     queue = []
@@ -185,7 +186,12 @@ def approve_bank_payment(payment_name, confirmed=None, override_reason=None):
         frappe.throw(_("Linked signup not found for this payment."))
 
     actor = frappe.session.user
-    result = activate_account(signup.name, payment_doc=payment, actor=actor)
+    action = str(getattr(payment, "custom_action", "") or "Subscribe").strip().title()
+    if action in ("Renew", "Upgrade"):
+        from bizmarketing.api.dobiz_subscription_actions import dispatch_action
+        result = dispatch_action(payment, note=override_reason or None)
+    else:
+        result = activate_account(signup.name, payment_doc=payment, actor=actor)
 
     if override_reason and str(override_reason).strip():
         payment.db_set("admin_remarks",

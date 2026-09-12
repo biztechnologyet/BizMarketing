@@ -8,6 +8,61 @@ from frappe.utils import nowdate
 SETTINGS_DOCTYPE = "DOBiz SaaS Settings"
 _CACHE_KEY = "dobiz_signup_config_v1"
 
+# Canonical industry set that DOBiz serves (aligned with EthioBiz.et verticals).
+# Values MUST stay in sync with DOBiz Trial Signup.industry and Industry Role Mapping.
+INDUSTRY_OPTIONS = (
+    "Healthcare & Clinics\n"
+    "Hotels & Hospitality\n"
+    "Restaurants & Food Service\n"
+    "Real Estate & Property\n"
+    "Retail & Wholesale\n"
+    "Manufacturing & Assembly\n"
+    "Education & Schools\n"
+    "Non-Profit & NGOs\n"
+    "Professional Services\n"
+    "Transportation & Fleet\n"
+    "Agriculture & Agribusiness\n"
+    "Construction & Engineering\n"
+    "Logistics & Warehouse\n"
+    "Government & Public-Interest\n"
+    "Other"
+)
+
+# icon + vertical hint per industry (for the signup page + workspace).
+INDUSTRY_CATALOG = [
+    {"label": "Healthcare & Clinics", "icon": "\U0001f3e5", "vertical": "/bizhealth"},
+    {"label": "Hotels & Hospitality", "icon": "\U0001f3e8", "vertical": "/bizhome"},
+    {"label": "Restaurants & Food Service", "icon": "\U0001f37d\ufe0f", "vertical": "/shop"},
+    {"label": "Real Estate & Property", "icon": "\U0001f3e2", "vertical": "/bizhome"},
+    {"label": "Retail & Wholesale", "icon": "\U0001f4e6", "vertical": "/shop"},
+    {"label": "Manufacturing & Assembly", "icon": "\U0001f3ed", "vertical": ""},
+    {"label": "Education & Schools", "icon": "\U0001f393", "vertical": "/jobs"},
+    {"label": "Non-Profit & NGOs", "icon": "\U0001f3db\ufe0f", "vertical": ""},
+    {"label": "Professional Services", "icon": "\U0001f4bc", "vertical": "/bizservice"},
+    {"label": "Transportation & Fleet", "icon": "\U0001f9ed", "vertical": "/bizride"},
+    {"label": "Agriculture & Agribusiness", "icon": "\U0001f33e", "vertical": "/shop"},
+    {"label": "Construction & Engineering", "icon": "\U0001f3d7\ufe0f", "vertical": "/bizhome"},
+    {"label": "Logistics & Warehouse", "icon": "\U0001f69a", "vertical": "/bizride"},
+    {"label": "Government & Public-Interest", "icon": "\U0001f3f0", "vertical": ""},
+    {"label": "Other", "icon": "\U0001f310", "vertical": ""},
+]
+
+COMMISSION_MODES = "Fixed Monthly\nFree Desk + Commission\nHybrid"
+COMMISSION_BASIS = "Order Value\nGross Revenue"
+
+# Commission model seed: which industries are marketplace/commission-friendly
+# (Free Desk + X% commission per order). Rates are dynamic in Desk.
+COMMISSION_CATALOG = [
+    {"industry": "Transportation & Fleet", "rate": 10.0, "free_months": 3},
+    {"industry": "Logistics & Warehouse", "rate": 8.0, "free_months": 3},
+    {"industry": "Restaurants & Food Service", "rate": 8.0, "free_months": 3},
+    {"industry": "Retail & Wholesale", "rate": 5.0, "free_months": 3},
+    {"industry": "Professional Services", "rate": 7.5, "free_months": 3},
+    {"industry": "Real Estate & Property", "rate": 5.0, "free_months": 3},
+    {"industry": "Healthcare & Clinics", "rate": 6.0, "free_months": 6},
+    {"industry": "Construction & Engineering", "rate": 5.0, "free_months": 3},
+]
+
 CREATED = []
 
 
@@ -53,14 +108,117 @@ def ensure_custom_field(doctype, fieldname, label, fieldtype, options=None,
 
 def ensure_schema():
     ensure_doctype("DOBiz Signup Package Item", [
+        {"fieldname": "industry", "fieldtype": "Select", "label": "Industry (blank = default)",
+         "options": INDUSTRY_OPTIONS, "in_list_view": 1},
         {"fieldname": "package_tier", "fieldtype": "Data", "label": "Package Tier", "reqd": 1, "in_list_view": 1},
         {"fieldname": "item_code", "fieldtype": "Link", "label": "DOBiz Item", "options": "Item", "reqd": 1, "in_list_view": 1},
         {"fieldname": "display_label", "fieldtype": "Data", "label": "Display Label", "in_list_view": 1},
         {"fieldname": "card_description", "fieldtype": "Small Text", "label": "Card Description"},
         {"fieldname": "badge_text", "fieldtype": "Data", "label": "Badge Text"},
+        {"fieldname": "max_users", "fieldtype": "Int", "label": "Included Users (0 = Unlimited)", "default": 0, "in_list_view": 1},
+        {"fieldname": "module_profile", "fieldtype": "Link", "label": "Module Profile", "options": "Module Profile", "in_list_view": 1},
+        {"fieldname": "role_profile", "fieldtype": "Link", "label": "Role Profile Override", "options": "Role Profile"},
+        {"fieldname": "max_social_accounts", "fieldtype": "Int", "label": "Max Social Media Accounts", "default": 0},
+        {"fieldname": "max_ai_queries_per_day", "fieldtype": "Int", "label": "Max AI Queries Per Day", "default": 0},
+        {"fieldname": "max_storage_gb", "fieldtype": "Int", "label": "Max Storage (GB)", "default": 0},
+        {"fieldname": "has_advanced_analytics", "fieldtype": "Check", "label": "Advanced Analytics"},
+        {"fieldname": "has_priority_support", "fieldtype": "Check", "label": "Priority Support"},
         {"fieldname": "sort_order", "fieldtype": "Int", "label": "Sort Order", "in_list_view": 1},
         {"fieldname": "enabled", "fieldtype": "Check", "label": "Enabled", "default": 1, "in_list_view": 1},
     ], istable=1)
+
+    ensure_doctype("DOBiz Signup Package Feature", [
+        {"fieldname": "feature_label", "fieldtype": "Data", "label": "Feature", "in_list_view": 1},
+        {"fieldname": "feature_description", "fieldtype": "Small Text", "label": "Feature Description", "in_list_view": 1},
+        {"fieldname": "sort_order", "fieldtype": "Int", "label": "Sort Order", "in_list_view": 1},
+    ], istable=1)
+
+    # --- Subscription-aware USER QUOTA schema (upgrade-safe Custom Fields) ---
+    # Fresh installs get these IN the DocType def above; existing instances get
+    # them as Custom Fields (idempotent). All fields are optional so grid data
+    # created before this upgrade remains valid.
+    PKG = "DOBiz Signup Package Item"
+    _pkg_cfs = [
+        ("max_users", "Included Users (0 = Unlimited)", "Int"),
+        ("module_profile", "Module Profile", "Link", "Module Profile"),
+        ("role_profile", "Role Profile Override", "Link", "Role Profile"),
+        ("max_social_accounts", "Max Social Media Accounts", "Int"),
+        ("max_ai_queries_per_day", "Max AI Queries Per Day", "Int"),
+        ("max_storage_gb", "Max Storage (GB)", "Int"),
+        ("has_advanced_analytics", "Advanced Analytics", "Check"),
+        ("has_priority_support", "Priority Support", "Check"),
+    ]
+    for spec in _pkg_cfs:
+        ensure_custom_field(PKG, spec[0], spec[1], spec[2],
+                            options=spec[3] if len(spec) > 3 else None)
+    ensure_custom_field(PKG, "features", "Package Features", "Table",
+                        options="DOBiz Signup Package Feature")
+
+    S = SETTINGS_DOCTYPE
+    ensure_custom_field(S, "allow_self_serve_trial",
+                        "Allow Self-Serve Trial (auto-enabled)", "Check")
+    ensure_custom_field(S, "trial_role_profile",
+                        "Trial Role Profile", "Link", options="Role Profile")
+    ensure_custom_field(S, "trial_module_profile",
+                        "Trial Module Profile", "Link", options="Module Profile")
+    ensure_custom_field(S, "trial_max_users",
+                        "Trial Max Users", "Int", default=1)
+
+    TS = "DOBiz Trial Signup"
+    ensure_custom_field(TS, "custom_package_tier", "Package Tier", "Data",
+                        insert_after="preferred_plan")
+    ensure_custom_field(TS, "custom_package_item", "Package Item", "Link",
+                        options="Item", insert_after="custom_package_tier")
+    ensure_custom_field(TS, "custom_module_profile", "Module Profile", "Link",
+                        options="Module Profile", insert_after="custom_package_item")
+    ensure_custom_field(TS, "custom_max_users", "Package Max Users", "Int",
+                        insert_after="custom_module_profile")
+
+    ensure_doctype("DOBiz Signup Term Schedule", [
+        {"fieldname": "term_months", "fieldtype": "Int", "label": "Term (Months, up to)", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "discount_percent", "fieldtype": "Percent", "label": "Discount %", "in_list_view": 1},
+        {"fieldname": "enabled", "fieldtype": "Check", "label": "Enabled", "default": 1, "in_list_view": 1},
+    ], istable=1)
+
+    ensure_doctype("DOBiz Industry", [
+        {"fieldname": "label", "fieldtype": "Data", "label": "Industry Label", "reqd": 1, "in_list_view": 1},
+        {"fieldname": "icon", "fieldtype": "Data", "label": "Icon (emoji)", "in_list_view": 1},
+        {"fieldname": "vertical", "fieldtype": "Data", "label": "EthioBiz Vertical (path)"},
+        {"fieldname": "sort_order", "fieldtype": "Int", "label": "Sort Order", "in_list_view": 1},
+        {"fieldname": "enabled", "fieldtype": "Check", "label": "Enabled", "default": 1, "in_list_view": 1},
+    ], autoname="field:label")
+
+    ensure_doctype("DOBiz Commission Rate", [
+        {"fieldname": "industry", "fieldtype": "Select", "label": "Industry",
+         "options": INDUSTRY_OPTIONS, "reqd": 1, "in_list_view": 1},
+        {"fieldname": "commission_mode", "fieldtype": "Select", "label": "Commission Mode",
+         "options": COMMISSION_MODES, "default": "Fixed Monthly", "in_list_view": 1},
+        {"fieldname": "commission_rate", "fieldtype": "Percent", "label": "Commission Rate %",
+         "in_list_view": 1},
+        {"fieldname": "commission_basis", "fieldtype": "Select", "label": "Commission Basis",
+         "options": COMMISSION_BASIS, "default": "Order Value", "in_list_view": 1},
+        {"fieldname": "min_commission", "fieldtype": "Currency", "label": "Min Commission (ETB)"},
+        {"fieldname": "max_commission", "fieldtype": "Currency", "label": "Max Commission (ETB, 0 = none)"},
+        {"fieldname": "free_months", "fieldtype": "Int", "label": "Free Desk Months", "default": 0},
+        {"fieldname": "enabled", "fieldtype": "Check", "label": "Enabled", "default": 1, "in_list_view": 1},
+    ], istable=1)
+
+    ensure_doctype("DOBiz Commission Settlement", [
+        {"fieldname": "provider", "fieldtype": "Link", "label": "Provider (Customer)", "options": "Customer", "in_list_view": 1},
+        {"fieldname": "provider_company", "fieldtype": "Link", "label": "Provider Company", "options": "Company", "in_list_view": 1},
+        {"fieldname": "industry", "fieldtype": "Select", "label": "Industry", "options": INDUSTRY_OPTIONS, "in_list_view": 1},
+        {"fieldname": "period_start", "fieldtype": "Date", "label": "Period Start", "in_list_view": 1},
+        {"fieldname": "period_end", "fieldtype": "Date", "label": "Period End", "in_list_view": 1},
+        {"fieldname": "total_order_value", "fieldtype": "Currency", "label": "Total Order Value (ETB)", "in_list_view": 1},
+        {"fieldname": "order_count", "fieldtype": "Int", "label": "Order Count"},
+        {"fieldname": "commission_rate", "fieldtype": "Percent", "label": "Commission Rate %"},
+        {"fieldname": "commission_basis", "fieldtype": "Select", "label": "Basis", "options": COMMISSION_BASIS},
+        {"fieldname": "commission_amount", "fieldtype": "Currency", "label": "Commission Amount (ETB)", "in_list_view": 1},
+        {"fieldname": "status", "fieldtype": "Select", "label": "Status",
+         "options": "Open\nBilled\nSettled\nWaived", "default": "Open", "in_list_view": 1},
+        {"fieldname": "linked_signup", "fieldtype": "Link", "label": "Signup", "options": "DOBiz Trial Signup"},
+        {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"},
+    ], autoname="format:COMM-{YY}{MM}-{#####}")
 
     ensure_doctype("DOBiz Signup Billing Term", [
         {"fieldname": "term_months", "fieldtype": "Int", "label": "Term (Months)", "reqd": 1, "in_list_view": 1},
@@ -109,6 +267,13 @@ def ensure_schema():
                         options="DOBiz Signup Package Item")
     ensure_custom_field(S, "signup_billing_terms", "Signup Billing Terms & Discounts", "Table",
                         options="DOBiz Signup Billing Term")
+    ensure_custom_field(S, "signup_term_schedules", "Signup Term Discount Schedule (1-12 Mo)", "Table",
+                        options="DOBiz Signup Term Schedule")
+    ensure_custom_field(S, "signup_min_months", "Signup Min Months", "Int", default=1)
+    ensure_custom_field(S, "signup_max_months", "Signup Max Months", "Int", default=12)
+    ensure_custom_field(S, "signup_commission_enabled", "Enable Commission-Based Plans", "Check", default=1)
+    ensure_custom_field(S, "commission_rates", "Commission Rates (per Industry)", "Table",
+                        options="DOBiz Commission Rate")
     ensure_custom_field(S, "signup_bank_accounts", "Signup Payment Accounts", "Table",
                         options="DOBiz Signup Bank Account")
     ensure_custom_field(S, "more_info_url", "More Info URL", "Data")
@@ -135,10 +300,19 @@ def ensure_schema():
     ensure_custom_field(TS, "custom_final_amount", "Final Payable (ETB)", "Currency", insert_after="custom_coupon_discount")
     ensure_custom_field(TS, "custom_promo_claimed", "Launch Promo Claimed", "Check", insert_after="custom_final_amount")
     ensure_custom_field(TS, "custom_promo_free_until", "Promo Free Until", "Date", insert_after="custom_promo_claimed")
+    ensure_custom_field(TS, "custom_is_commission", "Commission-Based Plan", "Check", insert_after="custom_promo_free_until")
+    ensure_custom_field(TS, "custom_commission_mode", "Commission Mode", "Data", insert_after="custom_is_commission")
+    ensure_custom_field(TS, "custom_commission_rate", "Commission Rate %", "Percent", insert_after="custom_commission_mode")
 
     PT = "DOBiz Payment Transaction"
     ensure_custom_field(PT, "custom_coupon_code", "Coupon Code", "Data")
     ensure_custom_field(PT, "custom_final_amount", "Final Amount (ETB)", "Currency")
+    ensure_custom_field(PT, "custom_action", "Action", "Select",
+                        options="Subscribe\nRenew\nUpgrade", default="Subscribe")
+    ensure_custom_field(PT, "custom_renewal_months", "Renewal Months", "Int",
+                        insert_after="custom_action")
+    ensure_custom_field(PT, "custom_target_tier", "Target Package Tier", "Data",
+                        insert_after="custom_renewal_months")
 
 
 def _ensure_item(item_code, item_name):
@@ -222,6 +396,50 @@ def ensure_seed_data():
             sdoc.append("signup_bank_accounts", {
                 "bank_name": bank, "account_holder": "Hadi Awad",
                 "account_number": acct, "enabled": 1})
+
+    # Variable 1-12 month discount schedule (months up-to -> discount percent).
+    if not sdoc.get("signup_term_schedules"):
+        for months, pct in [(2, 0), (5, 5), (11, 10), (12, 20)]:
+            sdoc.append("signup_term_schedules", {
+                "term_months": months, "discount_percent": pct, "enabled": 1})
+
+    # Commission model seed: marketplace/service industries are Free Desk + %
+    # commission; everything else defaults to Fixed Monthly. Fully Desk-editable.
+    _existing_comm = {(r.industry or ""): r for r in (sdoc.get("commission_rates") or [])}
+    _seeded_comm_any = False
+    for cc in COMMISSION_CATALOG:
+        row = _existing_comm.get(cc["industry"])
+        if not row:
+            sdoc.append("commission_rates", {
+                "industry": cc["industry"],
+                "commission_mode": "Free Desk + Commission",
+                "commission_rate": cc["rate"],
+                "commission_basis": "Order Value",
+                "free_months": cc["free_months"],
+                "min_commission": 0,
+                "max_commission": 0,
+                "enabled": 1})
+            _seeded_comm_any = True
+    if _seeded_comm_any:
+        CREATED.append("CommissionRates")
+
+    sdoc.flags.ignore_permissions = True
+    sdoc.save(ignore_permissions=True)
+
+    # DOBiz Industry master: single source of truth for the signup industry grid.
+    for cat in INDUSTRY_CATALOG:
+        if frappe.db.exists("DOBiz Industry", cat["label"]):
+            continue
+        frappe.get_doc({
+            "doctype": "DOBiz Industry",
+            "label": cat["label"],
+            "icon": cat["icon"],
+            "vertical": cat["vertical"],
+            "sort_order": INDUSTRY_CATALOG.index(cat),
+            "enabled": 1,
+        }).insert(ignore_permissions=True)
+        CREATED.append(f"Industry {cat['label']}")
+        _log(f"seeded DOBiz Industry {cat['label']}")
 
     # Launch promo target state: first 5 users get 3 months free at 0 ETB.
     _set_if_empty(sdoc, "launch_promo_enabled", 1)

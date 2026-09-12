@@ -138,6 +138,12 @@ doc_events = {
 	},
 	"Subscription": {
 		"on_update": ["bizmarketing.api.dobiz_trial.process_subscription_access"]
+	},
+	"User": {
+		"validate": ["bizmarketing.api.dobiz_user_quota.validate_user_cap"]
+	},
+	"User Permission": {
+		"validate": ["bizmarketing.api.dobiz_user_quota.validate_user_permission_cap"]
 	}
 }
 
