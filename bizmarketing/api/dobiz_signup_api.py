@@ -45,6 +45,7 @@ INDUSTRY_FULL_PROFILES = {
     "Construction & Engineering": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
     "Logistics & Warehouse": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
     "Government & Public-Interest": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard"),
+    "Maintenance & Repair": ("DOBiz Full - Maintenance Admin", "DOBiz Full - Maintenance"),
     "Other": ("DOBiz Growth Enterprise", "DOBiz Growth - Standard")
 }
 
@@ -108,6 +109,12 @@ INDUSTRY_ALIASES = {
     "Government": "Government & Public-Interest",
     "Public": "Government & Public-Interest",
     "Gov": "Government & Public-Interest",
+    # ---- Maintenance & Repair ----
+    "Maintenance": "Maintenance & Repair",
+    "Maintenance & Repair": "Maintenance & Repair",
+    "Repair": "Maintenance & Repair",
+    "Repairs": "Maintenance & Repair",
+    "BizFix": "Maintenance & Repair",
     # ---- Misc -> Other ----
     "Technology & IT": "Other",
     "IT": "Other",
