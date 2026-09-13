@@ -832,6 +832,12 @@ def ensure_industry_options_sync():
         "AND options NOT LIKE '%%Maintenance & Repair%%'",
         INDUSTRY_OPTIONS)
     frappe.db.sql(
+        "UPDATE `tabWeb Form Field` SET options=%s WHERE fieldname='industry' "
+        "AND options IS NOT NULL AND options <> '' "
+        "AND options LIKE '%%Agriculture%%' "
+        "AND options NOT LIKE '%%Maintenance & Repair%%'",
+        INDUSTRY_OPTIONS)
+    frappe.db.sql(
         "UPDATE `tabDocField` SET options=%s WHERE parent='DOBiz Commission Rate' "
         "AND fieldname='commission_mode'",
         COMMISSION_MODES)

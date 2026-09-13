@@ -1,0 +1,170 @@
+{
+  "suite": "91",
+  "suite_title": "/trial page + WebForm industry dropdown contract",
+  "passed": 23,
+  "failed": 0,
+  "total": 23,
+  "results": [
+    {
+      "id": "91.01 /trial HTTP 200",
+      "status": "PASS",
+      "msg": "status=200",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.02 /trial is the DOBiz Free Trial Signup page",
+      "status": "PASS",
+      "msg": "title matched",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.03 /trial renders the web form container",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.10 Web Form 'trial' exists",
+      "status": "PASS",
+      "msg": "name=trial",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.11 WebForm backends DOBiz Trial Signup",
+      "status": "PASS",
+      "msg": "DOBiz Trial Signup",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.12 WebForm guest-accessible (login_required=0)",
+      "status": "PASS",
+      "msg": "login_required=0",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.13 WebForm published (route=/trial)",
+      "status": "PASS",
+      "msg": "trial",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.14 WebForm exposes Industry field",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.15 Industry field has exactly 16 options",
+      "status": "PASS",
+      "msg": "n=16",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.16 Industry options match canonical order+set",
+      "status": "PASS",
+      "msg": "sample=['Healthcare & Clinics', 'Hotels & Hospitality', 'Restaurants & Food Service', 'Real Estate & Property'] ... ['Government & Public-Interest', 'Maintenance & Repair', 'Other']",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.17 no canonical industry missing (incl Maintenance & Repair)",
+      "status": "PASS",
+      "msg": "missing=[]",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.18 no stale/legacy options remain (Technology & IT, Non-Profit / NGO, Services...)",
+      "status": "PASS",
+      "msg": "stale=[]",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.19 live page shows 'Healthcare & Clinics'",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.19 live page shows 'Maintenance & Repair'",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.19 live page shows 'Logistics & Warehouse'",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.19 live page shows 'Transportation & Fleet'",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.19 live page shows 'Government & Public-Interest'",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.19 live page shows 'Education & Schools'",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.19 live page shows 'Retail & Wholesale'",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.30 DOBiz Trial Signup.industry has all 16",
+      "status": "PASS",
+      "msg": "n=16",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.40 trial_industry_profiles covers all 16 industries",
+      "status": "PASS",
+      "msg": "n=16",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.41 every named industry has a trial profile",
+      "status": "PASS",
+      "msg": "covered=15/15",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "91.42 all trial profiles enabled + RP/MP exist",
+      "status": "PASS",
+      "msg": "bad=[]",
+      "rc": "",
+      "sol": ""
+    }
+  ]
+}

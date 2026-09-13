@@ -1,0 +1,1605 @@
+{
+  "suite": "92",
+  "suite_title": "/trial self-serve provisioning matrix (16 industries)",
+  "passed": 228,
+  "failed": 0,
+  "total": 228,
+  "results": [
+    {
+      "id": "92.HealthcareClinics API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00831",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics company linked",
+      "status": "PASS",
+      "msg": "Trial92 Healthcare & Clinics 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Healthcare & Clinics 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Healthcare Admin got=DOBiz Full - Healthcare Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Healthcare got=DOBiz Full - Healthcare",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00896",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HealthcareClinics subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00832",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality company linked",
+      "status": "PASS",
+      "msg": "Trial92 Hotels & Hospitality 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Hotels & Hospitality 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Hotel Admin got=DOBiz Full - Hotel Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Hotel got=DOBiz Full - Hotel",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00897",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.HotelsHospitality subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00833",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi company linked",
+      "status": "PASS",
+      "msg": "Trial92 Restaurants & Food Service 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Restaurants & Food Service 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Restaurant Admin got=DOBiz Full - Restaurant Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Restaurant got=DOBiz Full - Restaurant",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00898",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RestaurantsFoodServi subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00834",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty company linked",
+      "status": "PASS",
+      "msg": "Trial92 Real Estate & Property 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Real Estate & Property 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Property Admin got=DOBiz Full - Property Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Property got=DOBiz Full - Property",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00899",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RealEstateProperty subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00835",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale company linked",
+      "status": "PASS",
+      "msg": "Trial92 Retail & Wholesale 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Retail & Wholesale 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Retail Admin got=DOBiz Full - Retail Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Retail got=DOBiz Full - Retail",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00900",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.RetailWholesale subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00836",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl company linked",
+      "status": "PASS",
+      "msg": "Trial92 Manufacturing & Assembly 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Manufacturing & Assembly 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Manufacturing Admin got=DOBiz Full - Manufacturing Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Manufacturing got=DOBiz Full - Manufacturing",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00901",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ManufacturingAssembl subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00837",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools company linked",
+      "status": "PASS",
+      "msg": "Trial92 Education & Schools 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Education & Schools 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Education Admin got=DOBiz Full - Education Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Education got=DOBiz Full - Education",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00902",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.EducationSchools subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00838",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs company linked",
+      "status": "PASS",
+      "msg": "Trial92 Non-Profit & NGOs 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Non-Profit & NGOs 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Non-Profit Admin got=DOBiz Full - Non-Profit Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Non-Profit got=DOBiz Full - Non-Profit",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00903",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.NonProfitNGOs subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00839",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices company linked",
+      "status": "PASS",
+      "msg": "Trial92 Professional Services 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Professional Services 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Services Admin got=DOBiz Full - Services Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Services got=DOBiz Full - Services",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00904",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ProfessionalServices subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00840",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet company linked",
+      "status": "PASS",
+      "msg": "Trial92 Transportation & Fleet 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Transportation & Fleet 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Transportation Admin got=DOBiz Full - Transportation Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Transportation got=DOBiz Full - Transportation",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00905",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.TransportationFleet subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00841",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin company linked",
+      "status": "PASS",
+      "msg": "Trial92 Agriculture & Agribusiness 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Agriculture & Agribusiness 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Agriculture Admin got=DOBiz Full - Agriculture Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Agriculture got=DOBiz Full - Agriculture",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00906",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.AgricultureAgribusin subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00842",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer company linked",
+      "status": "PASS",
+      "msg": "Trial92 Construction & Engineering 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Construction & Engineering 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Construction Admin got=DOBiz Full - Construction Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Construction got=DOBiz Full - Construction",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00907",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.ConstructionEngineer subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00843",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse company linked",
+      "status": "PASS",
+      "msg": "Trial92 Logistics & Warehouse 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Logistics & Warehouse 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Logistics Admin got=DOBiz Full - Logistics Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Logistics got=DOBiz Full - Logistics",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00908",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.LogisticsWarehouse subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00844",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte company linked",
+      "status": "PASS",
+      "msg": "Trial92 Government & Public-Interest 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Government & Public-Interest 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Government Admin got=DOBiz Full - Government Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Government got=DOBiz Full - Government",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00909",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.GovernmentPublicInte subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00845",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair company linked",
+      "status": "PASS",
+      "msg": "Trial92 Maintenance & Repair 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Maintenance & Repair 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Maintenance Admin got=DOBiz Full - Maintenance Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Maintenance got=DOBiz Full - Maintenance",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00910",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.MaintenanceRepair subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other API success+company",
+      "status": "PASS",
+      "msg": "rc=Your free trial is ready InSha'Allah! Login credentials are on their way.",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other signup TRIAL- created",
+      "status": "PASS",
+      "msg": "TRIAL-2026-00846",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other status Trial Active",
+      "status": "PASS",
+      "msg": "Trial Active",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other company linked",
+      "status": "PASS",
+      "msg": "Trial92 Other 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other company exists",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other package stamped (DOBiz Trial Plan)",
+      "status": "PASS",
+      "msg": "DOBiz Trial Plan",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other trial max_users 1",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other owner user enabled",
+      "status": "PASS",
+      "msg": "1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other owner company scoped",
+      "status": "PASS",
+      "msg": "Trial92 Other 89302847 Co",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other industry Role Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Services Admin got=DOBiz Full - Services Admin",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other industry Module Profile applied",
+      "status": "PASS",
+      "msg": "want=DOBiz Full - Services got=DOBiz Full - Services",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other Company User Permission default",
+      "status": "PASS",
+      "msg": "n=1",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other subscription linked",
+      "status": "PASS",
+      "msg": "ACC-SUB-2026-00911",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.Other subscription has trial period end",
+      "status": "PASS",
+      "msg": "2026-09-20",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.gate OFF enforced",
+      "status": "PASS",
+      "msg": "",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.cleanup no test signups remain",
+      "status": "PASS",
+      "msg": "n=0",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.cleanup no test users remain",
+      "status": "PASS",
+      "msg": "n=0",
+      "rc": "",
+      "sol": ""
+    },
+    {
+      "id": "92.cleanup no test companies remain",
+      "status": "PASS",
+      "msg": "n=0",
+      "rc": "",
+      "sol": ""
+    }
+  ]
+}
