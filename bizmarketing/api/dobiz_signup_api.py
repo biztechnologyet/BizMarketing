@@ -124,6 +124,48 @@ INDUSTRY_ALIASES = {
     "Other": "Other",
 }
 
+# Industry -> EthioBiz Theme subsystem flag. ``Other`` is always available.
+INDUSTRY_SUBSYSTEM_FLAGS = {
+    "Healthcare & Clinics": "enable_bizhealth",
+    "Hotels & Hospitality": "enable_bizhome",
+    "Restaurants & Food Service": "enable_dikka_shop",
+    "Real Estate & Property": "enable_bizhome",
+    "Manufacturing & Assembly": "enable_dikka_shop",
+    "Education & Schools": "enable_dagu_academy",
+    "Retail & Wholesale": "enable_dikka_shop",
+    "Non-Profit & NGOs": "enable_oosoo_jobs",
+    "Professional Services": "enable_bizservices",
+    "Transportation & Fleet": "enable_bizride",
+    "Agriculture & Agribusiness": "enable_dikka_shop",
+    "Construction & Engineering": "enable_bizhome",
+    "Logistics & Warehouse": "enable_bizride",
+    "Government & Public-Interest": "enable_oosoo_jobs",
+    "Maintenance & Repair": "enable_bizfix",
+    "Other": None,
+}
+
+
+def _flag_enabled(value):
+    """Frappe Check values may arrive as ``0``/``1`` ints or ``"0"``/``"1"``."""
+    if value is None:
+        return True
+    if isinstance(value, str):
+        return value.strip().lower() not in ("", "0", "none", "false", "no")
+    return bool(value)
+
+
+def _is_industry_available(industry):
+    flag = INDUSTRY_SUBSYSTEM_FLAGS.get(industry)
+    if not flag:
+        return True
+    try:
+        theme = frappe.get_cached_doc("EthioBiz Theme", "EthioBiz Theme")
+        return _flag_enabled(getattr(theme, flag, None))
+    except Exception:
+        # Never block signups because the theme registry is unavailable.
+        return True
+
+
 DISCOUNT_RATES = {
     "3": 0.0,
     "6": 0.10,
@@ -189,22 +231,40 @@ PACKAGE_DETAIL_FALLBACK = {
 }
 
 
-def _package_presentational(row, settings):
-    """Per-package dynamic display payload (users, modules, features, color)
-    resolved from the mapped DOBiz SaaS Plan (package_tier), else fallback."""
+def _package_presentational(row, settings, industry=None):
+    """Per-package dynamic display payload (users, modules, features, color).
+
+    Resolution order per package tier:
+      1. per-industry DOBiz SaaS Plan (package_tier + industry) — carries the
+         industry's vertical module + highlight feature;
+      2. global DOBiz SaaS Plan (package_tier, blank industry);
+      3. hard-coded fallback dict."""
     tier = row["package_tier"]
+    ind = (industry or "").strip() or None
     max_users = None
+    max_modules = None
     modules = []
     features = []
     color_theme = None
     try:
         plan = None
-        pname = frappe.db.get_value("DOBiz SaaS Plan", {"package_tier": tier}, "name")
+        pname = None
+        if ind:
+            pname = frappe.db.get_value("DOBiz SaaS Plan",
+                                        {"package_tier": tier, "industry": ind},
+                                        "name")
+        if not pname:
+            pname = frappe.db.get_value(
+                "DOBiz SaaS Plan",
+                {"package_tier": tier, "industry": ["in", ["", None]]},
+                "name") or frappe.db.get_value("DOBiz SaaS Plan",
+                                               {"package_tier": tier}, "name")
         if pname:
             plan = frappe.get_cached_doc("DOBiz SaaS Plan", pname)
         if plan:
-            max_users = plan.max_users
-            color_theme = plan.color_theme
+            max_users = plan.get("max_users")
+            color_theme = plan.get("color_theme")
+            max_modules = plan.get("max_modules")
             for ft in (plan.get("features") or []):
                 features.append({"text": ft.feature_description,
                                  "highlight": 1 if ft.is_highlight else 0})
@@ -219,6 +279,8 @@ def _package_presentational(row, settings):
     fallback = PACKAGE_DETAIL_FALLBACK.get(tier, {})
     if max_users is None:
         max_users = fallback.get("max_users", 0)
+    if max_modules is None:
+        max_modules = fallback.get("max_modules", 0)
     if color_theme is None:
         color_theme = fallback.get("color_theme", "#008080")
     if not features:
@@ -227,7 +289,7 @@ def _package_presentational(row, settings):
         modules = fallback.get("modules", [])
     return {
         "max_users": max_users,
-        "max_modules": fallback.get("max_modules", 0),
+        "max_modules": max_modules,
         "color_theme": color_theme,
         "features": features,
         "modules": modules,
@@ -245,11 +307,15 @@ def get_dobiz_packages(industry=None, months=None):
     compatibility."""
     settings = _cfg.get_signup_settings()
     ind = (industry or "").strip() or None
+    if ind:
+        # Frontend short aliases ("Healthcare", "Hotel Management", ...) map onto
+        # the canonical INDUSTRY_OPTIONS labels used by the matrix rows + plans.
+        ind = INDUSTRY_ALIASES.get(ind, ind)
     packages_list = []
     packages_map = {}
     for row in _cfg.get_package_items(settings, ind):
         rate = _cfg.get_live_monthly_rate(row["package_tier"], settings, ind)
-        present = _package_presentational(row, settings)
+        present = _package_presentational(row, settings, ind)
         entry = {
             "package_tier": row["package_tier"],
             "item_code": row["item_code"],
@@ -259,6 +325,7 @@ def get_dobiz_packages(industry=None, months=None):
             "badge": row["badge_text"],
             "price_per_month": rate,
             "currency": settings["currency"],
+            "industry": ind or "",
             "max_users": present["max_users"],
             "max_modules": present["max_modules"],
             "color_theme": present["color_theme"],
@@ -364,7 +431,13 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
         _canon = {i["label"] for i in get_industries()}
         if norm_ind not in _canon:
             norm_ind = "Other"
-        
+
+        if not _is_industry_available(norm_ind):
+            frappe.throw(
+                _("This industry vertical is currently unavailable. Please choose another industry or contact support."),
+                exc=frappe.ValidationError,
+            )
+
         valid_tiers = set(_cfg.get_package_tiers()) | set(PACKAGE_CONFIG.keys())
         if package_tier not in valid_tiers:
             package_tier = "Business Growth"
@@ -464,7 +537,7 @@ def submit_dobiz_signup(full_name=None, email=None, phone=None, company_name=Non
             
         if not frappe.db.exists("Company", company_name):
             from bizmarketing.api.dobiz_trial import _create_company_fast
-            if not _create_company_fast(company_name, abbr, industry):
+            if not _create_company_fast(company_name, abbr, norm_ind):
                 _trace("ERR-COMPANY create failed (fast path + raw fallback)")
             
         # 3. Customer under Biz Technology Solutions
